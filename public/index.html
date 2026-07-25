@@ -1,57 +1,13 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toucano Beans | القهوة المختصة الفاخرة</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-    <!-- ربط ملف الـ CSS الخارجي المنظم -->
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
-<body class="grain-bg">
+<!-- قسم المنتجات القادم من الداتا بيز -->
+<section id="products" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="text-center mb-16">
+        <h2 class="font-display text-3xl sm:text-4xl font-bold mb-4">محاصيلنا المميزة</h2>
+        <p class="text-gray-600 max-w-xl mx-auto">تُجلب وتُعرض مباشرة من قاعدة البيانات الخاصة بك</p>
+    </div>
 
-    <!-- شريط التنقل -->
-    <header class="glass-nav sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
-            <div class="flex items-center gap-3.5">
-                <div class="relative p-1 rounded-full bg-gradient-to-tr from-[color:var(--copper-500)] to-[color:var(--gold)] shadow-md">
-                    <span class="w-10 h-10 flex items-center justify-center bg-[color:var(--espresso-950)] text-[color:var(--cream)] rounded-full font-display font-bold text-lg">TB</span>
-                </div>
-                <span class="text-2xl font-bold tracking-wider font-display">Toucano <span class="text-gradient-copper">Beans</span></span>
-            </div>
-            <nav class="hidden md:flex items-center gap-10 text-sm font-semibold text-[color:var(--espresso-800)]">
-                <a href="#" class="relative py-1 hover:text-[color:var(--copper-700)] transition">الرئيسية</a>
-                <a href="#products" class="relative py-1 hover:text-[color:var(--copper-700)] transition">البن المختص</a>
-                <a href="#tools" class="relative py-1 hover:text-[color:var(--copper-700)] transition">أدوات القهوة</a>
-                <a href="#about" class="relative py-1 hover:text-[color:var(--copper-700)] transition">من نحن</a>
-            </nav>
-            <div>
-                <button onclick="alert('سلة التسوق قيد التفعيل')" class="btn-dark text-white px-6 py-3 rounded-full text-sm font-semibold flex items-center gap-2.5">
-                    <span>سلة التسوق (0)</span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- الواجهة الرئيسية -->
-    <section class="relative gradient-espresso text-white py-36 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        <div class="max-w-5xl mx-auto text-center relative z-10">
-            <div class="aroma-wrap mb-10">
-                <span class="aroma-ring"></span>
-                <span class="aroma-ring r2"></span>
-                <span class="aroma-ring r3"></span>
-                <div class="p-3 bg-white/5 rounded-full backdrop-blur-md border border-white/15 shadow-2xl">
-                    <span class="w-20 h-20 flex items-center justify-center bg-gradient-to-br from-[color:var(--copper-500)] to-[color:var(--espresso-950)] text-[color:var(--cream)] rounded-full font-display font-bold text-3xl shadow-inner">TB</span>
-                </div>
-            </div>
-            <p class="eyebrow text-xs sm:text-sm font-bold text-[color:var(--copper-300)] mb-5">تحميص فاخر · مصادر عالمية · حصاد استثنائي</p>
-            <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold mb-6 leading-[1.2]">اكتشف عالم الفخامة مع <span class="text-gradient-copper">Toucano Beans</span></h1>
-            <p class="text-base sm:text-xl text-gray-300 max-w-2xl mx-auto mb-12 leading-relaxed font-light">من أجود مزارع البن في العالم إلى فنجانك اليومي، نصنع لك تجربة تليق بذائقتك الرفيعة.</p>
-            <a href="#products" class="btn-primary inline-block text-[color:var(--espresso-950)] px-10 py-4 rounded-full font-bold text-lg tracking-wide">تسوق المحاصيل الآن</a>
-        </div>
-    </section>
-
-</body>
-</html>
+    <!-- هنا سيتم حقن المنتجات تلقائياً عبر الجافاسكربت -->
+    <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- يتم التحميل... -->
+        <p class="text-center col-span-full text-gray-500">جاري تحميل المحاصيل...</p>
+    </div>
+</section>

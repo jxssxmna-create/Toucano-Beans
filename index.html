@@ -3,208 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر القهوة المختصة - رشفة</title>
-    <!-- استيراد خط عربي جميل (Cairo) -->
+    <title>Toucano Beans - القهوة المختصة</title>
+    <!-- استخدام Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', sans-serif;
-        }
         body {
-            background-color: #f9f6f0;
-            color: #333;
+            font-family: 'Cairo', sans-serif;
+            background-color: #faf9f6; /* لون اوف وايت هادئ */
+            color: #2c221e;
         }
-        /* الهيدر */
-        header {
-            background-color: #2c1d11;
-            color: white;
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .accent-orange {
+            color: #e06b3a;
         }
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #d4a373;
+        .bg-accent-orange {
+            background-color: #e06b3a;
         }
-        .cart-btn {
-            background-color: #d4a373;
-            color: #2c1d11;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        /* قسم البانر الرئيسي */
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=80');
-            background-size: cover;
-            background-position: center;
-            height: 400px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
-            padding: 0 1rem;
-        }
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-        }
-        .btn-main {
-            background-color: #d4a373;
-            color: #2c1d11;
-            padding: 0.75rem 2rem;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 700;
-        }
-        /* المنتجات */
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        .section-title {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: #2c1d11;
-            font-size: 2rem;
-        }
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-        .product-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-        .product-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        .product-info {
-            padding: 1.5rem;
-        }
-        .product-title {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: #2c1d11;
-        }
-        .product-price {
-            color: #b08968;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-        .add-to-cart {
-            width: 100%;
-            background-color: #2c1d11;
-            color: white;
-            border: none;
-            padding: 0.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-        .add-to-cart:hover {
-            background-color: #d4a373;
-            color: #2c1d11;
-        }
-        /* الفوتر */
-        footer {
-            background-color: #2c1d11;
-            color: white;
-            text-align: center;
-            padding: 1.5rem;
-            margin-top: 3rem;
+        .border-accent-orange {
+            border-color: #e06b3a;
         }
     </style>
 </head>
-<body>
+<body class="bg-[#faf9f6] text-[#2c221e]">
 
-    <!-- الهيدر -->
-    <header>
-        <div class="logo">☕ رشفة كوفي</div>
-        <button class="cart-btn">سلة المشتريات (0)</button>
+    <!-- شريط التنقل (Header) -->
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <img src="[file-tag: code-generated-file-a35f02ca-3a25-47fd-83e5-8e3857fee825]" alt="Toucano Beans Logo" class="w-12 h-12 object-contain rounded-full shadow-sm border border-orange-100">
+                <span class="text-2xl font-bold tracking-wide text-[#2c221e]">Toucano <span class="accent-orange">Beans</span></span>
+            </div>
+            <nav class="hidden md:flex space-x-8 space-x-reverse text-sm font-semibold text-gray-700">
+                <a href="#" class="hover:text-[#e06b3a] transition">الرئيسية</a>
+                <a href="#products" class="hover:text-[#e06b3a] transition">البن المختص</a>
+                <a href="#tools" class="hover:text-[#e06b3a] transition">أدوات القهوة</a>
+                <a href="#about" class="hover:text-[#e06b3a] transition">من نحن</a>
+            </nav>
+            <div>
+                <button onclick="alert('سلة التسوق قيد التفعيل')" class="bg-[#2c221e] text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-[#e06b3a] transition shadow-md flex items-center gap-2">
+                    <span>سلة التسوق (0)</span>
+                </button>
+            </div>
+        </div>
     </header>
 
-    <!-- الواجهة الرئيسية -->
-    <section class="hero">
-        <h1>اجعل كل صباح مميزاً مع قهوتك المفضلة</h1>
-        <p>أجود حبوب البن المختصة وأرقى أدوات التقطير بين يديك</p>
-        <a href="#products" class="btn-main">تسوق المنتجات</a>
+    <!-- الواجهة الرئيسية (Hero Section) -->
+    <section class="relative bg-[#231b18] text-white py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-repeat bg-[radial-gradient(#e06b3a_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-7xl mx-auto text-center relative z-10">
+            <div class="inline-block p-2 bg-white/10 rounded-full mb-6 backdrop-blur-sm border border-white/10">
+                <img src="[file-tag: code-generated-file-a35f02ca-3a25-47fd-83e5-8e3857fee825]" alt="Toucano Logo" class="w-20 h-20 mx-auto object-contain rounded-full">
+            </div>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">اكتشف عالم <span class="accent-orange">Toucano Beans</span></h1>
+            <p class="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-10">من أجود مزارع البن حول العالم إلى كوبك، مع أحدث أدوات التقطير والإسبريسو بلمسة استثنائية.</p>
+            <a href="#products" class="inline-block bg-[#e06b3a] text-white px-8 py-3.5 rounded-full font-bold text-lg hover:bg-[#c9592b] transition shadow-lg">تسوق المنتجات الآن</a>
+        </div>
     </section>
 
     <!-- قسم المنتجات -->
-    <div class="container" id="products">
-        <h2 class="section-title">منتجاتنا المميزة</h2>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         
-        <div class="products-grid">
-            <!-- منتج 1: بن -->
-            <div class="product-card">
-                <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=500&q=80" alt="بن إثيوبي" class="product-img">
-                <div class="product-info">
-                    <h3 class="product-title">محصول إثيوبي يirgacheffe</h3>
-                    <p class="product-price">65 ر.س</p>
-                    <button class="add-to-cart">أضف للسلة</button>
+        <!-- قسم البن -->
+        <div id="products" class="mb-16">
+            <div class="flex justify-between items-center mb-8 border-b border-gray-200 pb-4">
+                <h2 class="text-3xl font-bold text-[#2c221e]">أكياس البن المختص</h2>
+                <span class="text-sm text-[#e06b3a] font-semibold cursor-pointer hover:underline">عرض الكل ←</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- منتج 1 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-orange-100 overflow-hidden hover:shadow-md transition">
+                    <div class="h-56 bg-[#f7f4ef] flex items-center justify-center text-5xl relative">
+                        <span>☕</span>
+                        <span class="absolute top-3 right-3 bg-orange-50 text-[#e06b3a] text-xs font-bold px-3 py-1 rounded-full border border-orange-200">تحميص حديث</span>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs bg-orange-100 text-[#e06b3a] px-2.5 py-1 rounded-full font-bold">إثيوبيا - يرجاميش</span>
+                        <h3 class="text-xl font-bold mt-3 mb-2 text-[#2c221e]">بن إثيوبي مجفف (250 جرام)</h3>
+                        <p class="text-gray-600 text-sm mb-4">إيحاءات فاكهية وتوتية واضحة، معالجة مجففة تناسب التقطير والإسبريسو.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xl font-bold text-[#e06b3a]">65 ر.س</span>
+                            <button onclick="alert('تمت الإضافة للسلة')" class="bg-[#2c221e] text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-[#e06b3a] transition">إضافة للسلة</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- منتج 2 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-orange-100 overflow-hidden hover:shadow-md transition">
+                    <div class="h-56 bg-[#f7f4ef] flex items-center justify-center text-5xl relative">
+                        <span>☕</span>
+                        <span class="absolute top-3 right-3 bg-orange-50 text-[#e06b3a] text-xs font-bold px-3 py-1 rounded-full border border-orange-200">الأكثر مبيعاً</span>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs bg-orange-100 text-[#e06b3a] px-2.5 py-1 rounded-full font-bold">كولومبيا - لا غراندي</span>
+                        <h3 class="text-xl font-bold mt-3 mb-2 text-[#2c221e]">بن كولومبي مغسول (250 جرام)</h3>
+                        <p class="text-gray-600 text-sm mb-4">إيحاءات الشوكولاتة والكراميل بقوام متوازن جداً ومثالي لصباحك.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xl font-bold text-[#e06b3a]">60 ر.س</span>
+                            <button onclick="alert('تمت الإضافة للسلة')" class="bg-[#2c221e] text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-[#e06b3a] transition">إضافة للسلة</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- منتج 3 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-orange-100 overflow-hidden hover:shadow-md transition">
+                    <div class="h-56 bg-[#f7f4ef] flex items-center justify-center text-5xl relative">
+                        <span>☕</span>
+                        <span class="absolute top-3 right-3 bg-orange-50 text-[#e06b3a] text-xs font-bold px-3 py-1 rounded-full border border-orange-200">اسبريسو</span>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs bg-orange-100 text-[#e06b3a] px-2.5 py-1 rounded-full font-bold">البرازيل - ساو باولو</span>
+                        <h3 class="text-xl font-bold mt-3 mb-2 text-[#2c221e]">مكس اسبريسو برازيلي (250 جرام)</h3>
+                        <p class="text-gray-600 text-sm mb-4">مناسب جداً لمشروبات الحليب والإسبريسو بنكهات المكسرات الواضحة.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xl font-bold text-[#e06b3a]">55 ر.س</span>
+                            <button onclick="alert('تمت الإضافة للسلة')" class="bg-[#2c221e] text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-[#e06b3a] transition">إضافة للسلة</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- قسم الأدوات -->
+        <div id="tools" class="mb-16">
+            <div class="flex justify-between items-center mb-8 border-b border-gray-200 pb-4">
+                <h2 class="text-3xl font-bold text-[#2c221e]">أدوات تحضير القهوة</h2>
+                <span class="text-sm text-[#e06b3a] font-semibold cursor-pointer hover:underline">عرض الكل ←</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- أداة 1 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-orange-100 overflow-hidden hover:shadow-md transition">
+                    <div class="h-56 bg-[#f7f4ef] flex items-center justify-center text-5xl">🧪</div>
+                    <div class="p-6">
+                        <span class="text-xs bg-stone-100 text-stone-700 px-2.5 py-1 rounded-full font-bold">أدوات تقطير</span>
+                        <h3 class="text-xl font-bold mt-3 mb-2 text-[#2c221e]">قمع تقطير V60 زجاجي مقاس 02</h3>
+                        <p class="text-gray-600 text-sm mb-4">الأداة الأساسية لتحضير القهوة المقطرة بنكهات نقية وواضحة.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xl font-bold text-[#e06b3a]">85 ر.س</span>
+                            <button onclick="alert('تمت الإضافة للسلة')" class="bg-[#2c221e] text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-[#e06b3a] transition">إضافة للسلة</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- أداة 2 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-orange-100 overflow-hidden hover:shadow-md transition">
+                    <div class="h-56 bg-[#f7f4ef] flex items-center justify-center text-5xl">⚖️</div>
+                    <div class="p-6">
+                        <span class="text-xs bg-stone-100 text-stone-700 px-2.5 py-1 rounded-full font-bold">موازين رقمية</span>
+                        <h3 class="text-xl font-bold mt-3 mb-2 text-[#2c221e]">ميزان قهوة رقمي مع مؤقت</h3>
+                        <p class="text-gray-600 text-sm mb-4">دقة عالية في قياس الوزن والوقت لضمان استخلاص مثالي في كل مرة.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xl font-bold text-[#e06b3a]">120 ر.س</span>
+                            <button onclick="alert('تمت الإضافة للسلة')" class="bg-[#2c221e] text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-[#e06b3a] transition">إضافة للسلة</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- أداة 3 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-orange-100 overflow-hidden hover:shadow-md transition">
+                    <div class="h-56 bg-[#f7f4ef] flex items-center justify-center text-5xl">⚙️</div>
+                    <div class="p-6">
+                        <span class="text-xs bg-stone-100 text-stone-700 px-2.5 py-1 rounded-full font-bold">مطاحن يدوية</span>
+                        <h3 class="text-xl font-bold mt-3 mb-2 text-[#2c221e]">مطحنة قهوة يدوية بشفرات ستانلس ستيل</h3>
+                        <p class="text-gray-600 text-sm mb-4">طحنة متجانسة ومثالية لكل درجات الاستخلاص من الإسبريسو للفلتر.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xl font-bold text-[#e06b3a]">150 ر.س</span>
+                            <button onclick="alert('تمت الإضافة للسلة')" class="bg-[#2c221e] text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-[#e06b3a] transition">إضافة للسلة</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- تذييل الصفحة (Footer) -->
+    <footer id="about" class="bg-[#231b18] text-white py-12 px-4 sm:px-6 lg:px-8 mt-16 border-t border-orange-900/30">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+            <div class="flex items-center space-x-4 space-x-reverse">
+                <img src="[file-tag: code-generated-file-a35f02ca-3a25-47fd-83e5-8e3857fee825]" alt="Toucano Beans Logo" class="w-16 h-16 object-contain rounded-full bg-white/5 p-1 border border-orange-500/30">
+                <div>
+                    <h3 class="text-xl font-bold mb-1">Toucano <span class="accent-orange">Beans</span></h3>
+                    <p class="text-gray-400 text-sm">متجرك المفضل لاختيار أجود محاصيل البن المختص وأدوات التحضير الاحترافية.</p>
                 </div>
             </div>
-
-            <!-- منتج 2: أدوات -->
-            <div class="product-card">
-                <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=500&q=80" alt="إبرام تقطير" class="product-img">
-                <div class="product-info">
-                    <h3 class="product-title">إبرام تقطير عنق الإوزة</h3>
-                    <p class="product-price">120 ر.س</p>
-                    <button class="add-to-cart">أضف للسلة</button>
-                </div>
+            <div>
+                <h3 class="text-lg font-bold mb-3 text-orange-200">روابط سريعة</h3>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-white transition">سياسة الاستبدال والاسترجاع</a></li>
+                    <li><a href="#" class="hover:text-white transition">الشحن والتوصيل</a></li>
+                    <li><a href="#" class="hover:text-white transition">تواصل معنا</a></li>
+                </ul>
             </div>
-
-            <!-- منتج 3: بن -->
-            <div class="product-card">
-                <img src="https://images.unsplash.com/photo-1587049352847-4a222e784d38?auto=format&fit=crop&w=500&q=80" alt="بن كولومبي" class="product-img">
-                <div class="product-info">
-                    <h3 class="product-title">محصول كولومبي مسار</h3>
-                    <p class="product-price">58 ر.س</p>
-                    <button class="add-to-cart">أضف للسلة</button>
-                </div>
-            </div>
-
-            <!-- منتج 4: أدوات -->
-            <div class="product-card">
-                <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=500&q=80" alt="قمع V60" class="product-img">
-                <div class="product-info">
-                    <h3 class="product-title">قمع تقطير V60 زجاجي</h3>
-                    <p class="product-price">45 ر.س</p>
-                    <button class="add-to-cart">أضف للسلة</button>
+            <div>
+                <h3 class="text-lg font-bold mb-3 text-orange-200">تابعنا</h3>
+                <p class="text-gray-400 text-sm mb-3">ابق على اطلاع بأحدث المحاصيل والعروض الحصرية.</p>
+                <div class="flex space-x-4 space-x-reverse text-sm font-semibold text-gray-300">
+                    <span class="cursor-pointer hover:text-[#e06b3a] transition">إنستغرام</span>
+                    <span class="cursor-pointer hover:text-[#e06b3a] transition">تيك توك</span>
+                    <span class="cursor-pointer hover:text-[#e06b3a] transition">تويتر (X)</span>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- الفوتر -->
-    <footer>
-        <p>جميع الحقوق محفوظة لمتجر رشفة © 2026</p>
+        <div class="max-w-7xl mx-auto border-t border-white/10 mt-8 pt-6 text-center text-xs text-gray-500">
+            جميع الحقوق محفوظة © 2026 - Toucano Beans
+        </div>
     </footer>
 
 </body>

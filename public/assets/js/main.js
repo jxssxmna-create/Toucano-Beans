@@ -1,10 +1,21 @@
 // public/assets/js/main.js
-import { supabase } from '../../../backend/config/supabaseClient.js'; // أو الاتصال المباشر عبر السيرفر
 
-// دالة جلب المنتجات وعرضها في الصفحة
+// Relative path navigation:
+// - From 'public/assets/js/' 
+// - Up 3 levels '../../../' reaches the root directory
+// - Down into 'backend/config/supabaseClient.js'
+import { supabase } from '../../../backend/config/supabaseClient.js';
+
 async function fetchAndDisplayProducts() {
+    const grid = document.getElementById('products-grid');
+
+    if (!grid) {
+        console.error('Target element #products-grid was not found in the HTML.');
+        return;
+    }
+
     try {
-        // استعلام جلب المنتجات من جدول products في Supabase
+        // Query rows from the 'products' table in Supabase
         const { data: products, error } = await supabase
             .from('products')
             .select('*');
@@ -13,36 +24,44 @@ async function fetchAndDisplayProducts() {
             throw error;
         }
 
-        const grid = document.getElementById('products-grid');
-        grid.innerHTML = ''; // تفريغ رسالة التحميل
+        // Clear loading state
+        grid.innerHTML = '';
 
-        if (products.length === 0) {
+        if (!products || products.length === 0) {
             grid.innerHTML = '<p class="text-center col-span-full text-gray-500">لا توجد منتجات حالياً.</p>';
             return;
         }
 
-        // بناء عناصر المنتجات وعرضها
+        // Render each product card
         products.forEach(product => {
-            const productCard = `
-                glass-card p-6 rounded-2xl flex flex-col justify-between">
-                <div>
-                    <img src="${product.image_url || 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=600'}" alt="${product.name}" class="w-full h-48 object-cover rounded-xl mb-4">
-                    <h3 class="font-display text-xl font-bold mb-2">${product.name}</h3>
-                    <p class="text-gray-600 text-sm mb-4 line-clamp-2">${product.description || 'محصود وعولج بعناية فائقة لضمان أفضل نكهة.'}</p>
-                </div>
-                <div class="flex items-center justify-between mt-4">
-                    <span class="text-lg font-bold text-[color:var(--copper-700)]">${product.price} ر.س</span>
-                    <button onclick="addToCart(${product.id})" class="btn-primary text-[color:var(--espresso-950)] px-4 py-2 rounded-xl text-sm font-bold">إضافة للسلة</button>
+            const productCardHtml = `
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between border border-amber-900/10 shadow-sm hover:shadow-md transition">
+                    <div>
+                        <img src="${product.image_url || 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=600'}" 
+                             alt="${product.name}" 
+                             class="w-full h-48 object-cover rounded-xl mb-4">
+                        <h3 class="font-display text-xl font-bold mb-2">${product.name}</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">${product.description || 'محصود وعولج بعناية فائقة لضمان أفضل نكهة.'}</p>
+                    </div>
+                    <div class="flex items-center justify-between mt-4">
+                        <span class="text-lg font-bold text-[color:var(--copper-700)]">${product.price} ر.س</span>
+                        <button onclick="addToCart(${product.id})" class="btn-primary text-[color:var(--espresso-950)] px-4 py-2 rounded-xl text-sm font-bold">إضافة للسلة</button>
+                    </div>
                 </div>
             `;
-            grid.innerHTML += `<div class="${productCard}</div>`;
+            grid.innerHTML += productCardHtml;
         });
 
     } catch (error) {
-        console.error('خطأ في جلب المنتجات:', error.message);
-        document.getElementById('products-grid').innerHTML = '<p class="text-center col-span-full text-red-500">حدث خطأ أثناء تحميل المنتجات.</p>';
+        console.error('Error fetching products:', error.message);
+        grid.innerHTML = `<p class="text-center col-span-full text-red-500">حدث خطأ أثناء تحميل المنتجات: ${error.message}</p>`;
     }
 }
 
-// تشغيل الدالة عند تحميل الصفحة
+// Global cart placeholder function
+window.addToCart = function(productId) {
+    console.log(`Product ${productId} added to cart.`);
+};
+
+// Execute once DOM content is loaded
 document.addEventListener('DOMContentLoaded', fetchAndDisplayProducts);

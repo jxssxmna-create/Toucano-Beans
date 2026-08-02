@@ -1,13 +1,27 @@
-<!-- قسم المنتجات القادم من الداتا بيز -->
-<section id="products" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-    <div class="text-center mb-16">
-        <h2 class="font-display text-3xl sm:text-4xl font-bold mb-4">محاصيلنا المميزة</h2>
-        <p class="text-gray-600 max-w-xl mx-auto">تُجلب وتُعرض مباشرة من قاعدة البيانات الخاصة بك</p>
-    </div>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toucano Beans | القهوة المختصة الفاخرة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="grain-bg">
 
-    <!-- هنا سيتم حقن المنتجات تلقائياً عبر الجافاسكربت -->
-    <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- يتم التحميل... -->
-        <p class="text-center col-span-full text-gray-500">جاري تحميل المحاصيل...</p>
-    </div>
-</section>
+    <section id="products" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="font-display text-3xl sm:text-4xl font-bold mb-4">محاصيلنا المميزة</h2>
+            <p class="text-gray-600 max-w-xl mx-auto">تُجلب وتُعرض مباشرة من قاعدة البيانات الخاصة بك</p>
+        </div>
+
+        <!-- Dynamic Product Injection Container -->
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <p class="text-center col-span-full text-gray-500">جاري تحميل المحاصيل...</p>
+        </div>
+    </section>
+
+    <!-- Connect main.js as an ES Module -->
+    <script type="module" src="assets/js/main.js"></script>
+</body>
+</html>

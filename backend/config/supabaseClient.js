@@ -1,8 +1,8 @@
 // backend/config/supabaseClient.js
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-// سنقوم لاحقاً بتخزين هذه المفاتيح بشكل آمن في ملف .env
-const supabaseUrl = 'YOUR_SUPABASE_URL'
-const supabaseKey = 'YOUR_SUPABASE_ANON_KEY'
+// Replace with your actual project URL and Anon Key from Supabase Dashboard
+const supabaseUrl = 'https://your-project-id.supabase.co';
+const supabaseKey = 'your-actual-anon-key-here';
 
-export const supabase = createClient(supabaseUrl, supabaseKey)
+export const supabase = createClient(supabaseUrl, supabaseKey);

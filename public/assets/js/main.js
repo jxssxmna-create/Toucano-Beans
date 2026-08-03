@@ -1,30 +1,27 @@
 // public/assets/js/main.js
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-// Relative path navigation:
-// - From 'public/assets/js/' 
-// - Up 3 levels '../../../' reaches the root directory
-// - Down into 'backend/config/supabaseClient.js'
-import { supabase } from '../../../backend/config/supabaseClient.js';
+const supabaseUrl = 'https://gfcdmiodzphziwtvfsxj.supabase.co';
+const supabaseKey = 'YOUR_ACTUAL_ANON_KEY'; // Replace with your key
 
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Function to fetch and display products from Supabase
 async function fetchAndDisplayProducts() {
     const grid = document.getElementById('products-grid');
 
     if (!grid) {
-        console.error('Target element #products-grid was not found in the HTML.');
+        console.error('Target element #products-grid was not found in the HTML DOM.');
         return;
     }
 
     try {
-        // Query rows from the 'products' table in Supabase
         const { data: products, error } = await supabase
             .from('products')
             .select('*');
 
-        if (error) {
-            throw error;
-        }
+        if (error) throw error;
 
-        // Clear loading state
         grid.innerHTML = '';
 
         if (!products || products.length === 0) {
@@ -32,7 +29,6 @@ async function fetchAndDisplayProducts() {
             return;
         }
 
-        // Render each product card
         products.forEach(product => {
             const productCardHtml = `
                 <div class="glass-card p-6 rounded-2xl flex flex-col justify-between border border-amber-900/10 shadow-sm hover:shadow-md transition">
@@ -58,10 +54,8 @@ async function fetchAndDisplayProducts() {
     }
 }
 
-// Global cart placeholder function
 window.addToCart = function(productId) {
-    console.log(`Product ${productId} added to cart.`);
+    console.log(`Product ID ${productId} added to cart.`);
 };
 
-// Execute once DOM content is loaded
 document.addEventListener('DOMContentLoaded', fetchAndDisplayProducts);

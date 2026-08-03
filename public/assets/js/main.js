@@ -1,8 +1,8 @@
 // public/assets/js/main.js
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-const supabaseUrl = 'https://gfcdmiodzphziwtvfsxj.supabase.co';
-const supabaseKey = 'YOUR_ACTUAL_ANON_KEY'; // Replace with your key
+const supabaseUrl = 'https://gfcdmiodzphziwtvfsxj.supabase.co/rest/v1/';
+const supabaseKey = 'sb_publishable_bD9xCPEeOw3XtfKH8Y-9NA_itmOXqqc'; // Replace with your key
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 

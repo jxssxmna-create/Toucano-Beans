@@ -1,17 +1,23 @@
 // public/assets/js/main.js
+
+// 1. Import official Supabase module directly from CDN
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-const supabaseUrl = 'https://gfcdmiodzphziwtvfsxj.supabase.co/rest/v1/';
-const supabaseKey = 'sb_publishable_bD9xCPEeOw3XtfKH8Y-9NA_itmOXqqc'; // Replace with your key
+// 2. Base Supabase URL (NO trailing slash, NO /rest/v1/)
+const supabaseUrl = 'https://gfcdmiodzphziwtvfsxj.supabase.co';
 
+// 3. Your Supabase anon/publishable key
+const supabaseKey = 'sb_publishable_bD9xCPEe0W3XtfKH8Y-9NA_itmOXqqc';
+
+// 4. Initialize Supabase
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Function to fetch and display products from Supabase
+// 5. Fetch and render products
 async function fetchAndDisplayProducts() {
     const grid = document.getElementById('products-grid');
 
     if (!grid) {
-        console.error('Target element #products-grid was not found in the HTML DOM.');
+        console.error('Target element #products-grid was not found in the DOM.');
         return;
     }
 
@@ -20,7 +26,9 @@ async function fetchAndDisplayProducts() {
             .from('products')
             .select('*');
 
-        if (error) throw error;
+        if (error) {
+            throw error;
+        }
 
         grid.innerHTML = '';
 
@@ -49,7 +57,7 @@ async function fetchAndDisplayProducts() {
         });
 
     } catch (error) {
-        console.error('Error fetching products:', error.message);
+        console.error('Error fetching products:', error);
         grid.innerHTML = `<p class="text-center col-span-full text-red-500">حدث خطأ أثناء تحميل المنتجات: ${error.message}</p>`;
     }
 }

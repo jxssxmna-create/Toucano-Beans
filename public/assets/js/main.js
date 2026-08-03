@@ -1,7 +1,10 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
+// Ensure URL has NO trailing slash and NO extra endpoints
 const supabaseUrl = 'https://gfcdmiodzphziwtvfsxj.supabase.co';
-const supabaseKey = 'sb_publishable_bD9xCPEe0W3XtfKH8Y-9NA_itmOXqqc';
+
+// Paste your COMPLETE copied key inside the single quotes (do NOT edit or prefix it)
+const supabaseKey = 'sb_publishable_bD9xCPEeOw3XtfKH8Y-9NA_itmOXqqc';
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -9,7 +12,7 @@ async function fetchAndDisplayProducts() {
     const grid = document.getElementById('products-grid');
 
     if (!grid) {
-        console.error('Target container #products-grid not found.');
+        console.error('Target element #products-grid was not found.');
         return;
     }
 

@@ -1,27 +1,86 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toucano Beans | القهوة المختصة الفاخرة</title>
+    <title>Toucano Beans</title>
+    <!-- Tailwind CDN with custom colors -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="public/assets/css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        offwhite: '#FBF9F5',
+                        brandorange: '#FF6B00',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome for Coffee Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-amber-50 text-gray-900 min-h-screen">
+<body class="bg-offwhite text-black min-h-screen flex flex-col font-sans">
 
-    <section id="products" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl sm:text-4xl font-bold mb-4">محاصيلنا المميزة</h2>
-            <p class="text-gray-600 max-w-xl mx-auto">تُجلب وتُعرض مباشرة من قاعدة البيانات</p>
+    <!-- Header Section -->
+    <header class="pt-12 pb-6 text-center px-4">
+        <div class="flex flex-col items-center justify-center">
+            <!-- Toucan Logo Above Headline -->
+            <img src="public/assets/images/logo.png" alt="Toucano Beans Logo" class="h-28 w-auto mb-4 object-contain">
+            
+            <!-- Headline in Bold Black -->
+            <h1 class="text-4xl sm:text-5xl font-black tracking-tight text-black">
+                Toucano Beans
+            </h1>
         </div>
+    </header>
 
-        <!-- Products inject here -->
-        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <p class="text-center col-span-full text-gray-500">جاري تحميل المحاصيل...</p>
-        </div>
-    </section>
+    <main class="flex-grow max-w-6xl mx-auto px-4 py-8 w-full">
+        <!-- Category Selection Cards -->
+        <section class="mb-12">
+            <h2 class="text-xl font-bold text-center mb-8 uppercase tracking-wider text-gray-700">Select Category</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                <!-- Category 1: Coffee Beans -->
+                <button onclick="filterCategory('beans')" id="btn-beans" 
+                        class="category-btn bg-white border-2 border-black rounded-2xl p-8 flex flex-col items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all group">
+                    <div class="w-16 h-16 rounded-full bg-offwhite border border-black flex items-center justify-center mb-4 group-hover:bg-brandorange transition-colors">
+                        <i class="fa-solid fa-seedling text-2xl text-black group-hover:text-white transition-colors"></i>
+                    </div>
+                    <span class="text-xl font-black">Coffee Beans</span>
+                </button>
 
-    <!-- Correct path to main.js -->
+                <!-- Category 2: Coffee Essentials -->
+                <button onclick="filterCategory('essentials')" id="btn-essentials" 
+                        class="category-btn bg-white border-2 border-black rounded-2xl p-8 flex flex-col items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all group">
+                    <div class="w-16 h-16 rounded-full bg-offwhite border border-black flex items-center justify-center mb-4 group-hover:bg-brandorange transition-colors">
+                        <i class="fa-solid fa-mug-hot text-2xl text-black group-hover:text-white transition-colors"></i>
+                    </div>
+                    <span class="text-xl font-black">Coffee Essentials</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Product Grid Section -->
+        <section id="products-section" class="hidden">
+            <div class="flex items-center justify-between mb-8 pb-4 border-b-2 border-black">
+                <h2 id="category-title" class="text-2xl font-black text-black">Products</h2>
+                <button onclick="resetCategory()" class="text-sm font-bold text-brandorange hover:underline">
+                    ← Back to categories
+                </button>
+            </div>
+
+            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Products injected by JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-6 text-center text-sm font-medium border-t border-gray-200 mt-12 text-gray-600">
+        &copy; 2026 Toucano Beans. All rights reserved.
+    </footer>
+
     <script type="module" src="public/assets/js/main.js"></script>
 </body>
 </html>

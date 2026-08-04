@@ -18,31 +18,36 @@
             }
         }
     </script>
-    <!-- Font Awesome for Coffee Icons -->
+    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-offwhite text-black min-h-screen flex flex-col font-sans">
+<body class="bg-offwhite text-black min-h-screen flex flex-col font-sans relative">
+
+    <!-- Floating Cart Icon (Top Left - Fixed on Scroll) -->
+    <button onclick="showCart()" id="cart-floating-btn" aria-label="Shopping Cart"
+            class="fixed top-6 left-6 z-50 bg-white border-2 border-black p-3.5 rounded-2xl shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center justify-center group">
+        <i class="fa-solid fa-cart-shopping text-xl text-black group-hover:text-brandorange transition-colors"></i>
+        <!-- Cart Item Badge Counter -->
+        <span id="cart-count" class="absolute -top-2 -right-2 bg-brandorange text-white text-xs font-black w-6 h-6 rounded-full border-2 border-black flex items-center justify-center">0</span>
+    </button>
 
     <!-- Header Section -->
     <header class="pt-12 pb-6 text-center px-4">
-    <div class="flex flex-col items-center justify-center">
-        <!-- Keep ONLY this single logo tag below -->
-        <img src="./public/assets/logo.png" alt="Toucano Beans Logo" class="h-28 w-auto mb-4 object-contain">
-        
-        <!-- Headline in Bold Black -->
-        <h1 class="text-4xl sm:text-5xl font-black tracking-tight text-black">
-            Toucano Beans
-        </h1>
-    </div>
-</header>
+        <div class="flex flex-col items-center justify-center">
+            <img src="./public/assets/logo.png" alt="Toucano Beans Logo" class="h-28 w-auto mb-4 object-contain">
+            <h1 class="text-4xl sm:text-5xl font-black tracking-tight text-black">
+                Toucano Beans
+            </h1>
+        </div>
+    </header>
 
     <main class="flex-grow max-w-6xl mx-auto px-4 py-8 w-full">
         <!-- Category Selection Cards -->
-        <section class="mb-12">
+        <section id="categories-section" class="mb-12">
             <h2 class="text-xl font-bold text-center mb-8 uppercase tracking-wider text-gray-700">Select Category</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-                <!-- Category 1: Coffee Beans -->
+                <!-- Coffee Beans -->
                 <button onclick="filterCategory('beans')" id="btn-beans" 
                         class="category-btn bg-white border-2 border-black rounded-2xl p-8 flex flex-col items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all group">
                     <div class="w-16 h-16 rounded-full bg-offwhite border border-black flex items-center justify-center mb-4 group-hover:bg-brandorange transition-colors">
@@ -51,7 +56,7 @@
                     <span class="text-xl font-black">Coffee Beans</span>
                 </button>
 
-                <!-- Category 2: Coffee Essentials -->
+                <!-- Coffee Essentials -->
                 <button onclick="filterCategory('essentials')" id="btn-essentials" 
                         class="category-btn bg-white border-2 border-black rounded-2xl p-8 flex flex-col items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all group">
                     <div class="w-16 h-16 rounded-full bg-offwhite border border-black flex items-center justify-center mb-4 group-hover:bg-brandorange transition-colors">
@@ -73,6 +78,32 @@
 
             <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Products injected by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Shopping Cart Section View -->
+        <section id="cart-section" class="hidden max-w-2xl mx-auto">
+            <div class="flex items-center justify-between mb-8 pb-4 border-b-2 border-black">
+                <h2 class="text-2xl font-black text-black">Shopping Cart</h2>
+                <button onclick="hideCart()" class="text-sm font-bold text-brandorange hover:underline">
+                    ← Back to store
+                </button>
+            </div>
+
+            <!-- Cart Items Container -->
+            <div id="cart-items-list" class="space-y-4 mb-8">
+                <!-- Items populated by JS -->
+            </div>
+
+            <!-- Cart Total & Checkout -->
+            <div id="cart-summary" class="bg-white border-2 border-black rounded-2xl p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hidden">
+                <div class="flex justify-between items-center text-xl font-black mb-6">
+                    <span>Total:</span>
+                    <span id="cart-total-price">0 QAR</span>
+                </div>
+                <button class="w-full bg-brandorange text-white py-3.5 rounded-xl font-black border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:brightness-105 active:translate-x-[1px] active:translate-y-[1px] transition-all">
+                    Proceed to Checkout
+                </button>
             </div>
         </section>
     </main>

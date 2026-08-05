@@ -30,9 +30,16 @@ window.filterCategory = function(category) {
     productsSection.classList.remove('hidden');
     productsSection.scrollIntoView({ behavior: 'smooth' });
 
-    categoryTitle.innerText = category === 'beans' ? 'Coffee Beans' : 'Coffee Essentials';
+    // Set Header Title based on Category selected
+    if (category === 'beans') {
+        categoryTitle.innerText = 'Coffee Beans';
+    } else if (category === 'drip') {
+        categoryTitle.innerText = 'Drip Coffee';
+    } else {
+        categoryTitle.innerText = 'Coffee Essentials';
+    }
 
-    const filtered = allProducts.filter(p => !p.category || p.category.toLowerCase() === category);
+    const filtered = allProducts.filter(p => p.category && p.category.toLowerCase() === category);
     grid.innerHTML = '';
 
     if (filtered.length === 0) {

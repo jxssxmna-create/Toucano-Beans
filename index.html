@@ -46,7 +46,7 @@
         <section id="categories-section" class="mb-12">
             <h2 class="text-xl font-bold text-center mb-8 uppercase tracking-wider text-gray-700">Select Category</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
                 <!-- Coffee Beans -->
                 <button onclick="filterCategory('beans')" id="btn-beans" 
                         class="category-btn bg-white border-2 border-black rounded-2xl p-8 flex flex-col items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all group">
@@ -54,6 +54,15 @@
                         <i class="fa-solid fa-seedling text-2xl text-black group-hover:text-white transition-colors"></i>
                     </div>
                     <span class="text-xl font-black">Coffee Beans</span>
+                </button>
+
+                <!-- Drip Coffee (NEW) -->
+                <button onclick="filterCategory('drip')" id="btn-drip" 
+                        class="category-btn bg-white border-2 border-black rounded-2xl p-8 flex flex-col items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all group">
+                    <div class="w-16 h-16 rounded-full bg-offwhite border border-black flex items-center justify-center mb-4 group-hover:bg-brandorange transition-colors">
+                        <i class="fa-solid fa-filter text-2xl text-black group-hover:text-white transition-colors"></i>
+                    </div>
+                    <span class="text-xl font-black">Drip Coffee</span>
                 </button>
 
                 <!-- Coffee Essentials -->

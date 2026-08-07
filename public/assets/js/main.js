@@ -157,3 +157,69 @@ window.resetCategory = function() {
 };
 
 document.addEventListener('DOMContentLoaded', loadProducts);
+
+// ==========================================
+// USER AUTHENTICATION & ROLE MANAGEMENT
+// ==========================================
+
+// 1. Sign Up New User (Defaults to 'buyer')
+window.signUpUser = async function(email, password, fullName, role = 'buyer') {
+    const { data, error } = await supabase.auth.signUp({
+        email: email,
+        password: password,
+        options: {
+            data: {
+                full_name: fullName,
+                role: role // 'admin', 'delivery', or 'buyer'
+            }
+        }
+    });
+
+    if (error) {
+        alert('Sign-up error: ' + error.message);
+        return null;
+    }
+    
+    alert('Account created successfully!');
+    return data.user;
+};
+
+// 2. Log In User & Fetch Role
+window.logInUser = async function(email, password) {
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password
+    });
+
+    if (authError) {
+        alert('Login error: ' + authError.message);
+        return;
+    }
+
+    // Fetch user profile to determine role
+    const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('role, full_name')
+        .eq('id', authData.user.id)
+        .single();
+
+    if (profileError) {
+        console.error('Error fetching profile:', profileError);
+        return;
+    }
+
+    // Route user based on role
+    routeUserByRole(profile.role);
+};
+
+// 3. Redirect User Based on Account Type
+function routeUserByRole(role) {
+    if (role === 'admin') {
+        window.location.href = '/admin-dashboard.html';
+    } else if (role === 'delivery') {
+        window.location.href = '/delivery-orders.html';
+    } else {
+        // Buyer standard homepage
+        window.location.href = '/index.html';
+    }
+}

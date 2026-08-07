@@ -7,19 +7,19 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 let allProducts = [];
 let cart = [];
-let currentAuthMode = 'login'; // 'login' or 'signup'
+let currentAuthMode = 'login';
 
-// Fallback Mock Products if database is empty
+// Fallback Mock Products
 const mockProducts = [
-    { id: 101, name: 'Ethiopia Yirgacheffe', price: 65, category: 'beans', description: 'Notes of jasmine, bergamot, and floral citrus.', image_url: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=600' },
-    { id: 102, name: 'Colombia Huila Roast', price: 60, category: 'beans', description: 'Rich caramel, red apple, and milk chocolate finish.', image_url: 'https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&q=80&w=600' },
-    { id: 103, name: 'Signature Drip Box (10 Packs)', price: 45, category: 'drip', description: 'Convenient single-serve pour-over filter bags.', image_url: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=600' },
-    { id: 104, name: 'Dark Roast Drip Box', price: 45, category: 'drip', description: 'Deep smoky cocoa notes in convenient drip pouches.', image_url: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=600' },
-    { id: 105, name: 'Gooseneck Pour-Over Kettle', price: 180, category: 'essentials', description: 'Precision flow spout for perfectly balanced extraction.', image_url: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&q=80&w=600' },
-    { id: 106, name: 'Manual Coffee Grinder', price: 140, category: 'essentials', description: 'Stainless steel burr grinder with adjustable settings.', image_url: 'https://images.unsplash.com/photo-1589396575653-c09c794ff6a6?auto=format&fit=crop&q=80&w=600' }
+    { id: 101, name: 'Ethiopia Yirgacheffe', price: 65, category: 'beans', description: '', image_url: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=600' },
+    { id: 102, name: 'Colombia Huila Roast', price: 60, category: 'beans', description: '', image_url: 'https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&q=80&w=600' },
+    { id: 103, name: 'Signature Drip Box', price: 45, category: 'drip', description: '', image_url: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=600' },
+    { id: 104, name: 'Dark Roast Drip Box', price: 45, category: 'drip', description: '', image_url: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=600' },
+    { id: 105, name: 'Pour-Over Kettle', price: 180, category: 'essentials', description: '', image_url: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&q=80&w=600' },
+    { id: 106, name: 'Manual Coffee Grinder', price: 140, category: 'essentials', description: '', image_url: 'https://images.unsplash.com/photo-1589396575653-c09c794ff6a6?auto=format&fit=crop&q=80&w=600' }
 ];
 
-// 1. Fetch Products from Supabase
+// Fetch Products from Supabase
 async function loadProducts() {
     try {
         const { data, error } = await supabase.from('products').select('*');
@@ -33,9 +33,8 @@ async function loadProducts() {
     }
 }
 
-// 2. Filter Category
+// Filter Category & Render Original Card Layout
 window.filterCategory = function(category) {
-    document.getElementById('cart-section').classList.add('hidden');
     document.getElementById('categories-section').classList.remove('hidden');
     
     const productsSection = document.getElementById('products-section');
@@ -64,21 +63,18 @@ window.filterCategory = function(category) {
     filtered.forEach(product => {
         const fallbackImg = 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=600';
         const card = `
-            <div class="bg-white border-2 border-black rounded-2xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
+            <div class="bg-white border-2 border-black rounded-2xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                 <div>
-                    <img src="${product.image_url || fallbackImg}" 
-                         alt="${product.name}" 
-                         class="w-full h-52 object-cover border-b-2 border-black">
-                    <div class="p-6">
-                        <h3 class="text-xl font-black mb-2 text-black">${product.name}</h3>
-                        <p class="text-gray-700 text-sm mb-4">${product.description || ''}</p>
-                    </div>
+                    <img src="${product.image_url || fallbackImg}" alt="${product.name}" class="w-full h-48 object-cover border-b-2 border-black">
                 </div>
-                <div class="p-6 pt-0 flex items-center justify-between">
-                    <span class="text-xl font-black text-black">${product.price} QAR</span>
-                    <button onclick="addToCart(${product.id})" class="bg-brandorange text-white px-4 py-2 rounded-xl font-bold border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:brightness-105 active:translate-x-[1px] active:translate-y-[1px] transition-all">
-                        Add to Cart
-                    </button>
+                <div class="p-4">
+                    <h3 class="text-lg font-black text-black mb-1">${product.name}</h3>
+                    <div class="flex items-center justify-between mt-3">
+                        <span class="font-black text-black">${product.price} QAR</span>
+                        <button onclick="addToCart(${product.id})" class="bg-brandorange text-white px-3 py-1.5 rounded-xl font-bold border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:brightness-105">
+                            Add to Cart
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
@@ -86,7 +82,7 @@ window.filterCategory = function(category) {
     });
 };
 
-// 3. Cart Management
+// Cart Logic
 window.addToCart = function(productId) {
     const product = allProducts.find(p => p.id === productId);
     if (!product) return;
@@ -124,16 +120,13 @@ function updateCartUI() {
 
         cartList.innerHTML += `
             <div class="bg-white border-2 border-black rounded-2xl p-4 flex items-center justify-between shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
-                <div class="flex items-center gap-4">
-                    <img src="${item.image_url || 'https://via.placeholder.com/64'}" alt="${item.name}" class="w-16 h-16 object-cover rounded-xl border border-black">
-                    <div>
-                        <h4 class="font-black text-black">${item.name}</h4>
-                        <p class="text-sm font-bold text-gray-600">${item.price} QAR x ${item.quantity}</p>
-                    </div>
+                <div>
+                    <h4 class="font-black text-black">${item.name}</h4>
+                    <p class="text-sm font-bold text-gray-600">${item.price} QAR x ${item.quantity}</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <span class="font-black text-black mr-2">${itemTotal} QAR</span>
-                    <button onclick="removeFromCart(${item.id})" class="text-red-500 hover:text-red-700 font-bold px-2">
+                    <span class="font-black text-black">${itemTotal} QAR</span>
+                    <button onclick="removeFromCart(${item.id})" class="text-red-500 font-bold px-2">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>
@@ -154,7 +147,6 @@ window.showCart = function() {
     document.getElementById('products-section').classList.add('hidden');
     document.getElementById('cart-section').classList.remove('hidden');
     updateCartUI();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
 window.hideCart = function() {
@@ -162,13 +154,7 @@ window.hideCart = function() {
     document.getElementById('categories-section').classList.remove('hidden');
 };
 
-window.resetCategory = function() {
-    document.getElementById('products-section').classList.add('hidden');
-    document.getElementById('categories-section').classList.remove('hidden');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-};
-
-// 4. Slide-over Navigation Menu Functions
+// Side Menu Control
 window.toggleMenu = function() {
     const menu = document.getElementById('side-menu');
     const overlay = document.getElementById('menu-overlay');
@@ -195,7 +181,7 @@ window.toggleLanguage = function() {
     }
 };
 
-// 5. Authentication Modal & Logic
+// Authentication
 window.openAuthModal = function(mode = 'login') {
     currentAuthMode = mode;
     const modal = document.getElementById('auth-modal');
@@ -237,12 +223,7 @@ window.signUpUser = async function(email, password, fullName, role = 'buyer') {
     const { data, error } = await supabase.auth.signUp({
         email: email,
         password: password,
-        options: {
-            data: {
-                full_name: fullName,
-                role: role
-            }
-        }
+        options: { data: { full_name: fullName, role: role } }
     });
 
     if (error) {

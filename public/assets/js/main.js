@@ -7,18 +7,33 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 let allProducts = [];
 let cart = [];
+let currentAuthMode = 'login'; // 'login' or 'signup'
 
+// Fallback Mock Products if database is empty
+const mockProducts = [
+    { id: 101, name: 'Ethiopia Yirgacheffe', price: 65, category: 'beans', description: 'Notes of jasmine, bergamot, and floral citrus.', image_url: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=600' },
+    { id: 102, name: 'Colombia Huila Roast', price: 60, category: 'beans', description: 'Rich caramel, red apple, and milk chocolate finish.', image_url: 'https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&q=80&w=600' },
+    { id: 103, name: 'Signature Drip Box (10 Packs)', price: 45, category: 'drip', description: 'Convenient single-serve pour-over filter bags.', image_url: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=600' },
+    { id: 104, name: 'Dark Roast Drip Box', price: 45, category: 'drip', description: 'Deep smoky cocoa notes in convenient drip pouches.', image_url: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=600' },
+    { id: 105, name: 'Gooseneck Pour-Over Kettle', price: 180, category: 'essentials', description: 'Precision flow spout for perfectly balanced extraction.', image_url: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&q=80&w=600' },
+    { id: 106, name: 'Manual Coffee Grinder', price: 140, category: 'essentials', description: 'Stainless steel burr grinder with adjustable settings.', image_url: 'https://images.unsplash.com/photo-1589396575653-c09c794ff6a6?auto=format&fit=crop&q=80&w=600' }
+];
+
+// 1. Fetch Products from Supabase
 async function loadProducts() {
     try {
         const { data, error } = await supabase.from('products').select('*');
-        if (error) throw error;
-        allProducts = data || [];
+        if (error || !data || data.length === 0) {
+            allProducts = mockProducts;
+        } else {
+            allProducts = data;
+        }
     } catch (err) {
-        console.error('Failed to load products from Supabase:', err);
+        allProducts = mockProducts;
     }
 }
 
-// Filter Products by Category
+// 2. Filter Category
 window.filterCategory = function(category) {
     document.getElementById('cart-section').classList.add('hidden');
     document.getElementById('categories-section').classList.remove('hidden');
@@ -30,7 +45,6 @@ window.filterCategory = function(category) {
     productsSection.classList.remove('hidden');
     productsSection.scrollIntoView({ behavior: 'smooth' });
 
-    // Set Header Title based on Category selected
     if (category === 'beans') {
         categoryTitle.innerText = 'Coffee Beans';
     } else if (category === 'drip') {
@@ -48,20 +62,21 @@ window.filterCategory = function(category) {
     }
 
     filtered.forEach(product => {
+        const fallbackImg = 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=600';
         const card = `
             <div class="bg-white border-2 border-black rounded-2xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
                 <div>
-                    <img src="${product.image_url || 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=600'}" 
+                    <img src="${product.image_url || fallbackImg}" 
                          alt="${product.name}" 
                          class="w-full h-52 object-cover border-b-2 border-black">
                     <div class="p-6">
                         <h3 class="text-xl font-black mb-2 text-black">${product.name}</h3>
-                        <p class="text-gray-700 text-sm mb-4">${product.description || 'Premium grade roasted with care.'}</p>
+                        <p class="text-gray-700 text-sm mb-4">${product.description || ''}</p>
                     </div>
                 </div>
                 <div class="p-6 pt-0 flex items-center justify-between">
                     <span class="text-xl font-black text-black">${product.price} QAR</span>
-                    <button onclick="addToCart(${product.id})" class="bg-brandorange text-white px-4 py-2 rounded-xl font-bold border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[1px] active:translate-y-[1px] transition-all">
+                    <button onclick="addToCart(${product.id})" class="bg-brandorange text-white px-4 py-2 rounded-xl font-bold border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:brightness-105 active:translate-x-[1px] active:translate-y-[1px] transition-all">
                         Add to Cart
                     </button>
                 </div>
@@ -71,7 +86,7 @@ window.filterCategory = function(category) {
     });
 };
 
-// Add Product to Cart
+// 3. Cart Management
 window.addToCart = function(productId) {
     const product = allProducts.find(p => p.id === productId);
     if (!product) return;
@@ -86,7 +101,6 @@ window.addToCart = function(productId) {
     updateCartUI();
 };
 
-// Update Cart Badge and Render Cart Content
 function updateCartUI() {
     const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
     document.getElementById('cart-count').innerText = totalCount;
@@ -111,7 +125,7 @@ function updateCartUI() {
         cartList.innerHTML += `
             <div class="bg-white border-2 border-black rounded-2xl p-4 flex items-center justify-between shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
                 <div class="flex items-center gap-4">
-                    <img src="${item.image_url || 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=600'}" alt="${item.name}" class="w-16 h-16 object-cover rounded-xl border border-black">
+                    <img src="${item.image_url || 'https://via.placeholder.com/64'}" alt="${item.name}" class="w-16 h-16 object-cover rounded-xl border border-black">
                     <div>
                         <h4 class="font-black text-black">${item.name}</h4>
                         <p class="text-sm font-bold text-gray-600">${item.price} QAR x ${item.quantity}</p>
@@ -130,13 +144,11 @@ function updateCartUI() {
     document.getElementById('cart-total-price').innerText = `${totalPrice} QAR`;
 }
 
-// Remove Item from Cart
 window.removeFromCart = function(productId) {
     cart = cart.filter(item => item.id !== productId);
     updateCartUI();
 };
 
-// Toggle Cart View
 window.showCart = function() {
     document.getElementById('categories-section').classList.add('hidden');
     document.getElementById('products-section').classList.add('hidden');
@@ -156,13 +168,71 @@ window.resetCategory = function() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
-document.addEventListener('DOMContentLoaded', loadProducts);
+// 4. Slide-over Navigation Menu Functions
+window.toggleMenu = function() {
+    const menu = document.getElementById('side-menu');
+    const overlay = document.getElementById('menu-overlay');
 
-// ==========================================
-// USER AUTHENTICATION & ROLE MANAGEMENT
-// ==========================================
+    if (menu.classList.contains('translate-x-full')) {
+        menu.classList.remove('translate-x-full');
+        overlay.classList.remove('hidden');
+    } else {
+        menu.classList.add('translate-x-full');
+        overlay.classList.add('hidden');
+    }
+};
 
-// 1. Sign Up New User (Defaults to 'buyer')
+window.toggleLanguage = function() {
+    const currentLang = document.documentElement.lang;
+    if (currentLang === 'ar') {
+        document.documentElement.lang = 'en';
+        document.documentElement.dir = 'ltr';
+        alert('Switched to English');
+    } else {
+        document.documentElement.lang = 'ar';
+        document.documentElement.dir = 'rtl';
+        alert('تم التحويل إلى اللغة العربية');
+    }
+};
+
+// 5. Authentication Modal & Logic
+window.openAuthModal = function(mode = 'login') {
+    currentAuthMode = mode;
+    const modal = document.getElementById('auth-modal');
+    const title = document.getElementById('auth-modal-title');
+    const submitBtn = document.getElementById('auth-submit-btn');
+    const nameGroup = document.getElementById('name-field-group');
+
+    if (mode === 'signup') {
+        title.innerText = 'Create Account';
+        submitBtn.innerText = 'Sign Up';
+        nameGroup.classList.remove('hidden');
+    } else {
+        title.innerText = 'Log In';
+        submitBtn.innerText = 'Log In';
+        nameGroup.classList.add('hidden');
+    }
+
+    modal.classList.remove('hidden');
+};
+
+window.closeAuthModal = function() {
+    document.getElementById('auth-modal').classList.add('hidden');
+};
+
+window.handleAuthSubmit = async function(event) {
+    event.preventDefault();
+    const email = document.getElementById('auth-email').value;
+    const password = document.getElementById('auth-password').value;
+    const fullName = document.getElementById('auth-name').value;
+
+    if (currentAuthMode === 'signup') {
+        await signUpUser(email, password, fullName);
+    } else {
+        await logInUser(email, password);
+    }
+};
+
 window.signUpUser = async function(email, password, fullName, role = 'buyer') {
     const { data, error } = await supabase.auth.signUp({
         email: email,
@@ -170,21 +240,19 @@ window.signUpUser = async function(email, password, fullName, role = 'buyer') {
         options: {
             data: {
                 full_name: fullName,
-                role: role // 'admin', 'delivery', or 'buyer'
+                role: role
             }
         }
     });
 
     if (error) {
         alert('Sign-up error: ' + error.message);
-        return null;
+        return;
     }
-    
     alert('Account created successfully!');
-    return data.user;
+    closeAuthModal();
 };
 
-// 2. Log In User & Fetch Role
 window.logInUser = async function(email, password) {
     const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
         email: email,
@@ -196,7 +264,6 @@ window.logInUser = async function(email, password) {
         return;
     }
 
-    // Fetch user profile to determine role
     const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('role, full_name')
@@ -205,21 +272,23 @@ window.logInUser = async function(email, password) {
 
     if (profileError) {
         console.error('Error fetching profile:', profileError);
+        closeAuthModal();
         return;
     }
 
-    // Route user based on role
+    alert(`Welcome back, ${profile.full_name || 'User'}!`);
+    closeAuthModal();
     routeUserByRole(profile.role);
 };
 
-// 3. Redirect User Based on Account Type
 function routeUserByRole(role) {
     if (role === 'admin') {
         window.location.href = '/admin-dashboard.html';
     } else if (role === 'delivery') {
         window.location.href = '/delivery-orders.html';
     } else {
-        // Buyer standard homepage
         window.location.href = '/index.html';
     }
 }
+
+document.addEventListener('DOMContentLoaded', loadProducts);

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,32 +17,32 @@
             }
         }
     </script>
-    <!-- FontAwesome CDN for Icons -->
+    <!-- FontAwesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-amber-50/30 text-slate-900 font-sans min-h-screen flex flex-col justify-between">
+<body class="bg-amber-50/30 text-slate-900 font-sans min-h-screen flex flex-col justify-between relative">
 
-    <!-- Sticky Header Navigation (Scrolls with page) -->
-    <header class="w-full bg-white/90 backdrop-blur-md border-b-2 border-black sticky top-0 z-40 px-6 py-4 flex items-center justify-between">
-        <!-- Top Left: Three Dashes (Hamburger Menu) Button -->
-        <button id="menu-btn" onclick="toggleMenu()" class="p-2.5 rounded-xl border-2 border-black bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-gray-100 active:translate-x-[1px] active:translate-y-[1px]">
+    <!-- Fixed Floating Action Controls (Always top-left cart & top-right menu, non-blocking) -->
+    <div class="fixed top-6 left-6 right-6 z-40 flex items-center justify-between pointer-events-none" dir="ltr">
+        <!-- Top Left: Cart Icon -->
+        <button onclick="showCart()" class="pointer-events-auto relative p-3 rounded-xl border-2 border-black bg-yellow-400 font-bold shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:brightness-105 active:translate-x-[1px] active:translate-y-[1px]">
+            <i class="fa-solid fa-cart-shopping text-lg text-black"></i>
+            <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-black rounded-full h-5 w-5 flex items-center justify-center border border-black">0</span>
+        </button>
+
+        <!-- Top Right: Three-Dash Menu Icon -->
+        <button id="menu-btn" onclick="toggleMenu()" class="pointer-events-auto p-3 rounded-xl border-2 border-black bg-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:bg-gray-100 active:translate-x-[1px] active:translate-y-[1px]">
             <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
         </button>
+    </div>
 
-        <!-- Top Right: Cart Icon Button -->
-        <button onclick="showCart()" class="relative p-2.5 rounded-xl border-2 border-black bg-yellow-400 font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:brightness-105 active:translate-x-[1px] active:translate-y-[1px]">
-            <i class="fa-solid fa-cart-shopping text-lg"></i>
-            <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-black rounded-full h-5 w-5 flex items-center justify-center border border-black">0</span>
-        </button>
-    </header>
-
-    <!-- Slide-over Side Menu Overlay -->
+    <!-- Slide-over Menu Overlay -->
     <div id="menu-overlay" onclick="toggleMenu()" class="fixed inset-0 bg-black/50 z-50 hidden backdrop-blur-sm transition-opacity"></div>
 
-    <!-- Slide-over Side Menu Drawer -->
-    <div id="side-menu" class="fixed top-0 left-0 w-80 h-full bg-white border-r-2 border-black z-50 transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between p-6 shadow-[6px_0px_0px_0px_rgba(0,0,0,1)]">
+    <!-- Slide-over Side Drawer -->
+    <div id="side-menu" class="fixed top-0 right-0 w-80 h-full bg-white border-l-2 border-black z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between p-6 shadow-[-6px_0px_0px_0px_rgba(0,0,0,1)]">
         <div>
             <div class="flex items-center justify-between pb-6 border-b-2 border-black">
                 <h2 class="text-xl font-black text-black">Menu</h2>
@@ -87,63 +87,67 @@
     </div>
 
     <!-- Main Content Area -->
-    <main class="flex-1 max-w-6xl mx-auto w-full px-6 py-8 flex flex-col justify-between">
+    <main class="flex-1 max-w-6xl mx-auto w-full px-6 pt-20 pb-8 flex flex-col justify-between">
 
         <!-- HOME PAGE VIEW -->
         <div id="home-view" class="flex flex-col items-center justify-center my-auto min-h-[75vh]">
             
-            <!-- Center Logo & Brand Title -->
-            <div class="flex flex-col items-center text-center my-12">
-                <img src="public/assets/logo.png" alt="Toucano Beans Logo" class="w-40 md:w-56 h-auto mb-6 drop-shadow-md" onerror="this.src='https://via.placeholder.com/200?text=Toucano+Beans'">
+            <!-- Center Logo & Brand Name Header -->
+            <div class="flex flex-col items-center text-center my-8 cursor-pointer" onclick="showHome()">
+                <img src="public/assets/logo.png" alt="Toucano Beans Logo" class="w-44 md:w-56 h-auto mb-4" onerror="this.src='https://via.placeholder.com/200?text=Toucano+Beans'">
                 <h1 class="text-4xl md:text-6xl font-black tracking-tight text-black uppercase">Toucano Beans</h1>
             </div>
 
-            <!-- Bottom Categories Section -->
-            <section id="categories-section" class="w-full mt-auto pt-8">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Categories Section (Smooth, borderless icons changing to orange on hover) -->
+            <section id="categories-section" class="w-full mt-auto pt-12">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     
-                    <!-- Category 1: Coffee Beans (Three Coffee Beans Icon) -->
-                    <button onclick="navigateToCategory('beans')" class="bg-white border-2 border-black rounded-2xl p-6 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all flex flex-col items-center text-center group">
-                        <div class="w-20 h-20 bg-amber-100 rounded-2xl border-2 border-black flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                            <!-- Three Coffee Beans SVG -->
-                            <svg class="w-10 h-10 text-amber-900" viewBox="0 0 64 64" fill="currentColor">
-                                <path d="M 18 12 C 10 12 6 22 12 32 C 18 42 28 38 28 26 C 28 14 22 12 18 12 Z M 19 16 C 22 22 18 28 14 30" stroke="black" stroke-width="3" stroke-linecap="round" fill="none"/>
-                                <path d="M 44 12 C 36 12 32 22 38 32 C 44 42 54 38 54 26 C 54 14 48 12 44 12 Z M 45 16 C 48 22 44 28 40 30" stroke="black" stroke-width="3" stroke-linecap="round" fill="none"/>
-                                <path d="M 31 32 C 23 32 19 42 25 52 C 31 62 41 58 41 46 C 41 34 35 32 31 32 Z M 32 36 C 35 42 31 48 27 50" stroke="black" stroke-width="3" stroke-linecap="round" fill="none"/>
+                    <!-- Category 1: Coffee Beans -->
+                    <button onclick="navigateToCategory('beans')" class="flex flex-col items-center text-center group p-4 transition-all duration-200">
+                        <div class="w-24 h-24 flex items-center justify-center mb-3 text-black group-hover:text-brandorange transition-colors">
+                            <svg class="w-16 h-16 fill-current" viewBox="0 0 64 64">
+                                <path d="M 18 12 C 10 12 6 22 12 32 C 18 42 28 38 28 26 C 28 14 22 12 18 12 Z M 19 16 C 22 22 18 28 14 30" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/>
+                                <path d="M 44 12 C 36 12 32 22 38 32 C 44 42 54 38 54 26 C 54 14 48 12 44 12 Z M 45 16 C 48 22 44 28 40 30" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/>
+                                <path d="M 31 32 C 23 32 19 42 25 52 C 31 62 41 58 41 46 C 41 34 35 32 31 32 Z M 32 36 C 35 42 31 48 27 50" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-black text-black">Coffee Beans</h3>
+                        <h3 class="text-2xl font-black text-black group-hover:text-brandorange transition-colors">Coffee Beans</h3>
                     </button>
 
-                    <!-- Category 2: Drip Coffee (Single Drop in Air Icon) -->
-                    <button onclick="navigateToCategory('drip')" class="bg-white border-2 border-black rounded-2xl p-6 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all flex flex-col items-center text-center group">
-                        <div class="w-20 h-20 bg-blue-100 rounded-2xl border-2 border-black flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                            <!-- Single Water/Coffee Drop Icon -->
-                            <i class="fa-solid fa-droplet text-3xl text-blue-600"></i>
+                    <!-- Category 2: Drip Coffee -->
+                    <button onclick="navigateToCategory('drip')" class="flex flex-col items-center text-center group p-4 transition-all duration-200">
+                        <div class="w-24 h-24 flex items-center justify-center mb-3 text-black group-hover:text-brandorange transition-colors">
+                            <i class="fa-solid fa-droplet text-5xl"></i>
                         </div>
-                        <h3 class="text-xl font-black text-black">Drip Coffee</h3>
+                        <h3 class="text-2xl font-black text-black group-hover:text-brandorange transition-colors">Drip Coffee</h3>
                     </button>
 
-                    <!-- Category 3: Coffee Essentials (Coffee Cup Icon) -->
-                    <button onclick="navigateToCategory('essentials')" class="bg-white border-2 border-black rounded-2xl p-6 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all flex flex-col items-center text-center group">
-                        <div class="w-20 h-20 bg-yellow-100 rounded-2xl border-2 border-black flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                            <!-- Coffee Cup Icon -->
-                            <i class="fa-solid fa-mug-hot text-3xl text-amber-800"></i>
+                    <!-- Category 3: Coffee Essentials -->
+                    <button onclick="navigateToCategory('essentials')" class="flex flex-col items-center text-center group p-4 transition-all duration-200">
+                        <div class="w-24 h-24 flex items-center justify-center mb-3 text-black group-hover:text-brandorange transition-colors">
+                            <i class="fa-solid fa-mug-hot text-5xl"></i>
                         </div>
-                        <h3 class="text-xl font-black text-black">Coffee Essentials</h3>
+                        <h3 class="text-2xl font-black text-black group-hover:text-brandorange transition-colors">Coffee Essentials</h3>
                     </button>
 
                 </div>
             </section>
         </div>
 
-        <!-- CATEGORY PRODUCTS PAGE VIEW (Transferred page) -->
-        <div id="category-page-view" class="hidden my-8">
+        <!-- CATEGORY PRODUCTS PAGE VIEW -->
+        <div id="category-page-view" class="hidden my-4">
+            
+            <!-- Brand Header at Top of Category Pages -->
+            <div class="flex flex-col items-center text-center mb-8 cursor-pointer" onclick="showHome()">
+                <img src="public/assets/logo.png" alt="Toucano Beans Logo" class="w-24 md:w-32 h-auto mb-2" onerror="this.src='https://via.placeholder.com/200?text=Toucano+Beans'">
+                <h1 class="text-2xl md:text-4xl font-black tracking-tight text-black uppercase">Toucano Beans</h1>
+            </div>
+
             <div class="flex items-center justify-between mb-8 pb-4 border-b-2 border-black">
                 <button onclick="showHome()" class="flex items-center gap-2 font-bold border-2 border-black px-4 py-2 rounded-xl bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-gray-100">
                     <i class="fa-solid fa-arrow-left"></i> Back to Home
                 </button>
-                <h2 id="category-page-title" class="text-3xl font-black text-black"></h2>
+                <h2 id="category-page-title" class="text-2xl md:text-3xl font-black text-black"></h2>
             </div>
             
             <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -152,12 +156,19 @@
         </div>
 
         <!-- SHOPPING CART PAGE VIEW -->
-        <div id="cart-page-view" class="hidden my-8 max-w-2xl mx-auto">
+        <div id="cart-page-view" class="hidden my-4 max-w-2xl mx-auto">
+            
+            <!-- Brand Header at Top of Cart Page -->
+            <div class="flex flex-col items-center text-center mb-8 cursor-pointer" onclick="showHome()">
+                <img src="public/assets/logo.png" alt="Toucano Beans Logo" class="w-24 md:w-32 h-auto mb-2" onerror="this.src='https://via.placeholder.com/200?text=Toucano+Beans'">
+                <h1 class="text-2xl md:text-4xl font-black tracking-tight text-black uppercase">Toucano Beans</h1>
+            </div>
+
             <div class="flex items-center justify-between mb-6 pb-4 border-b-2 border-black">
                 <button onclick="showHome()" class="flex items-center gap-2 font-bold border-2 border-black px-4 py-2 rounded-xl bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-gray-100">
                     <i class="fa-solid fa-arrow-left"></i> Back to Home
                 </button>
-                <h2 class="text-3xl font-black text-black">Your Shopping Cart</h2>
+                <h2 class="text-2xl md:text-3xl font-black text-black">Your Cart</h2>
             </div>
 
             <div id="cart-items-list" class="flex flex-col gap-4 mb-6">
@@ -175,7 +186,7 @@
             </div>
         </div>
 
-        <!-- Hidden Anchors for Our Story and Contact -->
+        <!-- Hidden Anchors -->
         <div id="our-story"></div>
         <div id="contact"></div>
 

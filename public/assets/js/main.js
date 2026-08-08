@@ -159,29 +159,27 @@ window.showCart = function() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
-// Side Menu
+// Side Menu Control
 window.toggleMenu = function() {
     const menu = document.getElementById('side-menu');
     const overlay = document.getElementById('menu-overlay');
 
-    if (menu.classList.contains('-translate-x-full')) {
-        menu.classList.remove('-translate-x-full');
+    if (menu.classList.contains('translate-x-full')) {
+        menu.classList.remove('translate-x-full');
         overlay.classList.remove('hidden');
     } else {
-        menu.classList.add('-translate-x-full');
+        menu.classList.add('translate-x-full');
         overlay.classList.add('hidden');
     }
 };
 
 window.toggleLanguage = function() {
-    const currentLang = document.documentElement.lang;
-    if (currentLang === 'ar') {
-        document.documentElement.lang = 'en';
-        document.documentElement.dir = 'ltr';
+    const currentLang = document.body.dir;
+    if (currentLang === 'rtl') {
+        document.body.dir = 'ltr';
         alert('Switched to English');
     } else {
-        document.documentElement.lang = 'ar';
-        document.documentElement.dir = 'rtl';
+        document.body.dir = 'rtl';
         alert('تم التحويل إلى اللغة العربية');
     }
 };

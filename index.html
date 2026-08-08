@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toucano Beans | Specialty Coffee</title>
+    <title>Toucano Beans</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -17,39 +17,32 @@
             }
         }
     </script>
-    <!-- FontAwesome Icons CDN -->
+    <!-- FontAwesome CDN for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-amber-50/30 text-slate-900 font-sans min-h-screen flex flex-col">
+<body class="bg-amber-50/30 text-slate-900 font-sans min-h-screen flex flex-col justify-between">
 
-    <!-- Header Navigation -->
-    <header class="w-full bg-white border-b-2 border-black sticky top-0 z-40 px-6 py-4 flex items-center justify-between">
-        <a href="index.html" class="flex items-center gap-3">
-            <img src="public/assets/logo.png" alt="Toucano Beans Logo" class="h-10 w-auto" onerror="this.src='https://via.placeholder.com/40'">
-            <span class="text-xl font-black tracking-tight text-black">TOUCANO BEANS</span>
-        </a>
+    <!-- Sticky Header Navigation (Scrolls with page) -->
+    <header class="w-full bg-white/90 backdrop-blur-md border-b-2 border-black sticky top-0 z-40 px-6 py-4 flex items-center justify-between">
+        <!-- Top Left: Three Dashes (Hamburger Menu) Button -->
+        <button id="menu-btn" onclick="toggleMenu()" class="p-2.5 rounded-xl border-2 border-black bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-gray-100 active:translate-x-[1px] active:translate-y-[1px]">
+            <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+        </button>
 
-        <!-- Top Right Actions: Cart & Three-Dash Menu -->
-        <div class="flex items-center gap-4">
-            <button onclick="showCart()" class="relative p-2.5 rounded-xl border-2 border-black bg-yellow-400 font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:brightness-105 active:translate-x-[1px] active:translate-y-[1px]">
-                <i class="fa-solid fa-cart-shopping text-lg"></i>
-                <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-black rounded-full h-5 w-5 flex items-center justify-center border border-black">0</span>
-            </button>
-
-            <!-- Three Dashes (Hamburger) Menu Button -->
-            <button id="menu-btn" onclick="toggleMenu()" class="p-2.5 rounded-xl border-2 border-black bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-gray-100 active:translate-x-[1px] active:translate-y-[1px]">
-                <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                </svg>
-            </button>
-        </div>
+        <!-- Top Right: Cart Icon Button -->
+        <button onclick="showCart()" class="relative p-2.5 rounded-xl border-2 border-black bg-yellow-400 font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:brightness-105 active:translate-x-[1px] active:translate-y-[1px]">
+            <i class="fa-solid fa-cart-shopping text-lg"></i>
+            <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-black rounded-full h-5 w-5 flex items-center justify-center border border-black">0</span>
+        </button>
     </header>
 
-    <!-- Side Drawer Menu Overlay -->
+    <!-- Slide-over Side Menu Overlay -->
     <div id="menu-overlay" onclick="toggleMenu()" class="fixed inset-0 bg-black/50 z-50 hidden backdrop-blur-sm transition-opacity"></div>
 
-    <!-- Slide-over Side Drawer Menu -->
-    <div id="side-menu" class="fixed top-0 right-0 w-80 h-full bg-white border-l-2 border-black z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between p-6 shadow-[-6px_0px_0px_0px_rgba(0,0,0,1)]">
+    <!-- Slide-over Side Menu Drawer -->
+    <div id="side-menu" class="fixed top-0 left-0 w-80 h-full bg-white border-r-2 border-black z-50 transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between p-6 shadow-[6px_0px_0px_0px_rgba(0,0,0,1)]">
         <div>
             <div class="flex items-center justify-between pb-6 border-b-2 border-black">
                 <h2 class="text-xl font-black text-black">Menu</h2>
@@ -59,6 +52,10 @@
             </div>
 
             <nav class="mt-6 flex flex-col gap-4 font-bold text-lg">
+                <button onclick="showHome(); toggleMenu();" class="text-left py-2 px-4 rounded-xl hover:bg-gray-100 flex items-center gap-3 text-black">
+                    <i class="fa-solid fa-house text-gray-600"></i> Home
+                </button>
+
                 <button onclick="openAuthModal('login'); toggleMenu();" class="text-left py-2.5 px-4 rounded-xl border-2 border-black bg-brandorange text-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:brightness-105">
                     <i class="fa-solid fa-right-to-bracket mr-2"></i> Log In
                 </button>
@@ -71,10 +68,6 @@
 
                 <a href="#our-story" onclick="toggleMenu()" class="py-2 px-4 rounded-xl hover:bg-gray-100 flex items-center gap-3 text-black">
                     <i class="fa-solid fa-book-open text-gray-600"></i> Our Story
-                </a>
-
-                <a href="#categories-section" onclick="toggleMenu()" class="py-2 px-4 rounded-xl hover:bg-gray-100 flex items-center gap-3 text-black">
-                    <i class="fa-solid fa-mug-hot text-gray-600"></i> Shop Coffee
                 </a>
 
                 <a href="#contact" onclick="toggleMenu()" class="py-2 px-4 rounded-xl hover:bg-gray-100 flex items-center gap-3 text-black">
@@ -94,280 +87,77 @@
     </div>
 
     <!-- Main Content Area -->
-    <main class="flex-1 max-w-6xl mx-auto w-full px-6 py-8">
+    <main class="flex-1 max-w-6xl mx-auto w-full px-6 py-8 flex flex-col justify-between">
 
-        <!-- Categories Selection -->
-        <section id="categories-section" class="mb-12">
-            <h1 class="text-3xl font-black text-center mb-8 tracking-tight">Explore Our Selection</h1>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Coffee Beans -->
-                <button onclick="filterCategory('beans')" class="bg-white border-2 border-black rounded-2xl p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all flex flex-col items-center text-center group">
-                    <div class="w-16 h-16 bg-amber-100 rounded-2xl border-2 border-black flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform">
-                        ☕
-                    </div>
-                    <h3 class="text-xl font-black mb-1">Coffee Beans</h3>
-                    <p class="text-xs text-gray-600 font-medium">Whole & ground specialty origins</p>
-                </button>
-
-                <!-- Drip Coffee -->
-                <button onclick="filterCategory('drip')" class="bg-white border-2 border-black rounded-2xl p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all flex flex-col items-center text-center group">
-                    <div class="w-16 h-16 bg-orange-100 rounded-2xl border-2 border-black flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform">
-                        🧃
-                    </div>
-                    <h3 class="text-xl font-black mb-1">Drip Coffee</h3>
-                    <p class="text-xs text-gray-600 font-medium">Single-serve drip pouches</p>
-                </button>
-
-                <!-- Coffee Essentials -->
-                <button onclick="filterCategory('essentials')" class="bg-white border-2 border-black rounded-2xl p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all flex flex-col items-center text-center group">
-                    <div class="w-16 h-16 bg-yellow-100 rounded-2xl border-2 border-black flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform">
-                        🫖
-                    </div>
-                    <h3 class="text-xl font-black mb-1">Essentials</h3>
-                    <p class="text-xs text-gray-600 font-medium">Brewers, grinders, & gear</p>
-                </button>
-            </div>
-        </section>
-
-        <!-- Products Section -->
-        <section id="products-section" class="hidden mb-16">
-            <div class="flex items-center justify-between mb-6 pb-2 border-b-2 border-black">
-                <h2 id="category-title" class="text-2xl font-black text-black">Products</h2>
-                <button onclick="resetCategory()" class="text-sm font-bold border-2 border-black px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200">
-                    ← All Categories
-                </button>
-            </div>
-            <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Product cards loaded dynamically via main.js -->
-            </div>
-        </section>
-
-        <!-- Shopping Cart Section -->
-        <section id="cart-section" class="hidden mb-16 max-w-2xl mx-auto">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-black text-black">Your Shopping Cart</h2>
-                <button onclick="hideCart()" class="text-sm font-bold border-2 border-black px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200">
-                    ← Back to Shop
-                </button>
-            </div>
-
-            <div id="cart-items-list" class="flex flex-col gap-4 mb-6">
-                <!-- Cart items loaded dynamically via main.js -->
-            </div>
-
-            <div id="cart-summary" class="hidden bg-white border-2 border-black rounded-2xl p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center justify-between">
-                <div>
-                    <span class="text-gray-600 font-bold block text-sm">Total Amount:</span>
-                    <span id="cart-total-price" class="text-2xl font-black text-black">0 QAR</span>
-                </div>
-                <button onclick="alert('Checkout process initiated!')" class="bg-brandorange text-white border-2 border-black px-6 py-3 rounded-xl font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:brightness-105 active:translate-x-[1px] active:translate-y-[1px]">
-                    Proceed to Checkout
-                </button>
-            </div>
-        </section>
-
-        <!-- Our Story Section -->
-        <section id="our-story" class="my-16 bg-white border-2 border-black rounded-2xl p-8 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-            <h2 class="text-2xl font-black mb-4 text-black">Our Story</h2>
-            <p class="text-gray-700 leading-relaxed font-medium">
-                Welcome to Toucano Beans! We source and roast exceptional specialty coffee to craft perfect single-serve drip bags and whole-bean origins. Built on quality and passion, we deliver top-tier coffee right to your door.
-            </p>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="my-16 bg-yellow-100 border-2 border-black rounded-2xl p-8 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-            <h2 class="text-2xl font-black mb-2 text-black">Get in Touch</h2>
-            <p class="text-gray-700 font-medium mb-4">Have questions about your order or our coffee roasts?</p>
-            <p class="font-bold text-black"><i class="fa-solid fa-envelope mr-2"></i> support@toucanobeans.com</p>
-        </section>
-
-    </main>
-
-    <!-- Authentication Modal (Log In / Sign Up) -->
-    <div id="auth-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white border-2 border-black rounded-2xl p-6 w-full max-w-md shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] relative">
-            <button onclick="closeAuthModal()" class="absolute top-4 right-4 p-2 rounded-xl border-2 border-black bg-gray-100 hover:bg-gray-200">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-            <h2 id="auth-modal-title" class="text-2xl font-black mb-4 text-black">Log In</h2>
+        <!-- HOME PAGE VIEW -->
+        <div id="home-view" class="flex flex-col items-center justify-center my-auto min-h-[75vh]">
             
-            <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="flex flex-col gap-4">
-                <div id="name-field-group" class="hidden flex flex-col gap-1">
-                    <label class="font-bold text-sm">Full Name</label>
-                    <input type="text" id="auth-name" placeholder="John Doe" class="border-2 border-black p-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brandorange">
-                </div>
-
-                <div class="flex flex-col gap-1">
-                    <label class="font-bold text-sm">Email Address</label>
-                    <input type="email" id="auth-email" required placeholder="you@example.com" class="border-2 border-black p-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brandorange">
-                </div>
-
-                <div class="flex flex-col gap-1">
-                    <label class="font-bold text-sm">Password</label>
-                    <input type="password" id="auth-password" required placeholder="••••••••" class="border-2 border-black p-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brandorange">
-                </div>
-
-                <button type="submit" id="auth-submit-btn" class="mt-2 bg-brandorange text-white py-3 rounded-xl font-black border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:brightness-105 active:translate-x-[1px] active:translate-y-[1px]">
-                    Log In
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="w-full bg-white border-t-2 border-black py-6 text-center text-sm font-bold text-gray-700">
-        © 2026 Toucano Beans. All rights reserved.
-    </footer>
-
-    <!-- Main JavaScript Module -->
-    <script type="module" src="./public/assets/js/main.js"></script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toucano Beans</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brandorange: '#FF5722',
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- FontAwesome CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="bg-amber-50/30 text-slate-900 font-sans min-h-screen flex flex-col">
-
-    <!-- Header Navigation -->
-    <header class="w-full bg-white border-b-2 border-black sticky top-0 z-40 px-6 py-4 flex items-center justify-between">
-        <a href="index.html" class="flex items-center gap-3">
-            <img src="public/assets/logo.png" alt="Toucano Beans Logo" class="h-10 w-auto" onerror="this.src='https://via.placeholder.com/40'">
-            <span class="text-xl font-black tracking-tight text-black">TOUCANO BEANS</span>
-        </a>
-
-        <!-- Top Right Controls: Cart & Three-Dash Menu Button -->
-        <div class="flex items-center gap-4">
-            <button onclick="showCart()" class="relative p-2.5 rounded-xl border-2 border-black bg-yellow-400 font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:brightness-105 active:translate-x-[1px] active:translate-y-[1px]">
-                <i class="fa-solid fa-cart-shopping text-lg"></i>
-                <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-black rounded-full h-5 w-5 flex items-center justify-center border border-black">0</span>
-            </button>
-
-            <!-- Three Dashes (Hamburger Menu) Button -->
-            <button id="menu-btn" onclick="toggleMenu()" class="p-2.5 rounded-xl border-2 border-black bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-gray-100 active:translate-x-[1px] active:translate-y-[1px]">
-                <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                </svg>
-            </button>
-        </div>
-    </header>
-
-    <!-- Slide-over Menu Overlay -->
-    <div id="menu-overlay" onclick="toggleMenu()" class="fixed inset-0 bg-black/50 z-50 hidden backdrop-blur-sm transition-opacity"></div>
-
-    <!-- Slide-over Side Drawer -->
-    <div id="side-menu" class="fixed top-0 right-0 w-80 h-full bg-white border-l-2 border-black z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between p-6 shadow-[-6px_0px_0px_0px_rgba(0,0,0,1)]">
-        <div>
-            <div class="flex items-center justify-between pb-6 border-b-2 border-black">
-                <h2 class="text-xl font-black text-black">Menu</h2>
-                <button onclick="toggleMenu()" class="p-2 rounded-xl border-2 border-black bg-gray-100 hover:bg-gray-200">
-                    <i class="fa-solid fa-xmark text-xl"></i>
-                </button>
+            <!-- Center Logo & Brand Title -->
+            <div class="flex flex-col items-center text-center my-12">
+                <img src="public/assets/logo.png" alt="Toucano Beans Logo" class="w-40 md:w-56 h-auto mb-6 drop-shadow-md" onerror="this.src='https://via.placeholder.com/200?text=Toucano+Beans'">
+                <h1 class="text-4xl md:text-6xl font-black tracking-tight text-black uppercase">Toucano Beans</h1>
             </div>
 
-            <nav class="mt-6 flex flex-col gap-4 font-bold text-lg">
-                <button onclick="openAuthModal('login'); toggleMenu();" class="text-left py-2.5 px-4 rounded-xl border-2 border-black bg-brandorange text-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:brightness-105">
-                    <i class="fa-solid fa-right-to-bracket mr-2"></i> Log In
-                </button>
-                
-                <button onclick="openAuthModal('signup'); toggleMenu();" class="text-left py-2.5 px-4 rounded-xl border-2 border-black bg-yellow-400 text-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:brightness-105">
-                    <i class="fa-solid fa-user-plus mr-2"></i> Sign Up
-                </button>
+            <!-- Bottom Categories Section -->
+            <section id="categories-section" class="w-full mt-auto pt-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- Category 1: Coffee Beans (Three Coffee Beans Icon) -->
+                    <button onclick="navigateToCategory('beans')" class="bg-white border-2 border-black rounded-2xl p-6 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all flex flex-col items-center text-center group">
+                        <div class="w-20 h-20 bg-amber-100 rounded-2xl border-2 border-black flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <!-- Three Coffee Beans SVG -->
+                            <svg class="w-10 h-10 text-amber-900" viewBox="0 0 64 64" fill="currentColor">
+                                <path d="M 18 12 C 10 12 6 22 12 32 C 18 42 28 38 28 26 C 28 14 22 12 18 12 Z M 19 16 C 22 22 18 28 14 30" stroke="black" stroke-width="3" stroke-linecap="round" fill="none"/>
+                                <path d="M 44 12 C 36 12 32 22 38 32 C 44 42 54 38 54 26 C 54 14 48 12 44 12 Z M 45 16 C 48 22 44 28 40 30" stroke="black" stroke-width="3" stroke-linecap="round" fill="none"/>
+                                <path d="M 31 32 C 23 32 19 42 25 52 C 31 62 41 58 41 46 C 41 34 35 32 31 32 Z M 32 36 C 35 42 31 48 27 50" stroke="black" stroke-width="3" stroke-linecap="round" fill="none"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-black text-black">Coffee Beans</h3>
+                    </button>
 
-                <hr class="border-black/20 my-2">
+                    <!-- Category 2: Drip Coffee (Single Drop in Air Icon) -->
+                    <button onclick="navigateToCategory('drip')" class="bg-white border-2 border-black rounded-2xl p-6 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all flex flex-col items-center text-center group">
+                        <div class="w-20 h-20 bg-blue-100 rounded-2xl border-2 border-black flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <!-- Single Water/Coffee Drop Icon -->
+                            <i class="fa-solid fa-droplet text-3xl text-blue-600"></i>
+                        </div>
+                        <h3 class="text-xl font-black text-black">Drip Coffee</h3>
+                    </button>
 
-                <a href="#our-story" onclick="toggleMenu()" class="py-2 px-4 rounded-xl hover:bg-gray-100 flex items-center gap-3 text-black">
-                    <i class="fa-solid fa-book-open text-gray-600"></i> Our Story
-                </a>
+                    <!-- Category 3: Coffee Essentials (Coffee Cup Icon) -->
+                    <button onclick="navigateToCategory('essentials')" class="bg-white border-2 border-black rounded-2xl p-6 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all flex flex-col items-center text-center group">
+                        <div class="w-20 h-20 bg-yellow-100 rounded-2xl border-2 border-black flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <!-- Coffee Cup Icon -->
+                            <i class="fa-solid fa-mug-hot text-3xl text-amber-800"></i>
+                        </div>
+                        <h3 class="text-xl font-black text-black">Coffee Essentials</h3>
+                    </button>
 
-                <a href="#categories-section" onclick="toggleMenu()" class="py-2 px-4 rounded-xl hover:bg-gray-100 flex items-center gap-3 text-black">
-                    <i class="fa-solid fa-mug-hot text-gray-600"></i> Shop Coffee
-                </a>
-
-                <a href="#contact" onclick="toggleMenu()" class="py-2 px-4 rounded-xl hover:bg-gray-100 flex items-center gap-3 text-black">
-                    <i class="fa-solid fa-envelope text-gray-600"></i> Contact Us
-                </a>
-            </nav>
+                </div>
+            </section>
         </div>
 
-        <div class="pt-6 border-t-2 border-black">
-            <button onclick="toggleLanguage()" class="w-full py-3 px-4 rounded-xl border-2 border-black bg-gray-50 flex items-center justify-between font-bold text-black hover:bg-gray-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                <span class="flex items-center gap-2">
-                    <i class="fa-solid fa-globe"></i> Language
-                </span>
-                <span id="lang-indicator" class="bg-black text-white px-2 py-0.5 rounded text-xs">EN / العربية</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- Main Content Area (Original Design) -->
-    <main class="flex-1 max-w-6xl mx-auto w-full px-6 py-8">
-
-        <!-- Categories Section -->
-        <section id="categories-section" class="mb-12">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Coffee Beans -->
-                <button onclick="filterCategory('beans')" class="bg-white border-2 border-black rounded-2xl p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all flex flex-col items-center text-center group">
-                    <div class="w-16 h-16 bg-amber-100 rounded-2xl border-2 border-black flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform">
-                        ☕
-                    </div>
-                    <h3 class="text-xl font-black mb-1">Coffee Beans</h3>
+        <!-- CATEGORY PRODUCTS PAGE VIEW (Transferred page) -->
+        <div id="category-page-view" class="hidden my-8">
+            <div class="flex items-center justify-between mb-8 pb-4 border-b-2 border-black">
+                <button onclick="showHome()" class="flex items-center gap-2 font-bold border-2 border-black px-4 py-2 rounded-xl bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-gray-100">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Home
                 </button>
-
-                <!-- Drip Coffee -->
-                <button onclick="filterCategory('drip')" class="bg-white border-2 border-black rounded-2xl p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all flex flex-col items-center text-center group">
-                    <div class="w-16 h-16 bg-orange-100 rounded-2xl border-2 border-black flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform">
-                        🧃
-                    </div>
-                    <h3 class="text-xl font-black mb-1">Drip Coffee</h3>
-                </button>
-
-                <!-- Coffee Essentials -->
-                <button onclick="filterCategory('essentials')" class="bg-white border-2 border-black rounded-2xl p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all flex flex-col items-center text-center group">
-                    <div class="w-16 h-16 bg-yellow-100 rounded-2xl border-2 border-black flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform">
-                        🫖
-                    </div>
-                    <h3 class="text-xl font-black mb-1">Coffee Essentials</h3>
-                </button>
+                <h2 id="category-page-title" class="text-3xl font-black text-black"></h2>
             </div>
-        </section>
-
-        <!-- Products Display Section -->
-        <section id="products-section" class="hidden mb-16">
-            <div class="flex items-center justify-between mb-6 pb-2 border-b-2 border-black">
-                <h2 id="category-title" class="text-2xl font-black text-black"></h2>
-            </div>
+            
             <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Loaded dynamically -->
             </div>
-        </section>
+        </div>
 
-        <!-- Shopping Cart Section -->
-        <section id="cart-section" class="hidden mb-16 max-w-2xl mx-auto">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-black text-black">Your Cart</h2>
-                <button onclick="hideCart()" class="text-sm font-bold border-2 border-black px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200">
-                    ← Back
+        <!-- SHOPPING CART PAGE VIEW -->
+        <div id="cart-page-view" class="hidden my-8 max-w-2xl mx-auto">
+            <div class="flex items-center justify-between mb-6 pb-4 border-b-2 border-black">
+                <button onclick="showHome()" class="flex items-center gap-2 font-bold border-2 border-black px-4 py-2 rounded-xl bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-gray-100">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Home
                 </button>
+                <h2 class="text-3xl font-black text-black">Your Shopping Cart</h2>
             </div>
 
             <div id="cart-items-list" class="flex flex-col gap-4 mb-6">
@@ -383,9 +173,9 @@
                     Checkout
                 </button>
             </div>
-        </section>
+        </div>
 
-        <!-- Hidden Sections for Navigation Anchors -->
+        <!-- Hidden Anchors for Our Story and Contact -->
         <div id="our-story"></div>
         <div id="contact"></div>
 
@@ -422,6 +212,11 @@
             </form>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="w-full bg-white border-t-2 border-black py-4 text-center text-xs font-bold text-gray-700 mt-12">
+        © 2026 Toucano Beans. All rights reserved.
+    </footer>
 
     <!-- Main JS -->
     <script type="module" src="./public/assets/js/main.js"></script>

@@ -19,7 +19,7 @@ const mockProducts = [
     { id: 106, name: 'Manual Coffee Grinder', price: 140, category: 'essentials', description: '', image_url: 'https://images.unsplash.com/photo-1589396575653-c09c794ff6a6?auto=format&fit=crop&q=80&w=600' }
 ];
 
-// Fetch Products from Supabase
+// Load Products from Supabase
 async function loadProducts() {
     try {
         const { data, error } = await supabase.from('products').select('*');
@@ -33,16 +33,23 @@ async function loadProducts() {
     }
 }
 
-// Filter Category & Render Original Card Layout
-window.filterCategory = function(category) {
-    document.getElementById('categories-section').classList.remove('hidden');
+// Page Navigation Logic
+window.showHome = function() {
+    document.getElementById('home-view').classList.remove('hidden');
+    document.getElementById('category-page-view').classList.add('hidden');
+    document.getElementById('cart-page-view').classList.add('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+window.navigateToCategory = function(category) {
+    document.getElementById('home-view').classList.add('hidden');
+    document.getElementById('cart-page-view').classList.add('hidden');
     
-    const productsSection = document.getElementById('products-section');
-    const categoryTitle = document.getElementById('category-title');
+    const categoryPageView = document.getElementById('category-page-view');
+    const categoryTitle = document.getElementById('category-page-title');
     const grid = document.getElementById('products-grid');
 
-    productsSection.classList.remove('hidden');
-    productsSection.scrollIntoView({ behavior: 'smooth' });
+    categoryPageView.classList.remove('hidden');
 
     if (category === 'beans') {
         categoryTitle.innerText = 'Coffee Beans';
@@ -80,9 +87,11 @@ window.filterCategory = function(category) {
         `;
         grid.innerHTML += card;
     });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
-// Cart Logic
+// Cart Management
 window.addToCart = function(productId) {
     const product = allProducts.find(p => p.id === productId);
     if (!product) return;
@@ -143,27 +152,23 @@ window.removeFromCart = function(productId) {
 };
 
 window.showCart = function() {
-    document.getElementById('categories-section').classList.add('hidden');
-    document.getElementById('products-section').classList.add('hidden');
-    document.getElementById('cart-section').classList.remove('hidden');
+    document.getElementById('home-view').classList.add('hidden');
+    document.getElementById('category-page-view').classList.add('hidden');
+    document.getElementById('cart-page-view').classList.remove('hidden');
     updateCartUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
-window.hideCart = function() {
-    document.getElementById('cart-section').classList.add('hidden');
-    document.getElementById('categories-section').classList.remove('hidden');
-};
-
-// Side Menu Control
+// Side Menu
 window.toggleMenu = function() {
     const menu = document.getElementById('side-menu');
     const overlay = document.getElementById('menu-overlay');
 
-    if (menu.classList.contains('translate-x-full')) {
-        menu.classList.remove('translate-x-full');
+    if (menu.classList.contains('-translate-x-full')) {
+        menu.classList.remove('-translate-x-full');
         overlay.classList.remove('hidden');
     } else {
-        menu.classList.add('translate-x-full');
+        menu.classList.add('-translate-x-full');
         overlay.classList.add('hidden');
     }
 };
@@ -181,7 +186,7 @@ window.toggleLanguage = function() {
     }
 };
 
-// Authentication
+// Auth Functions
 window.openAuthModal = function(mode = 'login') {
     currentAuthMode = mode;
     const modal = document.getElementById('auth-modal');
@@ -268,7 +273,7 @@ function routeUserByRole(role) {
     } else if (role === 'delivery') {
         window.location.href = '/delivery-orders.html';
     } else {
-        window.location.href = '/index.html';
+        showHome();
     }
 }
 

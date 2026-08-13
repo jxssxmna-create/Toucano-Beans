@@ -40,26 +40,57 @@
         </button>
     </div>
 
-    <!-- Slide-out Navigation Drawer (Updated background to #fdf0de) -->
+    <!-- Slide-out Navigation Drawer -->
     <div id="side-drawer" class="fixed inset-y-0 right-0 w-64 bg-[#fdf0de] border-l border-slate-300/60 shadow-2xl z-40 transform translate-x-full transition-transform duration-300 ease-in-out">
-        <div class="p-6 flex flex-col h-full justify-between">
+        <div class="p-6 flex flex-col h-full justify-between overflow-y-auto">
             <div>
                 <div class="flex items-center justify-between mb-8">
-                    <h2 class="text-xl font-bold text-slate-800">Menu</h2>
+                    <h2 id="menu-heading" class="text-xl font-bold text-slate-800">Menu</h2>
                     <button onclick="toggleMenu()" class="text-slate-500 hover:text-slate-800 focus:outline-none">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
                 </div>
-                <!-- Updated Menu Links -->
+                
+                <!-- Menu Accordion Nav -->
                 <nav class="space-y-4">
-                    <a href="javascript:void(0);" onclick="navigateTo('home')" class="block text-slate-700 hover:text-brandorange font-medium">Main</a>
-                    <a href="javascript:void(0);" onclick="navigateTo('story')" class="block text-slate-700 hover:text-brandorange font-medium">Our Story</a>
-                    <a href="javascript:void(0);" onclick="navigateTo('categories')" class="block text-slate-700 hover:text-brandorange font-medium">Categories</a>
-                    <a href="javascript:void(0);" onclick="navigateTo('language')" class="block text-slate-700 hover:text-brandorange font-medium">Language</a>
-                    <a href="javascript:void(0);" onclick="navigateTo('contact')" class="block text-slate-700 hover:text-brandorange font-medium">Contact Us</a>
-                    <a href="javascript:void(0);" onclick="navigateTo('account')" class="block text-slate-700 hover:text-brandorange font-medium">Account</a>
+                    <!-- Main -->
+                    <a href="javascript:void(0);" onclick="navigateTo('home')" id="nav-main" class="block text-slate-700 hover:text-brandorange font-medium">Main</a>
+                    
+                    <!-- Our Story -->
+                    <a href="javascript:void(0);" onclick="navigateTo('story')" id="nav-story" class="block text-slate-700 hover:text-brandorange font-medium">Our Story</a>
+                    
+                    <!-- Categories (Expandable Accordion) -->
+                    <div>
+                        <button onclick="toggleSubmenu('categories-submenu')" class="w-full flex items-center justify-between text-slate-700 hover:text-brandorange font-medium focus:outline-none">
+                            <span id="nav-categories">Categories</span>
+                            <svg id="arrow-categories" class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="categories-submenu" class="hidden pl-4 mt-2 space-y-2 border-l-2 border-brandorange/30">
+                            <a href="javascript:void(0);" onclick="navigateTo('coffee-beans')" id="nav-beans" class="block text-sm text-slate-600 hover:text-brandorange">Coffee Beans</a>
+                            <a href="javascript:void(0);" onclick="navigateTo('drip-coffee')" id="nav-drip" class="block text-sm text-slate-600 hover:text-brandorange">Drip Coffee</a>
+                            <a href="javascript:void(0);" onclick="navigateTo('essentials')" id="nav-essentials" class="block text-sm text-slate-600 hover:text-brandorange">Coffee Essentials</a>
+                        </div>
+                    </div>
+
+                    <!-- Language (Expandable Accordion) -->
+                    <div>
+                        <button onclick="toggleSubmenu('language-submenu')" class="w-full flex items-center justify-between text-slate-700 hover:text-brandorange font-medium focus:outline-none">
+                            <span id="nav-language">Language</span>
+                            <svg id="arrow-language" class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="language-submenu" class="hidden pl-4 mt-2 space-y-2 border-l-2 border-brandorange/30">
+                            <button onclick="setLanguage('en')" class="block w-full text-left text-sm text-slate-600 hover:text-brandorange">English</button>
+                            <button onclick="setLanguage('ar')" class="block w-full text-left text-sm text-slate-600 hover:text-brandorange">العربية (Arabic)</button>
+                        </div>
+                    </div>
+
+                    <!-- Contact Us -->
+                    <a href="javascript:void(0);" onclick="navigateTo('contact')" id="nav-contact" class="block text-slate-700 hover:text-brandorange font-medium">Contact Us</a>
+
+                    <!-- Account -->
+                    <a href="javascript:void(0);" onclick="navigateTo('account')" id="nav-account" class="block text-slate-700 hover:text-brandorange font-medium">Account</a>
                 </nav>
             </div>
         </div>
@@ -68,7 +99,7 @@
     <!-- Overlay backdrop for Drawer -->
     <div id="drawer-overlay" onclick="toggleMenu()" class="fixed inset-0 bg-black/40 z-30 hidden"></div>
 
-    <!-- Sub-page Shared Header (Logo & Brand Name for sub-pages) -->
+    <!-- Sub-page Shared Header -->
     <header id="subpage-header" class="hidden text-center pt-10 pb-4 cursor-pointer" onclick="navigateTo('home')">
         <img src="public/assets/logo.png" alt="Toucano Beans Logo" class="h-20 mx-auto mb-2 object-contain">
         <h1 class="text-xl font-extrabold tracking-wider text-slate-900 uppercase">TOUCANO BEANS</h1>
@@ -97,7 +128,7 @@
                             <path d="M17.5 13C15 13 13 15 13 17.5C13 19.5 14.5 21.2 16.5 21.8V22H18.5V21.8C20.5 21.2 22 19.5 22 17.5C22 15 20 13 17.5 13ZM17 15.2C17.3 16.6 17.5 18.1 17.3 19.6C17.3 19.7 17.2 19.8 17.1 19.8C17 19.8 16.9 19.7 16.9 19.6C16.7 18.1 16.5 16.6 17 15.2Z"/>
                         </svg>
                     </div>
-                    <span class="text-lg font-bold text-slate-800 group-hover:text-brandorange transition">Coffee Beans</span>
+                    <span id="lbl-beans" class="text-lg font-bold text-slate-800 group-hover:text-brandorange transition">Coffee Beans</span>
                 </a>
 
                 <!-- Category 2: Drip Coffee -->
@@ -107,7 +138,7 @@
                             <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
                         </svg>
                     </div>
-                    <span class="text-lg font-bold text-slate-800 group-hover:text-brandorange transition">Drip Coffee</span>
+                    <span id="lbl-drip" class="text-lg font-bold text-slate-800 group-hover:text-brandorange transition">Drip Coffee</span>
                 </a>
 
                 <!-- Category 3: Coffee Essentials -->
@@ -117,7 +148,7 @@
                             <path d="M2 19h18v2H2v-2zm18-14h-2V3a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a4 4 0 0 0 4 4 h6a4 4 0 0 0 4-4v-2h2a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3zm1 6a1 1 0 0 1-1 1h-2V7h2a1 1 0 0 1 1 1v3z"/>
                         </svg>
                     </div>
-                    <span class="text-lg font-bold text-slate-800 group-hover:text-brandorange transition">Coffee Essentials</span>
+                    <span id="lbl-essentials" class="text-lg font-bold text-slate-800 group-hover:text-brandorange transition">Coffee Essentials</span>
                 </a>
                 
             </div>
@@ -131,36 +162,25 @@
 
         <!-- ================= OUR STORY PAGE ================= -->
         <section id="page-story" class="page-view hidden w-full max-w-2xl text-center">
-            <h2 class="text-3xl font-bold mb-4 text-slate-900">Our Story</h2>
-            <p class="text-slate-700 leading-relaxed">
+            <h2 id="story-title" class="text-3xl font-bold mb-4 text-slate-900">Our Story</h2>
+            <p id="story-body" class="text-slate-700 leading-relaxed">
                 Toucano Beans brings you handcrafted coffee sourced responsibly from premium beans around the world. Our mission is to make exceptional specialty coffee accessible, simple, and enjoyable every single day.
             </p>
         </section>
 
-        <!-- ================= LANGUAGE PAGE ================= -->
-        <section id="page-language" class="page-view hidden w-full max-w-md text-center">
-            <h2 class="text-3xl font-bold mb-6 text-slate-900">Language / اللغة</h2>
-            <div class="space-y-4">
-                <button onclick="setLanguage('en')" class="w-full py-3 bg-white border border-slate-300 rounded-xl font-bold text-slate-800 hover:border-brandorange transition">English</button>
-                <button onclick="setLanguage('ar')" class="w-full py-3 bg-white border border-slate-300 rounded-xl font-bold text-slate-800 hover:border-brandorange transition">العربية</button>
-            </div>
-        </section>
-
         <!-- ================= CONTACT US PAGE ================= -->
         <section id="page-contact" class="page-view hidden w-full max-w-md text-center">
-            <h2 class="text-3xl font-bold mb-6 text-slate-900">Contact Us</h2>
+            <h2 id="contact-title" class="text-3xl font-bold mb-6 text-slate-900">Contact Us</h2>
             <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200/80 space-y-6">
-                <!-- Email Contact -->
                 <div>
-                    <span class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Official Email</span>
+                    <span id="contact-email-lbl" class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Official Email</span>
                     <a href="mailto:toucanobeans@gmail.com" class="text-lg font-bold text-brandorange hover:underline break-all">
                         toucanobeans@gmail.com
                     </a>
                 </div>
                 <hr class="border-slate-200">
-                <!-- WhatsApp Contact -->
                 <div>
-                    <span class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">WhatsApp</span>
+                    <span id="contact-wa-lbl" class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">WhatsApp</span>
                     <a href="https://wa.me/97466609060" target="_blank" class="inline-flex items-center gap-2 text-lg font-bold text-emerald-600 hover:underline">
                         <span>+974 6660 9060</span>
                     </a>
@@ -168,12 +188,10 @@
             </div>
         </section>
 
-        <!-- ================= ACCOUNT PAGE (LOG IN / SIGN UP) ================= -->
+        <!-- ================= ACCOUNT PAGE ================= -->
         <section id="page-account" class="page-view hidden w-full max-w-md">
             <h2 id="account-page-title" class="text-3xl font-bold mb-6 text-slate-900 text-center">Log In</h2>
             <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200/80">
-                
-                <!-- Account Tabs Switcher -->
                 <div class="flex border-b border-slate-200 mb-6">
                     <button id="tab-login" onclick="switchAccountTab('login')" class="flex-1 pb-3 font-bold text-brandorange border-b-2 border-brandorange text-center">Log In</button>
                     <button id="tab-signup" onclick="switchAccountTab('signup')" class="flex-1 pb-3 font-bold text-slate-400 border-b-2 border-transparent text-center">Sign Up</button>
@@ -181,15 +199,15 @@
 
                 <form onsubmit="event.preventDefault(); alert('Action submitted!');" class="space-y-4">
                     <div id="signup-name-field" class="hidden">
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Full Name</label>
+                        <label id="lbl-fullname" class="block text-xs font-semibold text-slate-600 uppercase mb-1">Full Name</label>
                         <input type="text" placeholder="John Doe" class="w-full border rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:border-brandorange">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Email</label>
+                        <label id="lbl-email" class="block text-xs font-semibold text-slate-600 uppercase mb-1">Email</label>
                         <input type="email" required placeholder="you@example.com" class="w-full border rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:border-brandorange">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Password</label>
+                        <label id="lbl-password" class="block text-xs font-semibold text-slate-600 uppercase mb-1">Password</label>
                         <input type="password" required placeholder="••••••••" class="w-full border rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:border-brandorange">
                     </div>
                     <button type="submit" id="account-submit-btn" class="w-full bg-brandorange text-white py-2.5 rounded-lg font-bold hover:bg-orange-600 transition">Log In</button>

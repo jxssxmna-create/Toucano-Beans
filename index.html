@@ -19,22 +19,30 @@
         }
     </script>
 
-    <!-- FontAwesome Icons CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Application JavaScript Entry Point (Loads custom functions) -->
+    <script type="module" src="public/assets/js/main.js"></script>
+
 </head>
 <body class="bg-[#fdf0de] text-slate-900 font-sans min-h-screen flex flex-col justify-between relative">
+
     <!-- Top Navigation Controls -->
     <div class="fixed top-6 left-6 right-6 z-30 flex items-center justify-between pointer-events-none">
         
-        <!-- Top Left: Cart Button -->
-        <button onclick="showCart()" class="pointer-events-auto relative p-3 bg-white/90 backdrop-blur shadow-md rounded-xl text-slate-800 hover:text-brandorange transition focus:outline-none border border-slate-300">
-            <i class="fa-solid fa-cart-shopping text-xl"></i>
-            <span id="cart-count" class="absolute -top-2 -right-2 bg-brandorange text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+        <!-- Top Left: Cart Button (Frameless) -->
+        <button onclick="showCart()" class="pointer-events-auto relative p-3 text-slate-800 hover:text-brandorange transition focus:outline-none">
+            <!-- Frameless SVG Cart Icon -->
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+            <span id="cart-count" class="absolute -top-1 -right-1 bg-brandorange text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
         </button>
 
-        <!-- Top Right: Menu Button -->
-        <button id="menu-btn" onclick="toggleMenu()" class="pointer-events-auto p-3 bg-white/90 backdrop-blur shadow-md rounded-xl text-slate-800 hover:text-brandorange transition focus:outline-none border border-slate-300">
-            <i class="fa-solid fa-bars text-xl"></i>
+        <!-- Top Right: Menu Button (Frameless) -->
+        <button id="menu-btn" onclick="toggleMenu()" class="pointer-events-auto p-3 text-slate-800 hover:text-brandorange transition focus:outline-none">
+            <!-- Frameless SVG Three-Dash Menu Icon -->
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
         </button>
     </div>
 
@@ -44,20 +52,22 @@
             <div>
                 <div class="flex items-center justify-between mb-8">
                     <h2 class="text-xl font-bold text-slate-800">Menu</h2>
-                    <button onclick="toggleMenu()" class="text-slate-500 hover:text-slate-800">
-                        <i class="fa-solid fa-xmark text-xl"></i>
+                    <button onclick="toggleMenu()" class="text-slate-500 hover:text-slate-800 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
                     </button>
                 </div>
                 <nav class="space-y-4">
-                    <a href="#" onclick="showHome(); toggleMenu();" class="block text-slate-700 hover:text-brandorange font-medium">Home</a>
-                    <a href="#" onclick="filterCategory('coffee-beans'); toggleMenu();" class="block text-slate-700 hover:text-brandorange font-medium">Coffee Beans</a>
-                    <a href="#" onclick="filterCategory('drip-coffee'); toggleMenu();" class="block text-slate-700 hover:text-brandorange font-medium">Drip Coffee</a>
-                    <a href="#" onclick="filterCategory('essentials'); toggleMenu();" class="block text-slate-700 hover:text-brandorange font-medium">Coffee Essentials</a>
+                    <a href="javascript:void(0);" onclick="showHome(); toggleMenu();" class="block text-slate-700 hover:text-brandorange font-medium">Home</a>
+                    <a href="javascript:void(0);" onclick="filterCategory('coffee-beans'); toggleMenu();" class="block text-slate-700 hover:text-brandorange font-medium">Coffee Beans</a>
+                    <a href="javascript:void(0);" onclick="filterCategory('drip-coffee'); toggleMenu();" class="block text-slate-700 hover:text-brandorange font-medium">Drip Coffee</a>
+                    <a href="javascript:void(0);" onclick="filterCategory('essentials'); toggleMenu();" class="block text-slate-700 hover:text-brandorange font-medium">Coffee Essentials</a>
                 </nav>
             </div>
             
             <div class="border-t pt-4">
-                <button id="auth-btn" onclick="openAuthModal()" class="w-full py-2 px-4 bg-brandorange text-white font-semibold rounded-lg shadow hover:bg-orange-600 transition">
+                <button id="auth-btn" onclick="openAuthModal()" class="w-full py-2 px-4 bg-brandorange text-white font-semibold rounded-lg shadow hover:bg-orange-600 transition focus:outline-none">
                     Sign In / Sign Up
                 </button>
             </div>
@@ -68,7 +78,7 @@
     <div id="drawer-overlay" onclick="toggleMenu()" class="fixed inset-0 bg-black/40 z-30 hidden"></div>
 
     <!-- Main Content Area -->
-    <main class="flex-grow flex flex-col items-center justify-center px-4 pt-24 pb-12">
+    <main class="flex-grow flex flex-col items-center justify-center px-4 pt-28 pb-12">
         
         <!-- Large Centered Branding -->
         <div class="text-center mb-16 cursor-pointer" onclick="showHome()">
@@ -79,32 +89,38 @@
         <!-- Three Category Cards Row -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-16 w-full max-w-3xl px-4 text-center">
             
-            <!-- Category 1: Coffee Beans -->
-            <button onclick="filterCategory('coffee-beans')" class="group flex flex-col items-center justify-center transition transform hover:-translate-y-1">
-                <div class="text-4xl sm:text-5xl mb-3 text-slate-800 group-hover:text-brandorange transition">
-                    <i class="fa-solid fa-wheat-awn"></i>
+            <!-- Category 1: Coffee Beans (SVG Three Beans Icon) -->
+            <a href="javascript:void(0);" onclick="filterCategory('coffee-beans')" class="group flex flex-col items-center justify-center transition transform hover:-translate-y-1">
+                <div class="mb-3 text-slate-800 group-hover:text-brandorange transition flex items-center justify-center">
+                    <!-- SVG THREE BEANS ICON -->
+                    <svg width="60px" height="60px" viewBox="0 0 512 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M410.1 278.4c1.1-13.3-1.6-26.6-8.2-38.3s-16.7-20.9-29.6-26.6c-26-11.4-55.6-7-74.9 11.2-19.3-18.2-48.9-22.6-74.9-11.2-12.9 5.7-23 14.9-29.6 26.6-6.6 11.7-9.3 25-8.2 38.3.3 3.6 1.1 7.2 2 10.7-33.8 1.9-63 21.6-76.3 50.8-13.3 29.2-8.3 63.8 12.3 87.7 22.8 26.5 57 37 89.2 27.2 32.2 9.8 66.4-.7 89.2-27.2 20.6-23.9 25.6-58.5 12.3-87.7-13.3-29.2-42.5-48.9-76.3-50.8.9-3.5 1.7-7.1 2-10.7zM292.6 303.8c-10.7 0-19.4-8.7-19.4-19.4s8.7-19.4 19.4-19.4S312 273.7 312 284.4s-8.7 19.4-19.4 19.4zm-143.2-19.4c0-10.7 8.7-19.4 19.4-19.4s19.4 8.7 19.4 19.4S179.5 303.8 168.8 303.8s-19.4-8.7-19.4-19.4zm320.1 123.8c-26 11.4-55.6 7-74.9-11.2-19.3 18.2-48.9 22.6-74.9 11.2-12.9-5.7-23-14.9-29.6-26.6-6.6-11.7-9.3-25-8.2-38.3.3-3.6 1.1-7.2 2-10.7-33.8-1.9-63-21.6-76.3-50.8-13.3-29.2-8.3-63.8 12.3-87.7 22.8-26.5 57-37 89.2-27.2 32.2-9.8 66.4.7 89.2 27.2 20.6 23.9 25.6 58.5 12.3 87.7-13.3 29.2-42.5 48.9-76.3 50.8.9 3.5 1.7 7.1 2 10.7 1.1 13.3-1.6 26.6-8.2 38.3-6.6 11.7-16.7 20.9-29.6 26.6zM292.6 462.6c-10.7 0-19.4-8.7-19.4-19.4s8.7-19.4 19.4-19.4 19.4 8.7 19.4 19.4-8.7 19.4-19.4 19.4zM435.8 443.2c0 10.7-8.7 19.4-19.4 19.4s-19.4-8.7-19.4-19.4 8.7-19.4 19.4-19.4 19.4 8.7 19.4 19.4z"/></svg>
                 </div>
                 <span class="text-lg font-bold text-slate-800 group-hover:text-brandorange transition">Coffee Beans</span>
-            </button>
+            </a>
 
-            <!-- Category 2: Drip Coffee -->
-            <button onclick="filterCategory('drip-coffee')" class="group flex flex-col items-center justify-center transition transform hover:-translate-y-1">
-                <div class="text-4xl sm:text-5xl mb-3 text-slate-800 group-hover:text-brandorange transition">
-                    <i class="fa-solid fa-droplet"></i>
+            <!-- Category 2: Drip Coffee (SVG Icon) -->
+            <a href="javascript:void(0);" onclick="filterCategory('drip-coffee')" class="group flex flex-col items-center justify-center transition transform hover:-translate-y-1">
+                <div class="mb-3 text-slate-800 group-hover:text-brandorange transition">
+                    <svg width="60px" height="60px" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C8.69 2 6 4.69 6 8C6 11.31 8.69 14 12 14C15.31 14 18 11.31 18 8C18 4.69 15.31 2 12 2ZM12 20C10.9 20 10 19.1 10 18C10 16.9 10.9 16 12 16C13.1 16 14 16.9 14 18C14 19.1 13.1 20 12 20ZM12 22C9.79 22 8 20.21 8 18C8 17.65 8.05 17.31 8.13 16.98C5.69 16.5 4 14.43 4 12C4 9.24 6.24 7 9 7C9.37 7 9.73 7.04 10.08 7.11C10.5 5.3 12.1 4 14 4C16.21 4 18 5.79 18 8C18 8.37 17.96 8.73 17.89 9.08C20.31 9.56 22 11.63 22 14C22 16.76 19.76 19 17 19C16.63 19 16.27 18.96 15.92 18.89C15.5 20.7 13.9 22 12 22Z"/>
+                    </svg>
                 </div>
                 <span class="text-lg font-bold text-slate-800 group-hover:text-brandorange transition">Drip Coffee</span>
-            </button>
+            </a>
 
-            <!-- Category 3: Coffee Essentials -->
-            <button onclick="filterCategory('essentials')" class="group flex flex-col items-center justify-center transition transform hover:-translate-y-1">
-                <div class="text-4xl sm:text-5xl mb-3 text-slate-800 group-hover:text-brandorange transition">
-                    <i class="fa-solid fa-mug-hot"></i>
+            <!-- Category 3: Coffee Essentials (SVG Icon) -->
+            <a href="javascript:void(0);" onclick="filterCategory('essentials')" class="group flex flex-col items-center justify-center transition transform hover:-translate-y-1">
+                <div class="mb-3 text-slate-800 group-hover:text-brandorange transition">
+                    <svg width="60px" height="60px" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 11H18V10C18 7.79 16.21 6 14 6H10C7.79 6 6 7.79 6 10V11H4C2.9 11 2 11.9 2 13C2 14.1 2.9 15 4 15H20C21.1 15 22 14.1 22 13C22 11.9 21.1 11 20 11ZM8 10C8 8.9 8.9 8 10 8H14C15.1 8 16 8.9 16 10V11H8V10ZM10 18H14C15.1 18 16 18.9 16 20H8C8.9 20 10 18.9 10 18ZM4 17H20C20.55 17 21 17.45 21 18C21 18.55 20.55 19 20 19H4C3.45 19 3 18.55 3 18C3 17.45 3.45 17 4 17Z"/>
+                    </svg>
                 </div>
                 <span class="text-lg font-bold text-slate-800 group-hover:text-brandorange transition">Coffee Essentials</span>
-            </button>
+            </a>
         </div>
 
-        <!-- Dynamic Product Container -->
+        <!-- Dynamic Product Container (Populated via JS when category clicked) -->
         <div id="product-grid" class="w-full max-w-5xl mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </main>
 
@@ -116,8 +132,10 @@
     <!-- Auth Modal -->
     <div id="auth-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
         <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md relative">
-            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
-                <i class="fa-solid fa-xmark text-lg"></i>
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
             </button>
             <h3 id="modal-title" class="text-2xl font-bold mb-4 text-slate-800 text-center">Sign In</h3>
             
@@ -134,17 +152,15 @@
                     <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Password</label>
                     <input type="password" id="auth-password" required class="w-full border rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:border-brandorange">
                 </div>
-                <button type="submit" id="auth-submit-btn" class="w-full bg-brandorange text-white py-2 rounded-lg font-bold hover:bg-orange-600 transition">Sign In</button>
+                <button type="submit" id="auth-submit-btn" class="w-full bg-brandorange text-white py-2 rounded-lg font-bold hover:bg-orange-600 transition focus:outline-none">Sign In</button>
             </form>
 
             <p class="text-sm text-center text-slate-600 mt-4">
                 <span id="toggle-auth-text">Don't have an account?</span>
-                <button onclick="toggleAuthMode()" id="toggle-auth-btn" class="text-brandorange font-semibold ml-1 underline">Sign Up</button>
+                <button onclick="toggleAuthMode()" id="toggle-auth-btn" class="text-brandorange font-semibold ml-1 underline focus:outline-none">Sign Up</button>
             </p>
         </div>
     </div>
 
-    <!-- Application JavaScript Entry Point -->
-    <script type="module" src="public/assets/js/main.js"></script>
 </body>
 </html>

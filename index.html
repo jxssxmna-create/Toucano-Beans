@@ -389,33 +389,111 @@
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-  // Replace with your actual Supabase URL and Anon Key
-  const supabaseUrl = 'YOUR_SUPABASE_URL';
-  const supabaseAnonKey = 'YOUR_SUPABASE_ANON_KEY';
+  const supabaseUrl = 'https://ixuuvqfzvmlrqxxvwmtp.supabase.co';
+  const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4dXV2cWZ6dm1scnF4eHZ3bXRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM2MzUwOTEsImV4cCI6MjAzOTIxMTA5MX0.X_YdOq0P5Z8vL38e1S5f0f-D0aXW9g8bW4-K4s6J0jY';
+  
   const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-  window.handleAuthSubmit = async function(e) {
-    e.preventDefault();
+  let currentMode = 'signup';
+
+  // 1. CHECK CURRENT USER SESSION ON PAGE LOAD
+  async function checkUserSession() {
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (session) {
+      const user = session.user;
+      
+      // Update UI to show logged-in account details
+      const authModal = document.getElementById('auth-modal');
+      if (authModal) {
+        authModal.innerHTML = `
+          <div class="text-center space-y-4">
+            <h2 class="text-xl font-bold">Welcome Back!</h2>
+            <p class="text-sm text-slate-600">Logged in as: <strong>${user.email}</strong></p>
+            <div class="pt-2 flex justify-center gap-3">
+              <a href="/src/pages/AccountPage.jsx" class="bg-slate-800 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-900 transition">Go to Profile</a>
+              <button onclick="handleLogout()" class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-700 transition">Log Out</button>
+            </div>
+          </div>
+        `;
+      }
+    }
+  }
+
+  checkUserSession();
+
+  // 2. LOGOUT HANDLER
+  window.handleLogout = async function() {
+    await supabase.auth.signOut();
+    alert('Logged out successfully!');
+    location.reload();
+  };
+
+  // 3. TAB SWITCHER
+  window.switchAccountTab = function(mode) {
+    currentMode = mode;
+    const nameField = document.getElementById('signup-name-field');
+    const submitBtn = document.getElementById('account-submit-btn');
+    const tabLogin = document.getElementById('tab-login');
+    const tabSignUp = document.getElementById('tab-signup');
+
+    if (mode === 'signup') {
+      if (nameField) nameField.classList.remove('hidden');
+      if (submitBtn) submitBtn.innerText = 'Create Account';
+      if (tabSignUp) tabSignUp.className = 'flex-1 pb-3 font-bold border-b-2 border-brandorange text-black';
+      if (tabLogin) tabLogin.className = 'flex-1 pb-3 font-bold text-slate-400';
+    } else {
+      if (nameField) nameField.classList.add('hidden');
+      if (submitBtn) submitBtn.innerText = 'Log In';
+      if (tabLogin) tabLogin.className = 'flex-1 pb-3 font-bold border-b-2 border-brandorange text-black';
+      if (tabSignUp) tabSignUp.className = 'flex-1 pb-3 font-bold text-slate-400';
+    }
+  };
+
+  // 4. SIGNUP / LOGIN SUBMISSION
+  window.handleAuthSubmit = async function(event) {
+    event.preventDefault();
 
     const email = document.getElementById('account-email')?.value;
     const password = document.getElementById('account-password')?.value;
     const fullName = document.getElementById('signup-fullname')?.value;
+    const submitBtn = document.getElementById('account-submit-btn');
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'Processing...';
+    }
 
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email: email,
-        password: password,
-        options: {
-          data: { full_name: fullName }
-        }
-      });
+      if (currentMode === 'signup') {
+        const { data, error } = await supabase.auth.signUp({
+          email: email,
+          password: password,
+          options: {
+            data: { full_name: fullName }
+          }
+        });
 
-      if (error) throw error;
+        if (error) throw error;
+        alert('Account created successfully!');
+        location.reload();
+      } else {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
 
-      alert('Account created successfully!');
-      location.reload();
+        if (error) throw error;
+        alert('Logged in successfully!');
+        location.reload();
+      }
     } catch (err) {
-      alert('Signup Error: ' + err.message);
+      alert('Authentication Error: ' + err.message);
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerText = currentMode === 'signup' ? 'Create Account' : 'Log In';
+      }
     }
   };
 </script>

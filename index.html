@@ -386,8 +386,19 @@
 </body>
 </html>
 
-<script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+<!-- Load Supabase JS SDK directly -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const supabaseUrl = 'https://ixuuvqfzvmlrqxxvwmtp.supabase.co';
+  const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4dXV2cWZ6dm1scnF4eHZ3bXRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM2MzUwOTEsImV4cCI6MjAzOTIxMTA5MX0.X_YdOq0P5Z8vL38e1S5f0f-D0aXW9g8bW4-K4s6J0jY';
+  
+  // Use global supabase object created by the CDN script above
+  const { createClient } = window.supabase;
+  const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+  // ... rest of your handleAuthSubmit function remains the same ...
+</script>
 
   const supabaseUrl = 'https://ixuuvqfzvmlrqxxvwmtp.supabase.co';
   const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4dXV2cWZ6dm1scnF4eHZ3bXRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM2MzUwOTEsImV4cCI6MjAzOTIxMTA5MX0.X_YdOq0P5Z8vL38e1S5f0f-D0aXW9g8bW4-K4s6J0jY';

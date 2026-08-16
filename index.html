@@ -1,25 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toucano Beans</title>
-
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brandorange: '#FF5722',
-                    }
-                }
-            }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toucano Beans</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandbg: '#fdf0de',
+            brandorange: '#c84b1d',
+          }
         }
-    </script>
+      }
+    }
+  </script>
 </head>
-<body class="bg-[#fdf0de] text-slate-900 font-sans min-h-screen flex flex-col justify-between relative">
+<body class="bg-[#fdf0de] text-black min-h-screen flex flex-col justify-between">
 
     <!-- Top Navigation Controls -->
     <div class="fixed top-6 left-6 right-6 z-30 flex items-center justify-between pointer-events-none">
@@ -183,118 +182,238 @@
             </div>
         </section>
 
-        <!-- ================= ACCOUNT PAGE ================= -->
-        <section id="page-account" class="page-view hidden w-full max-w-md">
-            <h2 id="account-page-title" class="text-3xl font-bold mb-6 text-slate-900 text-center">Log In</h2>
-            <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200/80">
-                <div class="flex border-b border-slate-200 mb-6">
-                    <button id="tab-login" onclick="switchAccountTab('login')" class="flex-1 pb-3 font-bold text-brandorange border-b-2 border-brandorange text-center">Log In</button>
-                    <button id="tab-signup" onclick="switchAccountTab('signup')" class="flex-1 pb-3 font-bold text-slate-400 border-b-2 border-transparent text-center">Sign Up</button>
-                </div>
+      <!-- ================= ACCOUNT PAGE ================= -->
+<section id="page-account" class="page-view hidden w-full max-w-md">
+    <h2 id="account-page-title" class="text-3xl font-bold mb-6 text-slate-900 text-center">Log In</h2>
+    
+    <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200/80">
+        
+        <!-- Tab Navigation (Hidden when user is logged in) -->
+        <div id="auth-tabs" class="flex border-b border-slate-200 mb-6">
+            <button id="tab-login" onclick="switchAccountTab('login')" class="flex-1 pb-3 font-bold text-brandorange border-b-2 border-brandorange text-center">Log In</button>
+            <button id="tab-signup" onclick="switchAccountTab('signup')" class="flex-1 pb-3 font-bold text-slate-400 border-b-2 border-transparent text-center">Sign Up</button>
+        </div>
 
-                <form id="account-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
-                    <div id="signup-name-field" class="hidden">
-                        <label id="lbl-fullname" class="block text-xs font-semibold text-slate-600 uppercase mb-1">Full Name</label>
-                        <input id="signup-fullname" type="text" placeholder="John Doe" class="w-full border rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:border-brandorange">
-                    </div>
-                    <div>
-                        <label id="lbl-email" class="block text-xs font-semibold text-slate-600 uppercase mb-1">Email</label>
-                        <input id="account-email" type="email" required placeholder="you@example.com" class="w-full border rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:border-brandorange">
-                    </div>
-                    <div>
-                        <label id="lbl-password" class="block text-xs font-semibold text-slate-600 uppercase mb-1">Password</label>
-                        <input id="account-password" type="password" required placeholder="••••••••" class="w-full border rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:border-brandorange">
-                    </div>
-                    <button type="submit" id="account-submit-btn" class="w-full bg-brandorange text-white py-2.5 rounded-lg font-bold hover:bg-orange-600 transition">Log In</button>
-                </form>
+        <!-- Auth Form (Sign Up / Log In) -->
+        <form id="account-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
+            <div id="signup-name-field" class="hidden">
+                <label id="lbl-fullname" class="block text-xs font-semibold text-slate-600 uppercase mb-1">Full Name</label>
+                <input id="signup-fullname" type="text" placeholder="John Doe" class="w-full border rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:border-brandorange">
             </div>
-        </section>
+            <div>
+                <label id="lbl-email" class="block text-xs font-semibold text-slate-600 uppercase mb-1">Email</label>
+                <input id="account-email" type="email" required placeholder="you@example.com" class="w-full border rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:border-brandorange">
+            </div>
+            <div>
+                <label id="lbl-password" class="block text-xs font-semibold text-slate-600 uppercase mb-1">Password</label>
+                <input id="account-password" type="password" required placeholder="••••••••" class="w-full border rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:border-brandorange">
+            </div>
+            <button type="submit" id="account-submit-btn" class="w-full bg-brandorange text-white py-2.5 rounded-lg font-bold hover:bg-orange-600 transition">Log In</button>
+        </form>
 
-    </main>
+        <!-- Profile / Details View (Shown when logged in) -->
+        <div id="profile-details-view" class="hidden space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Email</label>
+                <input id="profile-email" type="email" disabled class="w-full border rounded-lg px-3 py-2 text-slate-500 bg-slate-100 cursor-not-allowed">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Full Name</label>
+                <input id="profile-fullname" type="text" class="w-full border rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:border-brandorange">
+            </div>
+            <button onclick="handleUpdateProfile()" id="btn-save-profile" class="w-full bg-brandorange text-white py-2.5 rounded-lg font-bold hover:bg-orange-600 transition">
+                Save Changes
+            </button>
+            <button onclick="handleLogout()" class="w-full bg-slate-200 text-slate-700 py-2.5 rounded-lg font-bold hover:bg-slate-300 transition">
+                Log Out
+            </button>
+        </div>
 
-    <!-- Footer -->
-    <footer class="text-center py-4 text-xs text-slate-500 border-t border-slate-300">
-        © 2026 Toucano Beans. All rights reserved.
-    </footer>
+    </div>
+</section>
 
-    <!-- Direct Global JS Logic (Fixes scope/click issues) -->
-    <script>
-        function toggleMenu() {
-            const drawer = document.getElementById('side-drawer');
-            const overlay = document.getElementById('drawer-overlay');
-            if (drawer && overlay) {
-                drawer.classList.toggle('translate-x-full');
-                overlay.classList.toggle('hidden');
-            }
+</main>
+
+<!-- Footer -->
+<footer class="text-center py-4 text-xs text-slate-500 border-t border-slate-300">
+    © 2026 Toucano Beans. All rights reserved.
+</footer>
+
+<!-- Load Supabase JS SDK CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Direct Global JS Logic -->
+<script>
+    // Initialize Supabase Client
+    const supabaseUrl = 'https://ixuuvqfzvmlrqxxvwmtp.supabase.co';
+    const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4dXV2cWZ6dm1scnF4eHZ3bXRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM2MzUwOTEsImV4cCI6MjAzOTIxMTA5MX0.X_YdOq0P5Z8vL38e1S5f0f-D0aXW9g8bW4-K4s6J0jY';
+    const supabase = window.supabase ? window.supabase.createClient(supabaseUrl, supabaseAnonKey) : null;
+
+    let currentAuthMode = 'login';
+
+    function toggleMenu() {
+        const drawer = document.getElementById('side-drawer');
+        const overlay = document.getElementById('drawer-overlay');
+        if (drawer && overlay) {
+            drawer.classList.toggle('translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+    }
+
+    function toggleSubmenu(id) {
+        const el = document.getElementById(id);
+        const arrow = document.getElementById(id === 'categories-submenu' ? 'arrow-categories' : 'arrow-language');
+        if (el) el.classList.toggle('hidden');
+        if (arrow) arrow.classList.toggle('rotate-180');
+    }
+
+    function navigateTo(page) {
+        document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
+
+        const subheader = document.getElementById('subpage-header');
+        if (subheader) {
+            if (page === 'home') subheader.classList.add('hidden');
+            else subheader.classList.remove('hidden');
         }
 
-        function toggleSubmenu(id) {
-            const el = document.getElementById(id);
-            const arrow = document.getElementById(id === 'categories-submenu' ? 'arrow-categories' : 'arrow-language');
-            if (el) {
-                el.classList.toggle('hidden');
-            }
-            if (arrow) {
-                arrow.classList.toggle('rotate-180');
-            }
+        const drawer = document.getElementById('side-drawer');
+        const overlay = document.getElementById('drawer-overlay');
+        if (drawer && !drawer.classList.contains('translate-x-full')) {
+            drawer.classList.add('translate-x-full');
+            if (overlay) overlay.classList.add('hidden');
         }
 
-        function navigateTo(page) {
-            document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
+        if (page === 'home') {
+            document.getElementById('page-home')?.classList.remove('hidden');
+        } else if (['coffee-beans', 'drip-coffee', 'essentials'].includes(page)) {
+            document.getElementById('page-category')?.classList.remove('hidden');
+            const titleEl = document.getElementById('category-title');
+            if (titleEl) titleEl.innerText = page.replace('-', ' ');
+            if (typeof loadCategoryProducts === 'function') loadCategoryProducts(page);
+        } else if (page === 'story') {
+            document.getElementById('page-story')?.classList.remove('hidden');
+        } else if (page === 'contact') {
+            document.getElementById('page-contact')?.classList.remove('hidden');
+        } else if (page === 'account') {
+            document.getElementById('page-account')?.classList.remove('hidden');
+            checkAccountSession();
+        }
 
-            const subheader = document.getElementById('subpage-header');
-            if (page === 'home') {
-                subheader.classList.add('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function switchAccountTab(mode) {
+        currentAuthMode = mode;
+        const title = document.getElementById('account-page-title');
+        const submitBtn = document.getElementById('account-submit-btn');
+        const nameField = document.getElementById('signup-name-field');
+        const tabLogin = document.getElementById('tab-login');
+        const tabSignup = document.getElementById('tab-signup');
+        const isArabic = document.documentElement.lang === 'ar';
+
+        if (mode === 'signup') {
+            if (title) title.innerText = isArabic ? 'إنشاء حساب' : 'Sign Up';
+            if (submitBtn) submitBtn.innerText = isArabic ? 'إنشاء الحساب' : 'Create Account';
+            if (nameField) nameField.classList.remove('hidden');
+            if (tabSignup) tabSignup.className = 'flex-1 pb-3 font-bold text-brandorange border-b-2 border-brandorange text-center';
+            if (tabLogin) tabLogin.className = 'flex-1 pb-3 font-bold text-slate-400 border-b-2 border-transparent text-center';
+        } else {
+            if (title) title.innerText = isArabic ? 'تسجيل الدخول' : 'Log In';
+            if (submitBtn) submitBtn.innerText = isArabic ? 'تسجيل الدخول' : 'Log In';
+            if (nameField) nameField.classList.add('hidden');
+            if (tabLogin) tabLogin.className = 'flex-1 pb-3 font-bold text-brandorange border-b-2 border-brandorange text-center';
+            if (tabSignup) tabSignup.className = 'flex-1 pb-3 font-bold text-slate-400 border-b-2 border-transparent text-center';
+        }
+    }
+
+    async function checkAccountSession() {
+        if (!supabase) return;
+        const { data: { session } } = await supabase.auth.getSession();
+
+        const form = document.getElementById('account-form');
+        const tabs = document.getElementById('auth-tabs');
+        const profileView = document.getElementById('profile-details-view');
+        const title = document.getElementById('account-page-title');
+        const isArabic = document.documentElement.lang === 'ar';
+
+        if (session) {
+            const user = session.user;
+            if (form) form.classList.add('hidden');
+            if (tabs) tabs.classList.add('hidden');
+            if (profileView) profileView.classList.remove('hidden');
+            if (title) title.innerText = isArabic ? 'حسابي' : 'My Account';
+
+            document.getElementById('profile-email').value = user.email || '';
+
+            // Fetch stored profile name from database
+            const { data: profile } = await supabase.from('profiles').select('full_name').eq('id', user.id).single();
+            document.getElementById('profile-fullname').value = profile?.full_name || user.user_metadata?.full_name || '';
+        } else {
+            if (form) form.classList.remove('hidden');
+            if (tabs) tabs.classList.remove('hidden');
+            if (profileView) profileView.classList.add('hidden');
+            switchAccountTab(currentAuthMode);
+        }
+    }
+
+    async function handleAuthSubmit(event) {
+        event.preventDefault();
+        if (!supabase) return;
+
+        const email = document.getElementById('account-email')?.value;
+        const password = document.getElementById('account-password')?.value;
+        const fullName = document.getElementById('signup-fullname')?.value;
+        const submitBtn = document.getElementById('account-submit-btn');
+
+        if (submitBtn) submitBtn.disabled = true;
+
+        try {
+            if (currentAuthMode === 'signup') {
+                const { data, error } = await supabase.auth.signUp({
+                    email,
+                    password,
+                    options: { data: { full_name: fullName } }
+                });
+                if (error) throw error;
+                alert('Account created successfully!');
             } else {
-                subheader.classList.remove('hidden');
+                const { error } = await supabase.auth.signInWithPassword({ email, password });
+                if (error) throw error;
             }
-
-            // Close menu drawer if open
-            const drawer = document.getElementById('side-drawer');
-            const overlay = document.getElementById('drawer-overlay');
-            if (drawer && !drawer.classList.contains('translate-x-full')) {
-                drawer.classList.add('translate-x-full');
-                overlay.classList.add('hidden');
-            }
-
-            if (page === 'home') {
-                document.getElementById('page-home').classList.remove('hidden');
-            } else if (['coffee-beans', 'drip-coffee', 'essentials'].includes(page)) {
-                document.getElementById('page-category').classList.remove('hidden');
-                document.getElementById('category-title').innerText = page.replace('-', ' ');
-                loadCategoryProducts(page);
-            } else if (page === 'story') {
-                document.getElementById('page-story').classList.remove('hidden');
-            } else if (page === 'contact') {
-                document.getElementById('page-contact').classList.remove('hidden');
-            } else if (page === 'account') {
-                document.getElementById('page-account').classList.remove('hidden');
-            }
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            checkAccountSession();
+        } catch (err) {
+            alert('Auth Error: ' + err.message);
+        } finally {
+            if (submitBtn) submitBtn.disabled = false;
         }
+    }
 
-        function switchAccountTab(mode) {
-            const title = document.getElementById('account-page-title');
-            const submitBtn = document.getElementById('account-submit-btn');
-            const nameField = document.getElementById('signup-name-field');
-            const tabLogin = document.getElementById('tab-login');
-            const tabSignup = document.getElementById('tab-signup');
+    async function handleUpdateProfile() {
+        if (!supabase) return;
+        const newName = document.getElementById('profile-fullname')?.value;
+        const { data: { session } } = await supabase.auth.getSession();
 
-            if (mode === 'signup') {
-                title.innerText = document.documentElement.lang === 'ar' ? 'إنشاء حساب' : 'Sign Up';
-                submitBtn.innerText = document.documentElement.lang === 'ar' ? 'إنشاء الحساب' : 'Create Account';
-                nameField.classList.remove('hidden');
-                tabSignup.className = 'flex-1 pb-3 font-bold text-brandorange border-b-2 border-brandorange text-center';
-                tabLogin.className = 'flex-1 pb-3 font-bold text-slate-400 border-b-2 border-transparent text-center';
-            } else {
-                title.innerText = document.documentElement.lang === 'ar' ? 'تسجيل الدخول' : 'Log In';
-                submitBtn.innerText = document.documentElement.lang === 'ar' ? 'تسجيل الدخول' : 'Log In';
-                nameField.classList.add('hidden');
-                tabLogin.className = 'flex-1 pb-3 font-bold text-brandorange border-b-2 border-brandorange text-center';
-                tabSignup.className = 'flex-1 pb-3 font-bold text-slate-400 border-b-2 border-transparent text-center';
-            }
+        if (!session) return;
+
+        try {
+            const { error } = await supabase.from('profiles').upsert({
+                id: session.user.id,
+                full_name: newName,
+                email: session.user.email
+            });
+            if (error) throw error;
+            alert('Profile updated successfully!');
+        } catch (err) {
+            alert('Update Error: ' + err.message);
         }
+    }
+
+    async function handleLogout() {
+        if (!supabase) return;
+        await supabase.auth.signOut();
+        checkAccountSession();
+    }
+</script>
 
         function setLanguage(lang) {
             document.documentElement.lang = lang;
@@ -390,19 +509,12 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+  // Supabase Configuration
   const supabaseUrl = 'https://ixuuvqfzvmlrqxxvwmtp.supabase.co';
   const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4dXV2cWZ6dm1scnF4eHZ3bXRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM2MzUwOTEsImV4cCI6MjAzOTIxMTA5MX0.X_YdOq0P5Z8vL38e1S5f0f-D0aXW9g8bW4-K4s6J0jY';
   
-  // Use global supabase object created by the CDN script above
+  // Initialize Supabase Client safely
   const { createClient } = window.supabase;
-  const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-  // ... rest of your handleAuthSubmit function remains the same ...
-</script>
-
-  const supabaseUrl = 'https://ixuuvqfzvmlrqxxvwmtp.supabase.co';
-  const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4dXV2cWZ6dm1scnF4eHZ3bXRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM2MzUwOTEsImV4cCI6MjAzOTIxMTA5MX0.X_YdOq0P5Z8vL38e1S5f0f-D0aXW9g8bW4-K4s6J0jY';
-  
   const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
   let currentMode = 'signup';
@@ -431,6 +543,7 @@
     }
   }
 
+  // Run initial session check
   checkUserSession();
 
   // 2. LOGOUT HANDLER

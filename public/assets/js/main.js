@@ -1,8 +1,13 @@
+
+=======
 // Cart Action
 window.showCart = function() {
     alert('Cart is currently empty!');
 };
 
+
+
+=======
 // Toggle Drawer
 window.toggleMenu = function() {
     const drawer = document.getElementById('side-drawer');
@@ -10,9 +15,15 @@ window.toggleMenu = function() {
     if (drawer && overlay) {
         drawer.classList.toggle('translate-x-full');
         overlay.classList.toggle('hidden');
+
     }
+
+=======
 };
 
+
+
+=======
 // Toggle Inline Accordion Submenus (Categories & Language)
 window.toggleSubmenu = function(id) {
     const el = document.getElementById(id);
@@ -20,13 +31,22 @@ window.toggleSubmenu = function(id) {
     if (el) {
         el.classList.toggle('hidden');
         if (arrow) arrow.classList.toggle('rotate-180');
+
     }
+
+=======
 };
 
+
+
+=======
 // Router
 window.navigateTo = function(page) {
     document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
 
+
+
+=======
     const subheader = document.getElementById('subpage-header');
     if (page === 'home') {
         subheader.classList.add('hidden');
@@ -59,6 +79,9 @@ window.navigateTo = function(page) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
+
+
+=======
 // Account Tab Switcher
 window.switchAccountTab = function(mode) {
     const title = document.getElementById('account-page-title');
@@ -67,6 +90,9 @@ window.switchAccountTab = function(mode) {
     const tabLogin = document.getElementById('tab-login');
     const tabSignup = document.getElementById('tab-signup');
 
+
+
+=======
     if (mode === 'signup') {
         title.innerText = document.documentElement.lang === 'ar' ? 'إنشاء حساب' : 'Sign Up';
         submitBtn.innerText = document.documentElement.lang === 'ar' ? 'إنشاء الحساب' : 'Create Account';
@@ -169,3 +195,4 @@ function loadCategoryProducts(category) {
         </div>
     `;
 }
+

@@ -53,13 +53,9 @@
                 
                 <!-- Menu Accordion Nav -->
                 <nav class="space-y-4">
-                    <!-- Main -->
                     <a href="javascript:void(0);" onclick="navigateTo('home')" id="nav-main" class="block text-slate-700 hover:text-brandorange font-medium">Main</a>
-                    
-                    <!-- Our Story -->
                     <a href="javascript:void(0);" onclick="navigateTo('story')" id="nav-story" class="block text-slate-700 hover:text-brandorange font-medium">Our Story</a>
                     
-                    <!-- Categories (Expandable Accordion) -->
                     <div>
                         <button onclick="toggleSubmenu('categories-submenu')" class="w-full flex items-center justify-between text-slate-700 hover:text-brandorange font-medium focus:outline-none">
                             <span id="nav-categories">Categories</span>
@@ -72,7 +68,6 @@
                         </div>
                     </div>
 
-                    <!-- Language (Expandable Accordion) -->
                     <div>
                         <button onclick="toggleSubmenu('language-submenu')" class="w-full flex items-center justify-between text-slate-700 hover:text-brandorange font-medium focus:outline-none">
                             <span id="nav-language">Language</span>
@@ -84,10 +79,7 @@
                         </div>
                     </div>
 
-                    <!-- Contact Us -->
                     <a href="javascript:void(0);" onclick="navigateTo('contact')" id="nav-contact" class="block text-slate-700 hover:text-brandorange font-medium">Contact Us</a>
-
-                    <!-- Account -->
                     <a href="javascript:void(0);" onclick="navigateTo('account')" id="nav-account" class="block text-slate-700 hover:text-brandorange font-medium">Account</a>
                 </nav>
             </div>
@@ -99,22 +91,21 @@
 
     <!-- Sub-page Shared Header -->
     <header id="subpage-header" class="hidden text-center pt-10 pb-4 cursor-pointer" onclick="navigateTo('home')">
-        <img src="public/assets/logo.png" alt="Toucano Beans Logo" class="h-20 mx-auto mb-2 object-contain">
+        <img src="/assets/logo.png" alt="Toucano Beans Logo" class="h-20 mx-auto mb-2 object-contain">
         <h1 class="text-xl font-extrabold tracking-wider text-slate-900 uppercase">TOUCANO BEANS</h1>
     </header>
 
     <!-- Main Content Area -->
     <main class="flex-grow flex flex-col items-center justify-center px-4 pt-16 pb-12">
 
-        <!-- ================= HOME / CATEGORIES MAIN PAGE ================= -->
+        <!-- HOME PAGE -->
         <section id="page-home" class="page-view w-full max-w-4xl flex flex-col items-center">
-            <div class="text-center mb-16 cursor-pointer" onclick="navigateTo('home')">
-                <img src="public/assets/logo.png" alt="Toucano Beans Logo" class="h-44 sm:h-52 mx-auto mb-4 object-contain">
+            <div class="text-center mb-12 cursor-pointer" onclick="navigateTo('home')">
+                <img src="/assets/logo.png" alt="Toucano Beans Logo" class="h-44 sm:h-52 mx-auto mb-4 object-contain">
                 <h1 class="text-3xl sm:text-4xl font-extrabold tracking-wider text-slate-900 uppercase">TOUCANO BEANS</h1>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-16 w-full max-w-3xl px-4 text-center">
-                <!-- Coffee Beans -->
                 <a href="javascript:void(0);" onclick="navigateTo('coffee-beans')" class="group flex flex-col items-center justify-center transition transform hover:-translate-y-1">
                     <div class="mb-3 text-slate-800 group-hover:text-brandorange transition flex items-center justify-center">
                         <svg width="56" height="56" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -126,7 +117,6 @@
                     <span id="lbl-beans" class="text-lg font-bold text-slate-800 group-hover:text-brandorange transition">Coffee Beans</span>
                 </a>
 
-                <!-- Drip Coffee -->
                 <a href="javascript:void(0);" onclick="navigateTo('drip-coffee')" class="group flex flex-col items-center justify-center transition transform hover:-translate-y-1">
                     <div class="mb-3 text-slate-800 group-hover:text-brandorange transition flex items-center justify-center">
                         <svg width="56" height="56" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -136,7 +126,6 @@
                     <span id="lbl-drip" class="text-lg font-bold text-slate-800 group-hover:text-brandorange transition">Drip Coffee</span>
                 </a>
 
-                <!-- Coffee Essentials -->
                 <a href="javascript:void(0);" onclick="navigateTo('essentials')" class="group flex flex-col items-center justify-center transition transform hover:-translate-y-1">
                     <div class="mb-3 text-slate-800 group-hover:text-brandorange transition flex items-center justify-center">
                         <svg width="56" height="56" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -148,13 +137,13 @@
             </div>
         </section>
 
-        <!-- ================= PRODUCT CATEGORY PAGE ================= -->
+        <!-- PRODUCT CATEGORY PAGE -->
         <section id="page-category" class="page-view hidden w-full max-w-5xl">
             <h2 id="category-title" class="text-3xl font-extrabold text-slate-900 mb-8 capitalize text-center">Products</h2>
             <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </section>
 
-        <!-- ================= OUR STORY PAGE ================= -->
+        <!-- OUR STORY PAGE -->
         <section id="page-story" class="page-view hidden w-full max-w-2xl text-center">
             <h2 id="story-title" class="text-3xl font-bold mb-4 text-slate-900">Our Story</h2>
             <p id="story-body" class="text-slate-700 leading-relaxed">
@@ -162,7 +151,7 @@
             </p>
         </section>
 
-        <!-- ================= CONTACT US PAGE ================= -->
+        <!-- CONTACT US PAGE -->
         <section id="page-contact" class="page-view hidden w-full max-w-md text-center">
             <h2 id="contact-title" class="text-3xl font-bold mb-6 text-slate-900">Contact Us</h2>
             <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200/80 space-y-6">
@@ -182,19 +171,16 @@
             </div>
         </section>
 
-        <!-- ================= ACCOUNT PAGE ================= -->
+        <!-- ACCOUNT PAGE -->
         <section id="page-account" class="page-view hidden w-full max-w-md">
             <h2 id="account-page-title" class="text-3xl font-bold mb-6 text-slate-900 text-center">Log In</h2>
             
             <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200/80">
-                
-                <!-- Tab Navigation (Hidden when user is logged in) -->
                 <div id="auth-tabs" class="flex border-b border-slate-200 mb-6">
                     <button id="tab-login" onclick="switchAccountTab('login')" class="flex-1 pb-3 font-bold text-brandorange border-b-2 border-brandorange text-center">Log In</button>
                     <button id="tab-signup" onclick="switchAccountTab('signup')" class="flex-1 pb-3 font-bold text-slate-400 border-b-2 border-transparent text-center">Sign Up</button>
                 </div>
 
-                <!-- Auth Form (Sign Up / Log In) -->
                 <form id="account-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
                     <div id="signup-name-field" class="hidden">
                         <label id="lbl-fullname" class="block text-xs font-semibold text-slate-600 uppercase mb-1">Full Name</label>
@@ -211,7 +197,6 @@
                     <button type="submit" id="account-submit-btn" class="w-full bg-brandorange text-white py-2.5 rounded-lg font-bold hover:bg-orange-600 transition">Log In</button>
                 </form>
 
-                <!-- Profile / Details View (Shown when logged in) -->
                 <div id="profile-details-view" class="hidden space-y-4">
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Email</label>
@@ -228,7 +213,6 @@
                         Log Out
                     </button>
                 </div>
-
             </div>
         </section>
 
@@ -239,12 +223,11 @@
         © 2026 Toucano Beans. All rights reserved.
     </footer>
 
-    <!-- Load Supabase JS SDK CDN -->
+    <!-- Supabase JS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <!-- Global JS Logic -->
     <script>
-        // Initialize Supabase Client
         const supabaseUrl = 'https://ixuuvqfzvmlrqxxvwmtp.supabase.co';
         const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4dXV2cWZ6dm1scnF4eHZ3bXRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM2MzUwOTEsImV4cCI6MjAzOTIxMTA5MX0.X_YdOq0P5Z8vL38e1S5f0f-D0aXW9g8bW4-K4s6J0jY';
         const supabase = window.supabase ? window.supabase.createClient(supabaseUrl, supabaseAnonKey) : null;

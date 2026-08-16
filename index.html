@@ -23,7 +23,7 @@
 
     <!-- Top Navigation Controls -->
     <div class="fixed top-6 left-6 right-6 z-30 flex items-center justify-between pointer-events-none">
-        
+
         <!-- Top Left: Cart Button -->
         <button onclick="showCart()" class="pointer-events-auto relative p-3 text-slate-800 hover:text-brandorange transition focus:outline-none">
             <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -52,15 +52,15 @@
                         </svg>
                     </button>
                 </div>
-                
+
                 <!-- Menu Accordion Nav -->
                 <nav class="space-y-4">
                     <!-- Main -->
                     <a href="javascript:void(0);" onclick="navigateTo('home')" id="nav-main" class="block text-slate-700 hover:text-brandorange font-medium">Main</a>
-                    
+
                     <!-- Our Story -->
                     <a href="javascript:void(0);" onclick="navigateTo('story')" id="nav-story" class="block text-slate-700 hover:text-brandorange font-medium">Our Story</a>
-                    
+
                     <!-- Categories (Expandable Accordion) -->
                     <div>
                         <button onclick="toggleSubmenu('categories-submenu')" class="w-full flex items-center justify-between text-slate-700 hover:text-brandorange font-medium focus:outline-none">
@@ -118,11 +118,11 @@
 
             <!-- Three Category Cards Row -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-16 w-full max-w-3xl px-4 text-center">
-                
+
                 <!-- Category 1: Coffee Beans -->
                 <a href="javascript:void(0);" onclick="navigateTo('coffee-beans')" class="group flex flex-col items-center justify-center transition transform hover:-translate-y-1">
                     <div class="mb-3 text-slate-800 group-hover:text-brandorange transition flex items-center justify-center">
-                        <svg width="56" height="56" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="w-14 h-14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 2C9.5 2 7.5 4 7.5 6.5C7.5 8.5 9 10.2 11 10.8V11H13V10.8C15 10.2 16.5 8.5 16.5 6.5C16.5 4 14.5 2 12 2ZM11.5 4.2C11.8 5.6 12 7.1 11.8 8.6C11.8 8.7 11.7 8.8 11.6 8.8C11.5 8.8 11.4 8.7 11.4 8.6C11.2 7.1 11 5.6 11.5 4.2Z"/>
                             <path d="M6.5 13C4 13 2 15 2 17.5C2 19.5 3.5 21.2 5.5 21.8V22H7.5V21.8C9.5 21.2 11 19.5 11 17.5C11 15 9 13 6.5 13ZM6 15.2C6.3 16.6 6.5 18.1 6.3 19.6C6.3 19.7 6.2 19.8 6.1 19.8C6 19.8 5.9 19.7 5.9 19.6C5.7 18.1 5.5 16.6 6 15.2Z"/>
                             <path d="M17.5 13C15 13 13 15 13 17.5C13 19.5 14.5 21.2 16.5 21.8V22H18.5V21.8C20.5 21.2 22 19.5 22 17.5C22 15 20 13 17.5 13ZM17 15.2C17.3 16.6 17.5 18.1 17.3 19.6C17.3 19.7 17.2 19.8 17.1 19.8C17 19.8 16.9 19.7 16.9 19.6C16.7 18.1 16.5 16.6 17 15.2Z"/>
@@ -134,7 +134,7 @@
                 <!-- Category 2: Drip Coffee -->
                 <a href="javascript:void(0);" onclick="navigateTo('drip-coffee')" class="group flex flex-col items-center justify-center transition transform hover:-translate-y-1">
                     <div class="mb-3 text-slate-800 group-hover:text-brandorange transition flex items-center justify-center">
-                        <svg width="56" height="56" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="w-14 h-14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
                         </svg>
                     </div>
@@ -144,13 +144,13 @@
                 <!-- Category 3: Coffee Essentials -->
                 <a href="javascript:void(0);" onclick="navigateTo('essentials')" class="group flex flex-col items-center justify-center transition transform hover:-translate-y-1">
                     <div class="mb-3 text-slate-800 group-hover:text-brandorange transition flex items-center justify-center">
-                        <svg width="56" height="56" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="w-14 h-14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2 19h18v2H2v-2zm18-14h-2V3a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a4 4 0 0 0 4 4 h6a4 4 0 0 0 4-4v-2h2a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3zm1 6a1 1 0 0 1-1 1h-2V7h2a1 1 0 0 1 1 1v3z"/>
                         </svg>
                     </div>
                     <span id="lbl-essentials" class="text-lg font-bold text-slate-800 group-hover:text-brandorange transition">Coffee Essentials</span>
                 </a>
-                
+
             </div>
         </section>
 

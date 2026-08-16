@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toucano Beans</title>
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -22,122 +23,98 @@
 
     <!-- Top Navigation Controls -->
     <div class="fixed top-6 left-6 right-6 z-30 flex items-center justify-between pointer-events-none">
-=======
 
-        <!-- Top Left: Cart Button -->
-        <button onclick="showCart()" class="pointer-events-auto relative p-3 text-slate-800 hover:text-brandorange transition focus:outline-none">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <!-- Cart Button -->
+        <button onclick="window.showCart()" class="pointer-events-auto relative p-3 text-slate-800 hover:text-brandorange transition focus:outline-none">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
             </svg>
             <span id="cart-count" class="absolute -top-1 -right-1 bg-brandorange text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
-
         </button>
 
-=======
-        <!-- Top Right: Menu Button -->
-        <button id="menu-btn" onclick="toggleMenu()" class="pointer-events-auto p-3 text-slate-800 hover:text-brandorange transition focus:outline-none">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <!-- Menu Button (Three Dash Icon) -->
+        <button id="menu-btn" onclick="window.toggleMenu()" class="pointer-events-auto p-3 text-slate-800 hover:text-brandorange transition focus:outline-none">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
-
         </button>
     </div>
 
-=======
     <!-- Slide-out Navigation Drawer -->
     <div id="side-drawer" class="fixed inset-y-0 right-0 w-64 bg-[#fdf0de] border-l border-slate-300/60 shadow-2xl z-40 transform translate-x-full transition-transform duration-300 ease-in-out">
         <div class="p-6 flex flex-col h-full justify-between overflow-y-auto">
-
             <div>
                 <div class="flex items-center justify-between mb-8">
-
-=======
                     <h2 id="menu-heading" class="text-xl font-bold text-slate-800">Menu</h2>
-                    <button onclick="toggleMenu()" class="text-slate-500 hover:text-slate-800 focus:outline-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <button onclick="window.toggleMenu()" class="text-slate-500 hover:text-slate-800 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
-
                     </button>
                 </div>
 
-                <!-- Menu Accordion Nav -->
+                <!-- Navigation Links -->
                 <nav class="space-y-4">
+                    <a href="javascript:void(0);" onclick="window.navigateTo('home')" id="nav-main" class="block text-slate-700 hover:text-brandorange font-medium">Main</a>
+                    <a href="javascript:void(0);" onclick="window.navigateTo('story')" id="nav-story" class="block text-slate-700 hover:text-brandorange font-medium">Our Story</a>
 
-=======
-                    <!-- Main -->
-                    <a href="javascript:void(0);" onclick="navigateTo('home')" id="nav-main" class="block text-slate-700 hover:text-brandorange font-medium">Main</a>
-
-                    <!-- Our Story -->
-                    <a href="javascript:void(0);" onclick="navigateTo('story')" id="nav-story" class="block text-slate-700 hover:text-brandorange font-medium">Our Story</a>
-
-                    <!-- Categories (Expandable Accordion) -->
+                    <!-- Categories Submenu -->
                     <div>
-                        <button onclick="toggleSubmenu('categories-submenu')" class="w-full flex items-center justify-between text-slate-700 hover:text-brandorange font-medium focus:outline-none">
+                        <button onclick="window.toggleSubmenu('categories-submenu')" class="w-full flex items-center justify-between text-slate-700 hover:text-brandorange font-medium focus:outline-none">
                             <span id="nav-categories">Categories</span>
                             <svg id="arrow-categories" class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div id="categories-submenu" class="hidden pl-4 mt-2 space-y-2 border-l-2 border-brandorange/30">
-                            <a href="javascript:void(0);" onclick="navigateTo('coffee-beans')" id="nav-beans" class="block text-sm text-slate-600 hover:text-brandorange">Coffee Beans</a>
-                            <a href="javascript:void(0);" onclick="navigateTo('drip-coffee')" id="nav-drip" class="block text-sm text-slate-600 hover:text-brandorange">Drip Coffee</a>
-                            <a href="javascript:void(0);" onclick="navigateTo('essentials')" id="nav-essentials" class="block text-sm text-slate-600 hover:text-brandorange">Coffee Essentials</a>
+                            <a href="javascript:void(0);" onclick="window.navigateTo('coffee-beans')" id="nav-beans" class="block text-sm text-slate-600 hover:text-brandorange">Coffee Beans</a>
+                            <a href="javascript:void(0);" onclick="window.navigateTo('drip-coffee')" id="nav-drip" class="block text-sm text-slate-600 hover:text-brandorange">Drip Coffee</a>
+                            <a href="javascript:void(0);" onclick="window.navigateTo('essentials')" id="nav-essentials" class="block text-sm text-slate-600 hover:text-brandorange">Coffee Essentials</a>
                         </div>
                     </div>
 
-                    <!-- Language (Expandable Accordion) -->
+                    <!-- Language Submenu -->
                     <div>
-                        <button onclick="toggleSubmenu('language-submenu')" class="w-full flex items-center justify-between text-slate-700 hover:text-brandorange font-medium focus:outline-none">
+                        <button onclick="window.toggleSubmenu('language-submenu')" class="w-full flex items-center justify-between text-slate-700 hover:text-brandorange font-medium focus:outline-none">
                             <span id="nav-language">Language</span>
                             <svg id="arrow-language" class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div id="language-submenu" class="hidden pl-4 mt-2 space-y-2 border-l-2 border-brandorange/30">
-                            <button onclick="setLanguage('en')" class="block w-full text-left text-sm text-slate-600 hover:text-brandorange">English</button>
-                            <button onclick="setLanguage('ar')" class="block w-full text-left text-sm text-slate-600 hover:text-brandorange">العربية (Arabic)</button>
+                            <button onclick="window.setLanguage('en')" class="block w-full text-left text-sm text-slate-600 hover:text-brandorange">English</button>
+                            <button onclick="window.setLanguage('ar')" class="block w-full text-left text-sm text-slate-600 hover:text-brandorange">العربية (Arabic)</button>
                         </div>
                     </div>
 
-                    <!-- Contact Us -->
-                    <a href="javascript:void(0);" onclick="navigateTo('contact')" id="nav-contact" class="block text-slate-700 hover:text-brandorange font-medium">Contact Us</a>
-
-                    <!-- Account -->
-                    <a href="javascript:void(0);" onclick="navigateTo('account')" id="nav-account" class="block text-slate-700 hover:text-brandorange font-medium">Account</a>
-
+                    <a href="javascript:void(0);" onclick="window.navigateTo('contact')" id="nav-contact" class="block text-slate-700 hover:text-brandorange font-medium">Contact Us</a>
+                    <a href="javascript:void(0);" onclick="window.navigateTo('account')" id="nav-account" class="block text-slate-700 hover:text-brandorange font-medium">Account</a>
                 </nav>
             </div>
         </div>
     </div>
 
-    <div id="drawer-overlay" class="fixed inset-0 bg-black/40 z-30 hidden"></div>
+    <!-- Drawer Overlay Backdrop -->
+    <div id="drawer-overlay" onclick="window.toggleMenu()" class="fixed inset-0 bg-black/40 z-30 hidden"></div>
 
     <!-- Sub-page Shared Header -->
-    <header id="subpage-header" class="hidden text-center pt-10 pb-4 cursor-pointer" onclick="navigateTo('home')">
-        <img src="public/assets/logo.png" alt="Toucano Beans Logo" class="h-20 mx-auto mb-2 object-contain">
+    <header id="subpage-header" class="hidden text-center pt-10 pb-4 cursor-pointer" onclick="window.navigateTo('home')">
+        <img src="logo.png" onerror="this.onerror=null; this.src='public/assets/logo.png';" alt="Toucano Beans Logo" class="h-20 mx-auto mb-2 object-contain">
         <h1 class="text-xl font-extrabold tracking-wider text-slate-900 uppercase">TOUCANO BEANS</h1>
     </header>
 
     <!-- Main Content Area -->
     <main class="flex-grow flex flex-col items-center justify-center px-4 pt-16 pb-12">
 
-
-=======
-        <!-- ================= HOME / CATEGORIES MAIN PAGE ================= -->
+        <!-- HOME PAGE -->
         <section id="page-home" class="page-view w-full max-w-4xl flex flex-col items-center">
-            <!-- Centered Branding -->
-            <div class="text-center mb-16 cursor-pointer" onclick="navigateTo('home')">
-                <img src="public/assets/logo.png" alt="Toucano Beans Logo" class="h-44 sm:h-52 mx-auto mb-4 object-contain">
+            <div class="text-center mb-16 cursor-pointer" onclick="window.navigateTo('home')">
+                <img src="logo.png" onerror="this.onerror=null; this.src='public/assets/logo.png';" alt="Toucano Beans Logo" class="h-44 sm:h-52 mx-auto mb-4 object-contain">
                 <h1 class="text-3xl sm:text-4xl font-extrabold tracking-wider text-slate-900 uppercase">TOUCANO BEANS</h1>
             </div>
 
-
-
-=======
-            <!-- Three Category Cards Row -->
+            <!-- Three Main Category Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-16 w-full max-w-3xl px-4 text-center">
 
-                <!-- Category 1: Coffee Beans -->
-                <a href="javascript:void(0);" onclick="navigateTo('coffee-beans')" class="group flex flex-col items-center justify-center transition transform hover:-translate-y-1">
+                <a href="javascript:void(0);" onclick="window.navigateTo('coffee-beans')" class="group flex flex-col items-center justify-center transition transform hover:-translate-y-1">
                     <div class="mb-3 text-slate-800 group-hover:text-brandorange transition flex items-center justify-center">
-                        <svg class="w-14 h-14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="w-14 h-14" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 2C9.5 2 7.5 4 7.5 6.5C7.5 8.5 9 10.2 11 10.8V11H13V10.8C15 10.2 16.5 8.5 16.5 6.5C16.5 4 14.5 2 12 2ZM11.5 4.2C11.8 5.6 12 7.1 11.8 8.6C11.8 8.7 11.7 8.8 11.6 8.8C11.5 8.8 11.4 8.7 11.4 8.6C11.2 7.1 11 5.6 11.5 4.2Z"/>
                             <path d="M6.5 13C4 13 2 15 2 17.5C2 19.5 3.5 21.2 5.5 21.8V22H7.5V21.8C9.5 21.2 11 19.5 11 17.5C11 15 9 13 6.5 13ZM6 15.2C6.3 16.6 6.5 18.1 6.3 19.6C6.3 19.7 6.2 19.8 6.1 19.8C6 19.8 5.9 19.7 5.9 19.6C5.7 18.1 5.5 16.6 6 15.2Z"/>
                             <path d="M17.5 13C15 13 13 15 13 17.5C13 19.5 14.5 21.2 16.5 21.8V22H18.5V21.8C20.5 21.2 22 19.5 22 17.5C22 15 20 13 17.5 13ZM17 15.2C17.3 16.6 17.5 18.1 17.3 19.6C17.3 19.7 17.2 19.8 17.1 19.8C17 19.8 16.9 19.7 16.9 19.6C16.7 18.1 16.5 16.6 17 15.2Z"/>
@@ -146,20 +123,18 @@
                     <span id="lbl-beans" class="text-lg font-bold text-slate-800 group-hover:text-brandorange transition">Coffee Beans</span>
                 </a>
 
-                <!-- Category 2: Drip Coffee -->
-                <a href="javascript:void(0);" onclick="navigateTo('drip-coffee')" class="group flex flex-col items-center justify-center transition transform hover:-translate-y-1">
+                <a href="javascript:void(0);" onclick="window.navigateTo('drip-coffee')" class="group flex flex-col items-center justify-center transition transform hover:-translate-y-1">
                     <div class="mb-3 text-slate-800 group-hover:text-brandorange transition flex items-center justify-center">
-                        <svg class="w-14 h-14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="w-14 h-14" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
                         </svg>
                     </div>
                     <span id="lbl-drip" class="text-lg font-bold text-slate-800 group-hover:text-brandorange transition">Drip Coffee</span>
                 </a>
 
-                <!-- Category 3: Coffee Essentials -->
-                <a href="javascript:void(0);" onclick="navigateTo('essentials')" class="group flex flex-col items-center justify-center transition transform hover:-translate-y-1">
+                <a href="javascript:void(0);" onclick="window.navigateTo('essentials')" class="group flex flex-col items-center justify-center transition transform hover:-translate-y-1">
                     <div class="mb-3 text-slate-800 group-hover:text-brandorange transition flex items-center justify-center">
-                        <svg class="w-14 h-14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="w-14 h-14" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M2 19h18v2H2v-2zm18-14h-2V3a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a4 4 0 0 0 4 4 h6a4 4 0 0 0 4-4v-2h2a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3zm1 6a1 1 0 0 1-1 1h-2V7h2a1 1 0 0 1 1 1v3z"/>
                         </svg>
                     </div>
@@ -169,13 +144,13 @@
             </div>
         </section>
 
-        <!-- ================= PRODUCT CATEGORY PAGE ================= -->
+        <!-- CATEGORY PRODUCTS PAGE -->
         <section id="page-category" class="page-view hidden w-full max-w-5xl">
             <h2 id="category-title" class="text-3xl font-extrabold text-slate-900 mb-8 capitalize text-center">Products</h2>
             <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </section>
 
-        <!-- ================= OUR STORY PAGE ================= -->
+        <!-- OUR STORY PAGE -->
         <section id="page-story" class="page-view hidden w-full max-w-2xl text-center">
             <h2 id="story-title" class="text-3xl font-bold mb-4 text-slate-900">Our Story</h2>
             <p id="story-body" class="text-slate-700 leading-relaxed">
@@ -183,7 +158,7 @@
             </p>
         </section>
 
-        <!-- ================= CONTACT US PAGE ================= -->
+        <!-- CONTACT US PAGE -->
         <section id="page-contact" class="page-view hidden w-full max-w-md text-center">
             <h2 id="contact-title" class="text-3xl font-bold mb-6 text-slate-900">Contact Us</h2>
             <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200/80 space-y-6">
@@ -196,27 +171,22 @@
                 <hr class="border-slate-200">
                 <div>
                     <span id="contact-wa-lbl" class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">WhatsApp</span>
-                    <a href="https://wa.me/97466609060" target="_blank" class="inline-flex items-center gap-2 text-lg font-bold text-emerald-600 hover:underline">
+                    <a href="https://wa.me/97466609060" target="_blank" class="inline-flex items-center gap-2 text-lg font-bold text-brandorange hover:underline">
                         <span>+974 6660 9060</span>
                     </a>
                 </div>
             </div>
         </section>
 
-
-=======
-        <!-- ================= ACCOUNT PAGE ================= -->
+        <!-- ACCOUNT PAGE -->
         <section id="page-account" class="page-view hidden w-full max-w-md">
             <h2 id="account-page-title" class="text-3xl font-bold mb-6 text-slate-900 text-center">Log In</h2>
             <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200/80">
                 <div class="flex border-b border-slate-200 mb-6">
-                    <button id="tab-login" onclick="switchAccountTab('login')" class="flex-1 pb-3 font-bold text-brandorange border-b-2 border-brandorange text-center">Log In</button>
-                    <button id="tab-signup" onclick="switchAccountTab('signup')" class="flex-1 pb-3 font-bold text-slate-400 border-b-2 border-transparent text-center">Sign Up</button>
+                    <button id="tab-login" onclick="window.switchAccountTab('login')" class="flex-1 pb-3 font-bold text-brandorange border-b-2 border-brandorange text-center">Log In</button>
+                    <button id="tab-signup" onclick="window.switchAccountTab('signup')" class="flex-1 pb-3 font-bold text-slate-400 border-b-2 border-transparent text-center">Sign Up</button>
                 </div>
 
-
-
-=======
                 <form onsubmit="event.preventDefault(); alert('Action submitted!');" class="space-y-4">
                     <div id="signup-name-field" class="hidden">
                         <label id="lbl-fullname" class="block text-xs font-semibold text-slate-600 uppercase mb-1">Full Name</label>
@@ -234,7 +204,6 @@
                 </form>
             </div>
         </section>
-
 
     </main>
 

@@ -1,4 +1,4 @@
-// 1. القاموس الخاص بالترجمات
+// القاموس الكامل للترجمات
 const translations = {
   en: {
     menuHeading: "Menu", main: "Main", story: "Our Story", categories: "Categories",
@@ -18,63 +18,119 @@ const translations = {
   }
 };
 
-let currentLang = 'en';
+let currentLang = 'ar';
 
-// 2. دالة التنقل بين الصفحات
-window.navigateTo = function(page) {
-  const contentArea = document.getElementById('main-content') || document.querySelector('main');
-  const t = translations[currentLang];
+// 1. فتح وإغلاق القائمة الجانبية
+window.toggleMenu = function() {
+  const drawer = document.getElementById('side-drawer');
+  const overlay = document.getElementById('drawer-overlay');
+  if (!drawer || !overlay) return;
 
-  if (contentArea) {
-    if (page === 'home') {
-      contentArea.innerHTML = '<h1>Home Page</h1>';
-    } else if (page === 'story') {
-      contentArea.innerHTML = `<h1>${t.storyTitle}</h1><p class="mt-2">${t.storyBody}</p>`;
-    } else if (['coffee-beans', 'drip-coffee', 'essentials'].includes(page)) {
-      const title = page.replace('-', ' ');
-      contentArea.innerHTML = `<h1 class="capitalize">${title}</h1><div class="p-4 bg-white rounded shadow mt-4">Product List Here</div>`;
-    } else if (page === 'contact') {
-      contentArea.innerHTML = `<h1>${t.contactTitle}</h1><p class="mt-2">${t.officialEmail}: info@toucanobeans.com</p>`;
-    } else if (page === 'account') {
-      contentArea.innerHTML = `<h1>${t.account}</h1><div class="mt-4"><button class="px-4 py-2 bg-amber-800 text-white rounded">${t.login}</button></div>`;
-    }
-  }
-
-  window.toggleMenu(false);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-};
-
-// 3. دالة فتح وإغلاق القائمة الجانبية
-window.toggleMenu = function(forceState) {
-  const menu = document.querySelector('aside');
-  if (!menu) return;
-
-  if (typeof forceState === 'boolean') {
-    if (forceState) {
-      menu.classList.remove('translate-x-full');
-      menu.classList.add('translate-x-0');
-    } else {
-      menu.classList.add('translate-x-full');
-      menu.classList.remove('translate-x-0');
-    }
+  const isOpen = !drawer.classList.contains('translate-x-full');
+  if (isOpen) {
+    drawer.classList.add('translate-x-full');
+    overlay.classList.add('hidden');
   } else {
-    menu.classList.toggle('translate-x-full');
-    menu.classList.toggle('translate-x-0');
+    drawer.classList.remove('translate-x-full');
+    overlay.classList.remove('hidden');
   }
 };
 
-// 4. دالة التحكم في القوائم المنسدلة
-window.toggleSubmenu = function(menuName) {
-  const submenu = document.getElementById(`submenu-${menuName}`);
+// 2. التحكم بالقوائم المنسدلة داخل Side Drawer
+window.toggleSubmenu = function(id) {
+  const submenu = document.getElementById(id);
   if (submenu) {
     submenu.classList.toggle('hidden');
   }
 };
 
-// 5. دالة تغيير اللغة اتجاهاً ونصاً
+// 3. التنقل بين الواجهات المختلفة (Pages View)
+window.navigateTo = function(page) {
+  // إخفاء جميع الصفحات
+  const pages = document.querySelectorAll('.page-view');
+  pages.forEach(p => p.classList.add('hidden'));
+
+  const header = document.getElementById('subpage-header');
+  
+  if (page === 'home') {
+    document.getElementById('page-home')?.classList.remove('hidden');
+    if (header) header.classList.add('hidden');
+  } else {
+    if (header) header.classList.remove('hidden');
+
+    if (['coffee-beans', 'drip-coffee', 'essentials'].includes(page)) {
+      const catView = document.getElementById('page-category');
+      const catTitle = document.getElementById('category-title');
+      if (catTitle) {
+        catTitle.innerText = translations[currentLang][page.replace('coffee-', '').replace('-', '')] || page.replace('-', ' ');
+      }
+      if (catView) catView.classList.remove('hidden');
+    } else {
+      const targetPage = document.getElementById(`page-${page}`);
+      if (targetPage) targetPage.classList.remove('hidden');
+    }
+  }
+
+  window.toggleMenu();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+// 4. التبديل بين تسجيل الدخول وإنشاء الحساب
+window.switchAccountTab = function(mode) {
+  const nameField = document.getElementById('signup-name-field');
+  const submitBtn = document.getElementById('account-submit-btn');
+  const title = document.getElementById('account-page-title');
+  const tabLogin = document.getElementById('tab-login');
+  const tabSignup = document.getElementById('tab-signup');
+  const t = translations[currentLang];
+
+  if (mode === 'signup') {
+    nameField?.classList.remove('hidden');
+    if (submitBtn) submitBtn.innerText = t.signup;
+    if (title) title.innerText = t.signup;
+    tabSignup?.classList.add('text-brandorange', 'border-brandorange');
+    tabSignup?.classList.remove('text-slate-400', 'border-transparent');
+    tabLogin?.classList.remove('text-brandorange', 'border-brandorange');
+    tabLogin?.classList.add('text-slate-400', 'border-transparent');
+  } else {
+    nameField?.classList.add('hidden');
+    if (submitBtn) submitBtn.innerText = t.login;
+    if (title) title.innerText = t.login;
+    tabLogin?.classList.add('text-brandorange', 'border-brandorange');
+    tabLogin?.classList.remove('text-slate-400', 'border-transparent');
+    tabSignup?.classList.remove('text-brandorange', 'border-brandorange');
+    tabSignup?.classList.add('text-slate-400', 'border-transparent');
+  }
+};
+
+// 5. دالة تغيير اللغة اتجاهاً ونصوصاً
 window.setLanguage = function(lang) {
   currentLang = lang;
+  const t = translations[lang];
+
   document.documentElement.lang = lang;
   document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+  // تحديث النصوص
+  document.getElementById('menu-heading').innerText = t.menuHeading;
+  document.getElementById('nav-main').innerText = t.main;
+  document.getElementById('nav-story').innerText = t.story;
+  document.getElementById('nav-categories').innerText = t.categories;
+  document.getElementById('nav-beans').innerText = t.beans;
+  document.getElementById('nav-drip').innerText = t.drip;
+  document.getElementById('nav-essentials').innerText = t.essentials;
+  document.getElementById('nav-language').innerText = t.language;
+  document.getElementById('nav-contact').innerText = t.contact;
+  document.getElementById('nav-account').innerText = t.account;
+
+  document.getElementById('lbl-beans').innerText = t.beans;
+  document.getElementById('lbl-drip').innerText = t.drip;
+  document.getElementById('lbl-essentials').innerText = t.essentials;
+
+  document.getElementById('story-title').innerText = t.storyTitle;
+  document.getElementById('story-body').innerText = t.storyBody;
+  document.getElementById('contact-title').innerText = t.contactTitle;
+  document.getElementById('contact-email-lbl').innerText = t.officialEmail;
+
   window.navigateTo('home');
 };

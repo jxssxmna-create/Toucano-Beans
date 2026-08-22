@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
+import { supabase } from '../lib/supabaseClient';
 
 export default function RoleRouter({ session, AdminView, DeliveryView, CustomerView }) {
   const [role, setRole] = useState(null);

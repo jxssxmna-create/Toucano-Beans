@@ -54,7 +54,7 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
-  const [lang, setLang] = useState('en');
+  const [lang, setLang] = useState('ar');
   const [accountTab, setAccountTab] = useState('login');
   const [cartCount, setCartCount] = useState(0);
 
@@ -76,12 +76,17 @@ export default function App() {
     alert('Action submitted!');
   };
 
+  const handleImageError = (e) => {
+    e.target.onerror = null;
+    e.target.src = "public/assets/logo.png";
+  };
+
   return (
     <div className="bg-[#fdf0de] text-slate-900 font-sans min-h-screen flex flex-col justify-between relative">
       
       {/* Top Navigation Controls */}
       <div className="fixed top-6 left-6 right-6 z-30 flex items-center justify-between pointer-events-none">
-        {/* Top Cart Button */}
+        {/* Cart Button */}
         <button 
           onClick={() => alert(t.cartAlert)} 
           className="pointer-events-auto relative p-3 text-slate-800 hover:text-brandorange transition focus:outline-none"
@@ -94,7 +99,7 @@ export default function App() {
           </span>
         </button>
 
-        {/* Top Right: Menu Button */}
+        {/* Menu Button */}
         <button 
           onClick={() => setIsMenuOpen(!isMenuOpen)} 
           className="pointer-events-auto p-3 text-slate-800 hover:text-brandorange transition focus:outline-none"
@@ -106,7 +111,9 @@ export default function App() {
       </div>
 
       {/* Slide-out Navigation Drawer */}
-      <div className={`fixed inset-y-0 right-0 w-64 bg-[#fdf0de] border-l border-slate-300/60 shadow-2xl z-40 transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div className={`fixed inset-y-0 ${lang === 'ar' ? 'right-0 border-l' : 'left-0 border-r'} w-64 bg-[#fdf0de] border-slate-300/60 shadow-2xl z-40 transform transition-transform duration-300 ease-in-out ${
+        isMenuOpen ? 'translate-x-0' : (lang === 'ar' ? 'translate-x-full' : '-translate-x-full')
+      }`}>
         <div className="p-6 flex flex-col h-full justify-between overflow-y-auto">
           <div>
             <div className="flex items-center justify-between mb-8">
@@ -129,7 +136,7 @@ export default function App() {
                   <svg className={`w-4 h-4 transform transition-transform duration-200 ${isCategoriesOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
                 </button>
                 {isCategoriesOpen && (
-                  <div className="pl-4 mt-2 space-y-2 border-l-2 border-brandorange/30">
+                  <div className={`${lang === 'ar' ? 'pr-4 border-r-2' : 'pl-4 border-l-2'} mt-2 space-y-2 border-brandorange/30`}>
                     <button onClick={() => navigateTo('coffee-beans')} className="block text-sm text-slate-600 hover:text-brandorange">{t.beans}</button>
                     <button onClick={() => navigateTo('drip-coffee')} className="block text-sm text-slate-600 hover:text-brandorange">{t.drip}</button>
                     <button onClick={() => navigateTo('essentials')} className="block text-sm text-slate-600 hover:text-brandorange">{t.essentials}</button>
@@ -144,7 +151,7 @@ export default function App() {
                   <svg className={`w-4 h-4 transform transition-transform duration-200 ${isLanguageOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
                 </button>
                 {isLanguageOpen && (
-                  <div className="pl-4 mt-2 space-y-2 border-l-2 border-brandorange/30">
+                  <div className={`${lang === 'ar' ? 'pr-4 border-r-2' : 'pl-4 border-l-2'} mt-2 space-y-2 border-brandorange/30`}>
                     <button onClick={() => { setLang('en'); setIsMenuOpen(false); }} className="block w-full text-start text-sm text-slate-600 hover:text-brandorange">English</button>
                     <button onClick={() => { setLang('ar'); setIsMenuOpen(false); }} className="block w-full text-start text-sm text-slate-600 hover:text-brandorange">العربية (Arabic)</button>
                   </div>
@@ -164,7 +171,7 @@ export default function App() {
       {/* Subpage Header */}
       {activePage !== 'home' && (
         <header className="text-center pt-10 pb-4 cursor-pointer" onClick={() => navigateTo('home')}>
-          <img src="/assets/logo.png" alt="Toucano Beans Logo" className="h-20 mx-auto mb-2 object-contain" />
+          <img src="/assets/logo.png" onError={handleImageError} alt="Toucano Beans Logo" className="h-20 mx-auto mb-2 object-contain" />
           <h1 className="text-xl font-extrabold tracking-wider text-slate-900 uppercase">TOUCANO BEANS</h1>
         </header>
       )}
@@ -176,7 +183,7 @@ export default function App() {
         {activePage === 'home' && (
           <section className="w-full max-w-4xl flex flex-col items-center">
             <div className="text-center mb-16 cursor-pointer" onClick={() => navigateTo('home')}>
-              <img src="/assets/logo.png" alt="Toucano Beans Logo" className="h-44 sm:h-52 mx-auto mb-4 object-contain" />
+              <img src="/assets/logo.png" onError={handleImageError} alt="Toucano Beans Logo" className="h-44 sm:h-52 mx-auto mb-4 object-contain" />
               <h1 className="text-3xl sm:text-4xl font-extrabold tracking-wider text-slate-900 uppercase">TOUCANO BEANS</h1>
             </div>
 
@@ -217,14 +224,14 @@ export default function App() {
         {['coffee-beans', 'drip-coffee', 'essentials'].includes(activePage) && (
           <section className="w-full max-w-5xl">
             <h2 className="text-3xl font-extrabold text-slate-900 mb-8 capitalize text-center">
-              {activePage.replace('-', ' ')}
+              {t[activePage.replace('coffee-', '').replace('-', '')] || activePage.replace('-', ' ')}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="bg-white p-5 rounded-2xl shadow border border-slate-200 text-center">
                 <div className="h-40 bg-orange-100/60 rounded-xl mb-4 flex items-center justify-center font-bold text-orange-900 uppercase">
-                  {activePage.replace('-', ' ')}
+                  {t[activePage.replace('coffee-', '').replace('-', '')]}
                 </div>
-                <h3 className="font-bold text-slate-800 text-lg">Specialty {activePage.replace('-', ' ')}</h3>
+                <h3 className="font-bold text-slate-800 text-lg">{t[activePage.replace('coffee-', '').replace('-', '')]}</h3>
                 <p className="text-brandorange font-bold mt-1 text-base">$18.00</p>
               </div>
             </div>

@@ -14,12 +14,6 @@ export default function AccountPage({ session }) {
     role: 'buyer',
   });
 
-  // حالات نموذج التسجيل والدخول
-  const [isSignUp, setIsSignUp] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [authLoading, setAuthLoading] = useState(false);
-
   useEffect(() => {
     if (session?.user) {
       getProfile();
@@ -50,33 +44,6 @@ export default function AccountPage({ session }) {
     }
   }
 
-  // دالة التعامل مع التسجيل أو تسجيل الدخول بـ Supabase
-  async function handleAuth(e) {
-    e.preventDefault();
-    setAuthLoading(true);
-    try {
-      if (isSignUp) {
-        const { data, error } = await supabase.auth.signUp({
-          email: email.trim(),
-          password: password,
-        });
-        if (error) throw error;
-        alert('تم إنشاء الحساب بنجاح! إذا كانت ميزة Confirm Email معطلة في Supabase، ستتمكن من الدخول مباشرة.');
-      } else {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: email.trim(),
-          password: password,
-        });
-        if (error) throw error;
-        alert('تم تسجيل الدخول بنجاح!');
-      }
-    } catch (err) {
-      alert('خطأ في العملية: ' + err.message);
-    } finally {
-      setAuthLoading(false);
-    }
-  }
-
   async function updateProfile(e) {
     e.preventDefault();
     try {
@@ -102,63 +69,17 @@ export default function AccountPage({ session }) {
     }
   }
 
-  // 1. إذا لم يكن هناك جلسة دخول (Session)، نعرض نموذج التسجيل/الدخول
+  // إذا لم يكن المستخدم مسجلاً لدخوله
   if (!session) {
     return (
-      <div style={{ maxWidth: '400px', margin: '40px auto', padding: '20px', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
-        <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>
-          {isSignUp ? 'إنشاء حساب جديد (Sign Up)' : 'تسجيل الدخول (Sign In)'}
-        </h2>
-        
-        <form onSubmit={handleAuth}>
-          <div style={{ marginBottom: '15px' }}>
-            <label style={{ display: 'block', marginBottom: '5px' }}>البريد الإلكتروني</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="example@domain.com"
-              required
-              style={{ width: '100%', padding: '10px', boxSizing: 'border-box', borderRadius: '4px', border: '1px solid #ccc' }}
-            />
-          </div>
-
-          <div style={{ marginBottom: '15px' }}>
-            <label style={{ display: 'block', marginBottom: '5px' }}>كلمة السر</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              minLength={6}
-              required
-              style={{ width: '100%', padding: '10px', boxSizing: 'border-box', borderRadius: '4px', border: '1px solid #ccc' }}
-            />
-          </div>
-
-          <button 
-            type="submit" 
-            disabled={authLoading} 
-            style={{ width: '100%', padding: '10px', backgroundColor: '#0066cc', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-          >
-            {authLoading ? 'جاري الإرسال...' : isSignUp ? 'إنشاء الحساب' : 'تسجيل الدخول'}
-          </button>
-        </form>
-
-        <button
-          type="button"
-          onClick={() => setIsSignUp(!isSignUp)}
-          style={{ background: 'none', border: 'none', color: '#0066cc', marginTop: '15px', cursor: 'pointer', width: '100%', textAlign: 'center' }}
-        >
-          {isSignUp ? 'لديك حساب بالفعل؟ سجل الدخول من هنا' : 'ليس لديك حساب؟ انقر هنا للتسجيل'}
-        </button>
+      <div style={{ textAlign: 'center', padding: '40px' }}>
+        <p>يرجى تسجيل الدخول لعرض وتعديل بيانات الحساب والعنوان.</p>
       </div>
     );
   }
 
   if (loading) return <div style={{ textAlign: 'center', padding: '40px' }}>Loading account details...</div>;
 
-  // 2. عند تسجيل الدخول بنجاح، تُعرض صفحة إعدادات الحساب والعنوان
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>

@@ -14,8 +14,18 @@ export default function AccountPage({ session }) {
     role: 'buyer',
   });
 
+  // حالات نموذج التسجيل والدخول
+  const [isSignUp, setIsSignUp] = useState(true);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [authLoading, setAuthLoading] = useState(false);
+
   useEffect(() => {
-    if (session?.user) getProfile();
+    if (session?.user) {
+      getProfile();
+    } else {
+      setLoading(false);
+    }
   }, [session]);
 
   async function getProfile() {
@@ -27,12 +37,39 @@ export default function AccountPage({ session }) {
         .eq('id', session.user.id)
         .single();
 
-      if (error) throw error;
+      if (error && error.code !== 'PGRST116') throw error;
       if (data) setProfile(data);
     } catch (err) {
       console.error(err.message);
     } finally {
       setLoading(false);
+    }
+  }
+
+  // دالة التعامل مع التسجيل أو تسجيل الدخول بـ Supabase
+  async function handleAuth(e) {
+    e.preventDefault();
+    setAuthLoading(true);
+    try {
+      if (isSignUp) {
+        const { data, error } = await supabase.auth.signUp({
+          email: email,
+          password: password,
+        });
+        if (error) throw error;
+        alert('تم تسجيل الحساب بنجاح! إذا تم تعطيل Confirm Email في Supabase سيتحدث الموقع فوراً.');
+      } else {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: email,
+          password: password,
+        });
+        if (error) throw error;
+        alert('تم تسجيل الدخول بنجاح!');
+      }
+    } catch (err) {
+      alert(err.message);
+    } finally {
+      setAuthLoading(false);
     }
   }
 
@@ -60,11 +97,66 @@ export default function AccountPage({ session }) {
     }
   }
 
+  // 1. إذا لم يكن هناك جلسة دخول (Session)، نعرض نموذج التسجيل/الدخول
+  if (!session) {
+    return (
+      <div style={{ maxWidth: '400px', margin: '40px auto', padding: '20px', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
+        <h2>{isSignUp ? 'إنشاء حساب جديد (Sign Up)' : 'تسجيل الدخول (Sign In)'}</h2>
+        <form onSubmit={handleAuth}>
+          <div style={{ marginBottom: '15px' }}>
+            <label style={{ display: 'block', marginBottom: '5px' }}>البريد الإلكتروني</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="example@domain.com"
+              required
+              style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
+            />
+          </div>
+
+          <div style={{ marginBottom: '15px' }}>
+            <label style={{ display: 'block', marginBottom: '5px' }}>كلمة السر</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              minLength={6}
+              required
+              style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
+            />
+          </div>
+
+          <button type="submit" disabled={authLoading} style={{ width: '100%', padding: '10px', cursor: 'pointer' }}>
+            {authLoading ? 'جاري الإرسال...' : isSignUp ? 'إنشاء الحساب' : 'تسجيل الدخول'}
+          </button>
+        </form>
+
+        <button
+          onClick={() => setIsSignUp(!isSignUp)}
+          style={{ background: 'none', border: 'none', color: '#0066cc', marginTop: '15px', cursor: 'pointer', width: '100%' }}
+        >
+          {isSignUp ? 'لديك حساب بالفعل؟ سجل الدخول من هنا' : 'ليس لديك حساب؟ انقر هنا للتسجيل'}
+        </button>
+      </div>
+    );
+  }
+
   if (loading) return <div>Loading account details...</div>;
 
+  // 2. عند تسجيل الدخول بنجاح، تُعرض صفحة إعدادات الحساب والعنوان
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
-      <h2>Account Settings ({profile.role.toUpperCase()})</h2>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h2>Account Settings ({profile.role.toUpperCase()})</h2>
+        <button 
+          onClick={() => supabase.auth.signOut()} 
+          style={{ background: '#ef4444', color: '#fff', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer' }}
+        >
+          Sign Out
+        </button>
+      </div>
       
       <form onSubmit={updateProfile}>
         <div>

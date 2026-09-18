@@ -69,7 +69,6 @@ export default function AccountPage({ session }) {
     }
   }
 
-  // إذا لم يكن المستخدم مسجلاً لدخوله
   if (!session) {
     return (
       <div style={{ textAlign: 'center', padding: '40px' }}>

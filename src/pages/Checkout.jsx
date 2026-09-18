@@ -6,24 +6,24 @@ export default function Checkout({ user }) {
   const [showVerifyModal, setShowVerifyModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // التأكد من توثيق البريد الإلكتروني أو رقم الهاتف
+  // Check whether the user's email or phone number is verified
   const isVerified = Boolean(user?.email_confirmed_at || user?.phone_confirmed_at);
 
   async function handlePlaceOrder() {
     if (!isVerified) {
-      // إظهار نافذة التوثيق إذا لم يكن الحساب مفعلًا
+      // Show verification modal if account is not activated
       setShowVerifyModal(true);
       return;
     }
 
-    // الحساب موثق -> إتمام الطلب مباشرة
+    // Account verified -> complete order directly
     await completeOrder();
   }
 
   async function completeOrder() {
     setLoading(true);
     try {
-      // يمكنك إضافة منطق حفظ الطلب في قاعدة بيانات Supabase هنا
+      // Add Supabase database order insertion logic here
       alert('Order placed successfully! Delivery details sent to driver.');
     } catch (error) {
       console.error('Error placing order:', error.message);
@@ -62,6 +62,7 @@ export default function Checkout({ user }) {
           border: 'none',
           borderRadius: '6px',
           cursor: loading ? 'not-allowed' : 'pointer',
+          opacity: loading ? 0.7 : 1,
           marginTop: '20px',
         }}
       >

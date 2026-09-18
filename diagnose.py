@@ -1,55 +1,77 @@
-const fs = require('fs');
-const path = require('path');
+import os
+import json
+import urllib.request
+import urllib.error
 
-console.log("🔍 Inspecting Toucano Beans project for Vercel 404 deployment issues...\n");
+def print_separator(title=""):
+    print("\n" + "=" * 60)
+    if title:
+        print(f" 🔍 {title}")
+        print("=" * 60)
 
-const errors = [];
-const warnings = [];
+def check_local_files():
+    print_separator("1. CHECKING LOCAL PROJECT STRUCTURE")
+    
+    cwd = os.getcwd()
+    print(f"Current Working Directory: {cwd}\n")
+    
+    critical_files = ["index.html", "package.json", "vercel.json", "vite.config.js"]
+    for file_name in critical_files:
+        exists = os.path.exists(os.path.join(cwd, file_name))
+        status = "✅ Found" if exists else "❌ Missing"
+        print(f"  [{status}] {file_name}")
+        
+    src_exists = os.path.exists(os.path.join(cwd, "src"))
+    print(f"  [{'✅ Found' if src_exists else '❌ Missing'}] /src Directory")
 
-// 1. Check for index.html in Root
-if (!fs.existsSync('index.html')) {
-  errors.push("❌ Missing index.html file in the root directory.");
-} else {
-  console.log("✅ index.html exists in the root directory.");
-  const htmlContent = fs.readFileSync('index.html', 'utf8');
+def test_live_endpoints():
+    print_separator("2. TESTING LIVE SITE CONNECTIVITY")
+    
+    domains = [
+        "https://toucanobeans.com",
+        "https://toucano-beans.vercel.app"
+    ]
+    
+    headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"}
+    
+    for domain in domains:
+        try:
+            req = urllib.request.Request(domain, headers=headers)
+            with urllib.request.urlopen(req, timeout=5) as response:
+                print(f"  ✅ {domain} -> Status: {response.status} OK")
+        except urllib.error.HTTPError as e:
+            print(f"  ❌ {domain} -> HTTP Error: {e.code} ({e.reason})")
+        except urllib.error.URLError as e:
+            print(f"  ❌ {domain} -> Connection Failed: {e.reason}")
+        except Exception as e:
+            print(f"  ⚠️ {domain} -> Unexpected Error: {str(e)}")
 
-  // Check if index.html incorrectly references raw JSX directly in standard static mode
-  if (htmlContent.includes('.jsx') && !fs.existsSync('vite.config.js')) {
-    errors.push("❌ index.html imports a (.jsx) file, but no build tool (e.g., Vite) is detected.");
-  }
-}
+def check_github_repo():
+    print_separator("3. CHECKING GITHUB REPOSITORY DATA")
+    
+    api_url = "https://api.github.com/repos/jxssxmna-create/Toucano-Beans/contents"
+    headers = {"User-Agent": "Mozilla/5.0"}
+    
+    try:
+        req = urllib.request.Request(api_url, headers=headers)
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode())
+            file_names = [item["name"] for item in data]
+            print(f"  Files in GitHub Root: {', '.join(file_names)}\n")
+            
+            if "index.html" in file_names:
+                print("  ✅ index.html is present in GitHub root.")
+            else:
+                print("  ❌ index.html is missing from GitHub root (Triggers 404 on Vercel).")
+                
+    except urllib.error.HTTPError as e:
+        print(f"  ❌ Failed to fetch GitHub repo: HTTP {e.code}")
+    except Exception as e:
+        print(f"  ⚠️ GitHub check error: {str(e)}")
 
-// 2. Check for React source directory and package.json configuration
-const hasSrcFolder = fs.existsSync('src');
-const hasPackageJson = fs.existsSync('package.json');
-
-if (hasSrcFolder && !hasPackageJson) {
-  errors.push("❌ React source files detected in '/src', but 'package.json' is missing. Vercel will fail to execute a build step.");
-}
-
-// 3. Check for vercel.json configuration
-if (fs.existsSync('vercel.json')) {
-  warnings.push("⚠️ 'vercel.json' detected in root. Ensure its rewrite rules point to valid routes.");
-}
-
-// 4. Verify public assets directory
-if (fs.existsSync('public/assets') || fs.existsSync('public')) {
-  console.log("✅ Public assets directory verified.");
-} else {
-  warnings.push("⚠️ 'public/assets' directory was not found in the expected path.");
-}
-
-// Print final audit report
-console.log("\n--------------------------------------------------");
-if (errors.length === 0 && warnings.length === 0) {
-  console.log("🎉 No project structure errors detected. Any remaining 404 issue is related to Vercel dashboard settings.");
-} else {
-  if (errors.length > 0) {
-    console.log("🚨 Errors causing potential 404 build failures:");
-    errors.forEach(err => console.log(err));
-  }
-  if (warnings.length > 0) {
-    console.log("\n⚠️ Warnings & Notes:");
-    warnings.forEach(warn => console.log(warn));
-  }
-}
+if __name__ == "__main__":
+    print_separator("TOUCANO BEANS - DIAGNOSTIC SYSTEM")
+    check_local_files()
+    test_live_endpoints()
+    check_github_repo()
+    print_separator("DIAGNOSTIC COMPLETE")

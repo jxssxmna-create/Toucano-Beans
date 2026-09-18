@@ -11,21 +11,28 @@
     --text-dark: #241913;
 }
 
+/* Import English typography (Inter & Playfair Display) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap');
+
 * {
     box-sizing: border-box;
 }
 
 body {
-    font-family: 'Cairo', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     background-color: var(--cream);
     color: var(--text-dark);
     overflow-x: hidden;
+    margin: 0;
+    padding: 0;
 }
 
+/* Serif font family for display headings and titles */
 .font-display {
-    font-family: 'Amiri', serif;
+    font-family: 'Playfair Display', Georgia, serif;
 }
 
+/* Grainy gradient background texture */
 .grain-bg {
     background-color: var(--cream);
     background-image:
@@ -34,6 +41,7 @@ body {
         radial-gradient(circle at 50% 50%, rgba(244, 235, 217, 0.4) 0, transparent 70%);
 }
 
+/* Backdrop blurred glass navigation header */
 .glass-nav {
     background: rgba(252, 249, 242, 0.82);
     backdrop-filter: blur(20px) saturate(180%);
@@ -42,6 +50,7 @@ body {
     box-shadow: 0 4px 30px rgba(36, 25, 19, 0.03);
 }
 
+/* Glassmorphism content cards */
 .glass-card {
     background: rgba(255, 255, 255, 0.75);
     backdrop-filter: blur(16px) saturate(150%);
@@ -57,6 +66,7 @@ body {
     border-color: rgba(193, 125, 74, 0.6);
 }
 
+/* Glassmorphism badges and category pills */
 .glass-pill {
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(12px);
@@ -71,6 +81,7 @@ body {
     transform: translateY(-2px);
 }
 
+/* Gradient backgrounds */
 .gradient-copper {
     background: linear-gradient(135deg, var(--copper-300) 0%, var(--copper-500) 50%, var(--copper-700) 100%);
 }
@@ -79,6 +90,7 @@ body {
     background: radial-gradient(circle at 50% -20%, #3d2a1f 0%, var(--espresso-900) 50%, var(--espresso-950) 100%);
 }
 
+/* Primary copper button styles */
 .btn-primary {
     background: linear-gradient(135deg, var(--copper-300), var(--copper-500));
     box-shadow: 0 10px 25px -5px rgba(193, 125, 74, 0.5);
@@ -91,6 +103,7 @@ body {
     filter: brightness(1.08);
 }
 
+/* Dark espresso button styles */
 .btn-dark {
     background: linear-gradient(135deg, #2d2018, var(--espresso-950));
     box-shadow: 0 4px 15px rgba(18, 12, 8, 0.3);
@@ -103,6 +116,7 @@ body {
     transform: translateY(-2px);
 }
 
+/* Metallic text gradient */
 .text-gradient-copper {
     background: linear-gradient(135deg, var(--copper-300), var(--gold));
     -webkit-background-clip: text;
@@ -110,6 +124,7 @@ body {
     color: transparent;
 }
 
+/* Animated coffee aroma rings */
 .aroma-wrap {
     position: relative;
     display: inline-flex;
@@ -151,12 +166,14 @@ body {
     }
 }
 
+/* Subtitle and eyebrow text formatting */
 .eyebrow {
     letter-spacing: 0.2em;
     text-transform: uppercase;
 }
 
+/* Section divider line */
 .section-divider {
     height: 1px;
-    background: linear-gradient(to left, transparent, rgba(193, 125, 74, 0.4), transparent);
+    background: linear-gradient(to right, transparent, rgba(193, 125, 74, 0.4), transparent);
 }

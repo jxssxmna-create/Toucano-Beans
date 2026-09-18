@@ -9,36 +9,36 @@ export default function SignUp() {
   const [authLoading, setAuthLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  // دالة التسجيل وتسجيل الدخول بـ Supabase
+  // Handles sign-up and sign-in authentication via Supabase
   async function handleAuth(e) {
-    e.preventDefault(); // يمنع المتصفح من إعادة التحميل أو إظهار Action submitted!
+    e.preventDefault();
     setAuthLoading(true);
     setErrorMessage('');
 
     try {
       if (isSignUp) {
-        // 1. إنشاء حساب جديد
+        // 1. Create a new user account
         const { data, error } = await supabase.auth.signUp({
           email: email.trim(),
           password: password,
           options: {
             data: {
-              full_name: fullName, // حفظ الاسم في بيانات حساب المستخدم
+              full_name: fullName,
             },
           },
         });
 
         if (error) throw error;
-        alert('تم إنشاء الحساب بنجاح!');
+        alert('Account created successfully!');
       } else {
-        // 2. تسجيل الدخول للحسابات القديمة
+        // 2. Sign in existing user
         const { data, error } = await supabase.auth.signInWithPassword({
           email: email.trim(),
           password: password,
         });
 
         if (error) throw error;
-        alert('تم تسجيل الدخول بنجاح!');
+        alert('Signed in successfully!');
       }
     } catch (err) {
       setErrorMessage(err.message);
@@ -48,64 +48,86 @@ export default function SignUp() {
   }
 
   return (
-    <div style={{ 
-      maxWidth: '400px', 
-      margin: '50px auto', 
-      padding: '24px', 
-      border: '1px solid #e2e8f0', 
-      borderRadius: '12px', 
-      boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
-      fontFamily: 'sans-serif' 
-    }}>
+    <div
+      style={{
+        maxWidth: '400px',
+        margin: '50px auto',
+        padding: '24px',
+        border: '1px solid #e2e8f0',
+        borderRadius: '12px',
+        boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
+        fontFamily: 'sans-serif',
+      }}
+    >
       <h2 style={{ textAlign: 'center', marginBottom: '20px', color: '#1e293b' }}>
-        {isSignUp ? 'إنشاء حساب جديد' : 'تسجيل الدخول'}
+        {isSignUp ? 'Create New Account' : 'Sign In'}
       </h2>
 
-      {/* عرض رسائل الخطأ إن وجدت */}
+      {/* Error Message Alert */}
       {errorMessage && (
-        <div style={{ 
-          padding: '10px', 
-          backgroundColor: '#fee2e2', 
-          color: '#dc2626', 
-          borderRadius: '6px', 
-          marginBottom: '15px', 
-          fontSize: '14px',
-          textAlign: 'center'
-        }}>
+        <div
+          style={{
+            padding: '10px',
+            backgroundColor: '#fee2e2',
+            color: '#dc2626',
+            borderRadius: '6px',
+            marginBottom: '15px',
+            fontSize: '14px',
+            textAlign: 'center',
+          }}
+        >
           {errorMessage}
         </div>
       )}
 
       <form onSubmit={handleAuth}>
-        {/* إظهار حقل الاسم الكامل في حالة إنشاء حساب جديد فقط */}
+        {/* Full Name field - displayed only during Sign Up */}
         {isSignUp && (
           <div style={{ marginBottom: '15px' }}>
-            <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>الاسم الكامل</label>
+            <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>
+              Full Name
+            </label>
             <input
               type="text"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              placeholder="الاسم الثلاثي"
+              placeholder="John Doe"
               required={isSignUp}
-              style={{ width: '100%', padding: '10px', boxSizing: 'border-box', borderRadius: '6px', border: '1px solid #cbd5e1' }}
+              style={{
+                width: '100%',
+                padding: '10px',
+                boxSizing: 'border-box',
+                borderRadius: '6px',
+                border: '1px solid #cbd5e1',
+              }}
             />
           </div>
         )}
 
         <div style={{ marginBottom: '15px' }}>
-          <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>البريد الإلكتروني</label>
+          <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>
+            Email Address
+          </label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="example@domain.com"
             required
-            style={{ width: '100%', padding: '10px', boxSizing: 'border-box', borderRadius: '6px', border: '1px solid #cbd5e1' }}
+            style={{
+              width: '100%',
+              padding: '10px',
+              boxSizing: 'border-box',
+              borderRadius: '6px',
+              border: '1px solid #cbd5e1',
+            }}
           />
         </div>
 
         <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>كلمة السر</label>
+          <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>
+            Password
+          </label>
           <input
             type="password"
             value={password}
@@ -113,7 +135,13 @@ export default function SignUp() {
             placeholder="••••••••"
             minLength={6}
             required
-            style={{ width: '100%', padding: '10px', boxSizing: 'border-box', borderRadius: '6px', border: '1px solid #cbd5e1' }}
+            style={{
+              width: '100%',
+              padding: '10px',
+              boxSizing: 'border-box',
+              borderRadius: '6px',
+              border: '1px solid #cbd5e1',
+            }}
           />
         </div>
 
@@ -132,11 +160,11 @@ export default function SignUp() {
             opacity: authLoading ? 0.7 : 1,
           }}
         >
-          {authLoading ? 'جاري الإرسال...' : isSignUp ? 'إنشاء الحساب' : 'تسجيل الدخول'}
+          {authLoading ? 'Submitting...' : isSignUp ? 'Create Account' : 'Sign In'}
         </button>
       </form>
 
-      {/* زر التبديل بين التسجيل وتسجيل الدخول */}
+      {/* Switch between Sign Up and Sign In */}
       <button
         type="button"
         onClick={() => {
@@ -154,7 +182,9 @@ export default function SignUp() {
           fontSize: '14px',
         }}
       >
-        {isSignUp ? 'لديك حساب بالفعل؟ سجل الدخول من هنا' : 'ليس لديك حساب؟ انقر هنا للتسجيل'}
+        {isSignUp
+          ? 'Already have an account? Sign in here'
+          : "Don't have an account? Click here to register"}
       </button>
     </div>
   );

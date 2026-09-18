@@ -22,18 +22,18 @@ export default function Auth() {
         let response;
         if (method === 'email') {
           response = await supabase.auth.signUp({
-            email,
+            email: email.trim(),
             password,
             options: {
-              data: { full_name: fullName },
+              data: { full_name: fullName.trim() },
             },
           });
         } else {
           response = await supabase.auth.signUp({
-            phone,
+            phone: phone.trim(),
             password,
             options: {
-              data: { full_name: fullName },
+              data: { full_name: fullName.trim() },
               channel: 'whatsapp',
             },
           });
@@ -54,9 +54,9 @@ export default function Auth() {
         // --- LOG IN LOGIC ---
         let response;
         if (method === 'email') {
-          response = await supabase.auth.signInWithPassword({ email, password });
+          response = await supabase.auth.signInWithPassword({ email: email.trim(), password });
         } else {
-          response = await supabase.auth.signInWithPassword({ phone, password });
+          response = await supabase.auth.signInWithPassword({ phone: phone.trim(), password });
         }
 
         if (response.error) throw response.error;
@@ -92,14 +92,17 @@ export default function Auth() {
       <div
         style={{
           display: 'flex',
-          justifyContent: 'center',
+          justify: 'center',
           gap: '10px',
           marginBottom: '20px',
         }}
       >
         <button
           type="button"
-          onClick={() => setIsSignUp(true)}
+          onClick={() => {
+            setIsSignUp(true);
+            setMessage(null);
+          }}
           style={{
             padding: '8px 16px',
             borderRadius: '6px',
@@ -114,7 +117,10 @@ export default function Auth() {
         </button>
         <button
           type="button"
-          onClick={() => setIsSignUp(false)}
+          onClick={() => {
+            setIsSignUp(false);
+            setMessage(null);
+          }}
           style={{
             padding: '8px 16px',
             borderRadius: '6px',
@@ -133,7 +139,7 @@ export default function Auth() {
       <div
         style={{
           display: 'flex',
-          justifyContent: 'center',
+          justify: 'center',
           gap: '15px',
           marginBottom: '20px',
           fontSize: '14px',
@@ -186,7 +192,7 @@ export default function Auth() {
               type="text"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              placeholder="Jassim Alyafei"
+              placeholder="John Doe"
               required={isSignUp}
               style={{
                 width: '100%',
@@ -251,6 +257,7 @@ export default function Auth() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
             required
+            minLength={6}
             style={{
               width: '100%',
               padding: '10px',
@@ -274,6 +281,7 @@ export default function Auth() {
             fontWeight: 'bold',
             fontSize: '16px',
             cursor: loading ? 'not-allowed' : 'pointer',
+            opacity: loading ? 0.7 : 1,
           }}
         >
           {loading ? 'Processing...' : isSignUp ? 'Create Account' : 'Log In'}

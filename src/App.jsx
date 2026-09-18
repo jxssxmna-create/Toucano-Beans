@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { supabase } from './lib/supabaseClient';
+import AccountPage from './components/AccountPage';
+import SignUp from './pages/SignUp';
+import Checkout from './pages/Checkout';
 
 const translations = {
   en: {
@@ -12,17 +16,13 @@ const translations = {
     language: "Language",
     contact: "Contact Us",
     account: "Account",
+    checkout: "Checkout",
     storyTitle: "Our Story",
     storyBody: "Toucano Beans brings you handcrafted coffee sourced responsibly from premium beans around the world. Our mission is to make exceptional specialty coffee accessible, simple, and enjoyable every single day.",
     contactTitle: "Contact Us",
     officialEmail: "Official Email",
-    login: "Log In",
-    signup: "Sign Up",
-    createAccount: "Create Account",
-    fullName: "Full Name",
-    email: "Email",
-    password: "Password",
-    cartAlert: "Cart opened!"
+    cartAlert: "Cart opened!",
+    logout: "Log Out"
   },
   ar: {
     menuHeading: "القائمة",
@@ -35,17 +35,13 @@ const translations = {
     language: "اللغة",
     contact: "اتصل بنا",
     account: "الحساب",
+    checkout: "الدفع",
     storyTitle: "قصتنا",
     storyBody: "يقدم لك توكانو بينز قهوة مصنوعة يدويًا ومستوردة بمسؤولية من أجود حبوب القهوة حول العالم. مهمتنا هي جعل القهوة المختصة الممتازة سهلة وبسيطة وممتعة كل يوم.",
     contactTitle: "اتصل بنا",
     officialEmail: "البريد الإلكتروني الرسمي",
-    login: "تسجيل الدخول",
-    signup: "إنشاء حساب",
-    createAccount: "إنشاء الحساب",
-    fullName: "الاسم الكامل",
-    email: "البريد الإلكتروني",
-    password: "كلمة المرور",
-    cartAlert: "تم فتح السلة!"
+    cartAlert: "تم فتح السلة!",
+    logout: "تسجيل الخروج"
   }
 };
 
@@ -54,11 +50,29 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
-  const [lang, setLang] = useState('ar');
-  const [accountTab, setAccountTab] = useState('login');
+  const [lang, setLang] = useState('en');
   const [cartCount, setCartCount] = useState(0);
 
+  // Supabase Auth State
+  const [session, setSession] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const t = translations[lang];
+
+  useEffect(() => {
+    // 1. Fetch current session on initial load
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setLoading(false);
+    });
+
+    // 2. Listen for auth changes (Sign In / Sign Out)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     document.documentElement.lang = lang;
@@ -71,15 +85,23 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleAccountSubmit = (e) => {
-    e.preventDefault();
-    alert('Action submitted!');
-  };
-
   const handleImageError = (e) => {
     e.target.onerror = null;
-    e.target.src = "public/assets/logo.png";
+    e.target.src = "/assets/logo.png";
   };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigateTo('home');
+  };
+
+  if (loading) {
+    return (
+      <div className="bg-[#fdf0de] min-h-screen flex items-center justify-center font-sans text-slate-800">
+        Loading Toucano Beans...
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#fdf0de] text-slate-900 font-sans min-h-screen flex flex-col justify-between relative">
@@ -88,7 +110,7 @@ export default function App() {
       <div className="fixed top-6 left-6 right-6 z-30 flex items-center justify-between pointer-events-none">
         {/* Cart Button */}
         <button 
-          onClick={() => alert(t.cartAlert)} 
+          onClick={() => navigateTo('checkout')} 
           className="pointer-events-auto relative p-3 text-slate-800 hover:text-brandorange transition focus:outline-none"
         >
           <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -160,6 +182,13 @@ export default function App() {
 
               <button onClick={() => navigateTo('contact')} className="block w-full text-start text-slate-700 hover:text-brandorange font-medium">{t.contact}</button>
               <button onClick={() => navigateTo('account')} className="block w-full text-start text-slate-700 hover:text-brandorange font-medium">{t.account}</button>
+              <button onClick={() => navigateTo('checkout')} className="block w-full text-start text-slate-700 hover:text-brandorange font-medium">{t.checkout}</button>
+              
+              {session && (
+                <button onClick={handleLogout} className="block w-full text-start text-red-600 hover:text-red-700 font-medium pt-4 border-t border-slate-300">
+                  {t.logout}
+                </button>
+              )}
             </nav>
           </div>
         </div>
@@ -271,45 +300,14 @@ export default function App() {
         {/* ACCOUNT PAGE */}
         {activePage === 'account' && (
           <section className="w-full max-w-md">
-            <h2 className="text-3xl font-bold mb-6 text-slate-900 text-center">
-              {accountTab === 'signup' ? t.signup : t.login}
-            </h2>
-            <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200/80">
-              <div className="flex border-b border-slate-200 mb-6">
-                <button 
-                  onClick={() => setAccountTab('login')} 
-                  className={`flex-1 pb-3 font-bold text-center border-b-2 ${accountTab === 'login' ? 'text-brandorange border-brandorange' : 'text-slate-400 border-transparent'}`}
-                >
-                  {t.login}
-                </button>
-                <button 
-                  onClick={() => setAccountTab('signup')} 
-                  className={`flex-1 pb-3 font-bold text-center border-b-2 ${accountTab === 'signup' ? 'text-brandorange border-brandorange' : 'text-slate-400 border-transparent'}`}
-                >
-                  {t.signup}
-                </button>
-              </div>
+            {session ? <AccountPage session={session} /> : <SignUp />}
+          </section>
+        )}
 
-              <form onSubmit={handleAccountSubmit} className="space-y-4">
-                {accountTab === 'signup' && (
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">{t.fullName}</label>
-                    <input type="text" placeholder="John Doe" className="w-full border rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:border-brandorange" />
-                  </div>
-                )}
-                <div>
-                  <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">{t.email}</label>
-                  <input type="email" required placeholder="you@example.com" className="w-full border rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:border-brandorange" />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">{t.password}</label>
-                  <input type="password" required placeholder="••••••••" className="w-full border rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:border-brandorange" />
-                </div>
-                <button type="submit" className="w-full bg-brandorange text-white py-2.5 rounded-lg font-bold hover:bg-orange-600 transition">
-                  {accountTab === 'signup' ? t.createAccount : t.login}
-                </button>
-              </form>
-            </div>
+        {/* CHECKOUT PAGE */}
+        {activePage === 'checkout' && (
+          <section className="w-full max-w-md">
+            <Checkout user={session?.user} />
           </section>
         )}
 

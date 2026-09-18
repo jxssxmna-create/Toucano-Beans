@@ -14,7 +14,7 @@ export default function VerifyModal({ user, onVerified, onClose }) {
     try {
       const { error } = await supabase.auth.verifyOtp({
         [isPhone ? 'phone' : 'email']: target,
-        token: otp,
+        token: otp.trim(),
         type: isPhone ? 'sms' : 'signup',
       });
 
@@ -36,17 +36,17 @@ export default function VerifyModal({ user, onVerified, onClose }) {
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'rgba(0,0,0,0.5)',
+        background: 'rgba(0, 0, 0, 0.5)',
         display: 'flex',
-        justifyContent: 'center',
+        justify: 'center',
         alignItems: 'center',
         zIndex: 1000,
       }}
     >
       <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', width: '350px', color: '#000' }}>
-        <h3 style={{ marginTop: 0 }}>Verify Account Required</h3>
+        <h3 style={{ marginTop: 0 }}>Account Verification Required</h3>
         <p>
-          A 6-digit code was sent to <strong>{target}</strong> via {isPhone ? 'WhatsApp' : 'Email'}.
+          A 6-digit verification code was sent to <strong>{target}</strong> via {isPhone ? 'WhatsApp' : 'Email'}.
         </p>
 
         <form onSubmit={handleVerify}>
@@ -56,6 +56,7 @@ export default function VerifyModal({ user, onVerified, onClose }) {
             value={otp}
             onChange={(e) => setOtp(e.target.value)}
             required
+            maxLength={6}
             style={{
               width: '100%',
               padding: '10px',
@@ -76,6 +77,7 @@ export default function VerifyModal({ user, onVerified, onClose }) {
                 border: 'none',
                 borderRadius: '4px',
                 cursor: loading ? 'not-allowed' : 'pointer',
+                opacity: loading ? 0.7 : 1,
               }}
             >
               {loading ? 'Verifying...' : 'Confirm Code'}

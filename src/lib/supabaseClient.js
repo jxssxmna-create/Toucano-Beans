@@ -1,11 +1,14 @@
 import { createClient } from '@supabase/supabase-js';
 
-// قراءة البيانات بأمان من متغيرات البيئة (.env.local أو إعدادات Vercel)
+// Read variables safely from environment variables (.env.local or Vercel settings)
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn("⚠️ تنبيه: لم يتم قراءة متغيرات البيئة الخاصة بـ Supabase بنجاح.");
+  console.warn("⚠️ Warning: Supabase environment variables were not loaded successfully.");
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(
+  supabaseUrl || '',
+  supabaseAnonKey || ''
+);

@@ -1,12 +1,12 @@
-// القاموس الكامل للترجمات
+// Complete Translation Dictionary
 const translations = {
   en: {
-    menuHeading: "Menu", main: "Main", story: "Our Story", categories: "Categories",
+    menuHeading: "Menu", main: "Home", story: "Our Story", categories: "Categories",
     beans: "Coffee Beans", drip: "Drip Coffee", essentials: "Coffee Essentials",
     language: "Language", contact: "Contact Us", account: "Account",
     storyTitle: "Our Story",
     storyBody: "Toucano Beans brings you handcrafted coffee sourced responsibly from premium beans around the world.",
-    contactTitle: "Contact Us", officialEmail: "Official Email", login: "Log In", signup: "Sign Up"
+    contactTitle: "Contact Us", officialEmail: "Official Email", login: "Sign In", signup: "Sign Up"
   },
   ar: {
     menuHeading: "القائمة", main: "الرئيسية", story: "قصتنا", categories: "الفئات",
@@ -18,25 +18,27 @@ const translations = {
   }
 };
 
-let currentLang = 'ar';
+let currentLang = 'en';
 
-// 1. فتح وإغلاق القائمة الجانبية
+// 1. Open and Close Side Drawer
 window.toggleMenu = function() {
   const drawer = document.getElementById('side-drawer');
   const overlay = document.getElementById('drawer-overlay');
   if (!drawer || !overlay) return;
 
-  const isOpen = !drawer.classList.contains('translate-x-full');
-  if (isOpen) {
-    drawer.classList.add('translate-x-full');
-    overlay.classList.add('hidden');
-  } else {
-    drawer.classList.remove('translate-x-full');
+  const isHidden = drawer.classList.contains('-translate-x-full') || drawer.classList.contains('translate-x-full');
+
+  if (isHidden) {
+    drawer.classList.remove('-translate-x-full', 'translate-x-full');
     overlay.classList.remove('hidden');
+  } else {
+    const hideClass = document.documentElement.dir === 'rtl' ? 'translate-x-full' : '-translate-x-full';
+    drawer.classList.add(hideClass);
+    overlay.classList.add('hidden');
   }
 };
 
-// 2. التحكم بالقوائم المنسدلة داخل Side Drawer
+// 2. Control Accordions inside Side Drawer
 window.toggleSubmenu = function(id) {
   const submenu = document.getElementById(id);
   if (submenu) {
@@ -44,9 +46,9 @@ window.toggleSubmenu = function(id) {
   }
 };
 
-// 3. التنقل بين الواجهات المختلفة (Pages View)
+// 3. Page View Navigation
 window.navigateTo = function(page) {
-  // إخفاء جميع الصفحات
+  // Hide all views
   const pages = document.querySelectorAll('.page-view');
   pages.forEach(p => p.classList.add('hidden'));
 
@@ -61,8 +63,12 @@ window.navigateTo = function(page) {
     if (['coffee-beans', 'drip-coffee', 'essentials'].includes(page)) {
       const catView = document.getElementById('page-category');
       const catTitle = document.getElementById('category-title');
+      const t = translations[currentLang];
+
       if (catTitle) {
-        catTitle.innerText = translations[currentLang][page.replace('coffee-', '').replace('-', '')] || page.replace('-', ' ');
+        if (page === 'coffee-beans') catTitle.innerText = t.beans;
+        else if (page === 'drip-coffee') catTitle.innerText = t.drip;
+        else if (page === 'essentials') catTitle.innerText = t.essentials;
       }
       if (catView) catView.classList.remove('hidden');
     } else {
@@ -71,11 +77,16 @@ window.navigateTo = function(page) {
     }
   }
 
-  window.toggleMenu();
+  // Close side menu if open
+  const drawer = document.getElementById('side-drawer');
+  if (drawer && !drawer.classList.contains('-translate-x-full') && !drawer.classList.contains('translate-x-full')) {
+    window.toggleMenu();
+  }
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
-// 4. التبديل بين تسجيل الدخول وإنشاء الحساب
+// 4. Switch Between Login and Sign Up Tabs
 window.switchAccountTab = function(mode) {
   const nameField = document.getElementById('signup-name-field');
   const submitBtn = document.getElementById('account-submit-btn');
@@ -103,7 +114,7 @@ window.switchAccountTab = function(mode) {
   }
 };
 
-// 5. دالة تغيير اللغة اتجاهاً ونصوصاً
+// 5. Change Language & Direction Dynamic Handler
 window.setLanguage = function(lang) {
   currentLang = lang;
   const t = translations[lang];
@@ -111,26 +122,47 @@ window.setLanguage = function(lang) {
   document.documentElement.lang = lang;
   document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
 
-  // تحديث النصوص
-  document.getElementById('menu-heading').innerText = t.menuHeading;
-  document.getElementById('nav-main').innerText = t.main;
-  document.getElementById('nav-story').innerText = t.story;
-  document.getElementById('nav-categories').innerText = t.categories;
-  document.getElementById('nav-beans').innerText = t.beans;
-  document.getElementById('nav-drip').innerText = t.drip;
-  document.getElementById('nav-essentials').innerText = t.essentials;
-  document.getElementById('nav-language').innerText = t.language;
-  document.getElementById('nav-contact').innerText = t.contact;
-  document.getElementById('nav-account').innerText = t.account;
+  // Update Drawer Position Classes for LTR/RTL
+  const drawer = document.getElementById('side-drawer');
+  if (drawer) {
+    drawer.classList.remove('left-0', 'right-0', '-translate-x-full', 'translate-x-full');
+    if (lang === 'ar') {
+      drawer.classList.add('right-0', 'translate-x-full');
+    } else {
+      drawer.classList.add('left-0', '-translate-x-full');
+    }
+  }
 
-  document.getElementById('lbl-beans').innerText = t.beans;
-  document.getElementById('lbl-drip').innerText = t.drip;
-  document.getElementById('lbl-essentials').innerText = t.essentials;
+  // Helper for Safely Updating Text
+  const updateText = (id, text) => {
+    const el = document.getElementById(id);
+    if (el) el.innerText = text;
+  };
 
-  document.getElementById('story-title').innerText = t.storyTitle;
-  document.getElementById('story-body').innerText = t.storyBody;
-  document.getElementById('contact-title').innerText = t.contactTitle;
-  document.getElementById('contact-email-lbl').innerText = t.officialEmail;
+  // Update UI Text Content
+  updateText('menu-heading', t.menuHeading);
+  updateText('nav-main', t.main);
+  updateText('nav-story', t.story);
+  updateText('nav-categories', t.categories);
+  updateText('nav-beans', t.beans);
+  updateText('nav-drip', t.drip);
+  updateText('nav-essentials', t.essentials);
+  updateText('nav-language', t.language);
+  updateText('nav-contact', t.contact);
+  updateText('nav-account', t.account);
+
+  updateText('lbl-beans', t.beans);
+  updateText('lbl-drip', t.drip);
+  updateText('lbl-essentials', t.essentials);
+
+  updateText('story-title', t.storyTitle);
+  updateText('story-body', t.storyBody);
+  updateText('contact-title', t.contactTitle);
+  updateText('contact-email-lbl', t.officialEmail);
+
+  // Update Account Tab Text
+  const isSignUp = !document.getElementById('signup-name-field')?.classList.contains('hidden');
+  window.switchAccountTab(isSignUp ? 'signup' : 'login');
 
   window.navigateTo('home');
 };

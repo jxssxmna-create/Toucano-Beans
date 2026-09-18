@@ -63,7 +63,7 @@ export default function AccountPage({ session }) {
       if (error) throw error;
       alert('Address and profile saved successfully!');
     } catch (err) {
-      alert('خطأ أثناء حفظ البيانات: ' + err.message);
+      alert('Error saving profile details: ' + err.message);
     } finally {
       setLoading(false);
     }
@@ -72,55 +72,70 @@ export default function AccountPage({ session }) {
   if (!session) {
     return (
       <div style={{ textAlign: 'center', padding: '40px' }}>
-        <p>يرجى تسجيل الدخول لعرض وتعديل بيانات الحساب والعنوان.</p>
+        <p>Please sign in to view and update your account details and address.</p>
       </div>
     );
   }
 
-  if (loading) return <div style={{ textAlign: 'center', padding: '40px' }}>Loading account details...</div>;
+  if (loading) {
+    return <div style={{ textAlign: 'center', padding: '40px' }}>Loading account details...</div>;
+  }
 
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <h2>Account Settings ({profile.role?.toUpperCase() || 'BUYER'})</h2>
-        <button 
+        <button
           type="button"
-          onClick={() => supabase.auth.signOut()} 
-          style={{ background: '#ef4444', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer' }}
+          onClick={() => supabase.auth.signOut()}
+          style={{
+            background: '#ef4444',
+            color: '#fff',
+            border: 'none',
+            padding: '8px 16px',
+            borderRadius: '4px',
+            cursor: 'pointer',
+          }}
         >
           Sign Out
         </button>
       </div>
-      
+
       <form onSubmit={updateProfile}>
         <div style={{ marginBottom: '15px' }}>
           <label style={{ display: 'block', marginBottom: '5px' }}>Email (Read Only)</label>
-          <input 
-            type="text" 
-            value={profile.email || session.user.email} 
-            disabled 
-            style={{ width: '100%', padding: '8px', backgroundColor: '#f1f5f9', border: '1px solid #ccc', borderRadius: '4px' }}
+          <input
+            type="text"
+            value={profile.email || session.user.email}
+            disabled
+            style={{
+              width: '100%',
+              padding: '8px',
+              backgroundColor: '#f1f5f9',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+            }}
           />
         </div>
 
         <div style={{ marginBottom: '15px' }}>
           <label style={{ display: 'block', marginBottom: '5px' }}>Full Name</label>
-          <input 
-            type="text" 
-            value={profile.full_name || ''} 
-            onChange={(e) => setProfile({ ...profile, full_name: e.target.value })} 
-            required 
+          <input
+            type="text"
+            value={profile.full_name || ''}
+            onChange={(e) => setProfile({ ...profile, full_name: e.target.value })}
+            required
             style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }}
           />
         </div>
 
         <div style={{ marginBottom: '15px' }}>
           <label style={{ display: 'block', marginBottom: '5px' }}>Phone Number</label>
-          <input 
-            type="tel" 
-            value={profile.phone_number || ''} 
-            onChange={(e) => setProfile({ ...profile, phone_number: e.target.value })} 
-            required 
+          <input
+            type="tel"
+            value={profile.phone_number || ''}
+            onChange={(e) => setProfile({ ...profile, phone_number: e.target.value })}
+            required
             style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }}
           />
         </div>
@@ -129,30 +144,30 @@ export default function AccountPage({ session }) {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
           <div>
             <label style={{ display: 'block', marginBottom: '5px' }}>Building No.</label>
-            <input 
-              type="text" 
-              value={profile.building_number || ''} 
-              onChange={(e) => setProfile({ ...profile, building_number: e.target.value })} 
+            <input
+              type="text"
+              value={profile.building_number || ''}
+              onChange={(e) => setProfile({ ...profile, building_number: e.target.value })}
               required
               style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }}
             />
           </div>
           <div>
             <label style={{ display: 'block', marginBottom: '5px' }}>Street No.</label>
-            <input 
-              type="text" 
-              value={profile.street_number || ''} 
-              onChange={(e) => setProfile({ ...profile, street_number: e.target.value })} 
+            <input
+              type="text"
+              value={profile.street_number || ''}
+              onChange={(e) => setProfile({ ...profile, street_number: e.target.value })}
               required
               style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }}
             />
           </div>
           <div>
             <label style={{ display: 'block', marginBottom: '5px' }}>Zone No.</label>
-            <input 
-              type="text" 
-              value={profile.zone_number || ''} 
-              onChange={(e) => setProfile({ ...profile, zone_number: e.target.value })} 
+            <input
+              type="text"
+              value={profile.zone_number || ''}
+              onChange={(e) => setProfile({ ...profile, zone_number: e.target.value })}
               required
               style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }}
             />
@@ -161,19 +176,27 @@ export default function AccountPage({ session }) {
 
         <div style={{ marginTop: '15px' }}>
           <label style={{ display: 'block', marginBottom: '5px' }}>Google Maps Link</label>
-          <input 
-            type="url" 
-            placeholder="https://maps.google.com/..." 
-            value={profile.google_map_link || ''} 
-            onChange={(e) => setProfile({ ...profile, google_map_link: e.target.value })} 
+          <input
+            type="url"
+            placeholder="https://maps.google.com/..."
+            value={profile.google_map_link || ''}
+            onChange={(e) => setProfile({ ...profile, google_map_link: e.target.value })}
             style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }}
           />
         </div>
 
-        <button 
-          type="submit" 
-          disabled={loading} 
-          style={{ marginTop: '20px', padding: '10px 20px', backgroundColor: '#10b981', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+        <button
+          type="submit"
+          disabled={loading}
+          style={{
+            marginTop: '20px',
+            padding: '10px 20px',
+            backgroundColor: '#10b981',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+          }}
         >
           {loading ? 'Saving...' : 'Save Profile'}
         </button>
